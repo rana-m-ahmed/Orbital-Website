@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { contactSchema, type ContactResponse } from "@/lib/contact-schema";
-import { contactDeliveryConfig } from "@/lib/env";
+import { contactDeliveryConfig } from "@/lib/env-server";
 import { rateLimit, sweep } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
