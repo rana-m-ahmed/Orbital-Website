@@ -1,4 +1,4 @@
-import { publicContactEmail, siteUrl } from "./env";
+import { publicContactEmail, siteUrl } from "./env-public";
 
 export const SITE = {
   name: "ORBITAL",
