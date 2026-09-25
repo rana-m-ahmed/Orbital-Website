@@ -1,11 +1,13 @@
+import { publicContactEmail, siteUrl } from "./env-public";
+
 export const SITE = {
   name: "ORBITAL",
   descriptor: "Automation · Software · Systems",
   tagline: "Systems in motion.",
   description:
     "ORBITAL is an automation-first technology company. We remove repetitive work, connect the tools you already use, and build custom software when existing tools are not enough.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://orbital.example.com",
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@orbital.systems",
+  url: siteUrl(),
+  email: publicContactEmail(),
   linkedin: "https://www.linkedin.com/company/orbital",
   primaryCta: "Start a project",
 } as const;
@@ -45,7 +47,7 @@ export type NavItem = {
   menu?: boolean;
 };
 
-/* §5 — top-level navigation. Integrations is deliberately NOT top level (§6). */
+/* Top-level navigation. Integrations is deliberately not top level. */
 export const NAV: NavItem[] = [
   { label: "Automation", href: "/automation", menu: true },
   { label: "Software", href: "/software" },
@@ -54,11 +56,6 @@ export const NAV: NavItem[] = [
   { label: "About", href: "/about" },
 ];
 
-/**
- * §5 — at the very top of a page the header is transparent and matches the
- * hero. Once sticky it uses one universal Midnight treatment everywhere, so
- * this map only ever describes the first viewport.
- */
 const DARK_HERO_ROUTES = [
   "/",
   "/automation",

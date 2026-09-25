@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { contactSchema, type ContactResponse } from "@/lib/contact-schema";
+import { contactDeliveryConfig } from "@/lib/env-server";
 import { rateLimit, sweep } from "@/lib/rate-limit";
-import { SITE } from "@/lib/site";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * §40 — contact form delivery.
- * Server-side validation, rate limiting, bot protection, sanitisation, and
- * server-only credentials. Delivery goes to one monitored inbox; a CRM intake
- * can be added later without making delivery depend on it.
+ * Contact form delivery.
+ *
+ * The endpoint validates and sanitises on the server, rate-limits by IP, uses
+ * a honeypot for low-cost bot filtering, and only reports success after the
+ * configured delivery path succeeds. Development may deliberately log an
+ * enquiry when Resend is absent; production may not.
  */
 export async function POST(request: Request): Promise<NextResponse<ContactResponse>> {
   sweep();
@@ -43,6 +45,7 @@ export async function POST(request: Request): Promise<NextResponse<ContactRespon
       const field = String(issue.path[0] ?? "form");
       if (!errors[field]) errors[field] = issue.message;
     }
+
     return NextResponse.json(
       { ok: false, kind: "validation", errors },
       { status: 400 },
@@ -92,16 +95,8 @@ type Enquiry = {
   receivedAt: string;
 };
 
-/**
- * Delivery provider. Credentials are read server-side only and never exposed
- * to the client. With no provider configured the enquiry is logged so a
- * misconfigured deploy fails loudly in the server log rather than silently
- * losing an enquiry.
- */
 async function deliver(enquiry: Enquiry): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_INBOX ?? SITE.email;
-  const from = process.env.CONTACT_FROM ?? "ORBITAL <noreply@orbital.systems>";
+  const config = contactDeliveryConfig();
 
   const body = [
     `Name:    ${enquiry.name}`,
@@ -114,9 +109,9 @@ async function deliver(enquiry: Enquiry): Promise<void> {
     enquiry.message,
   ].join("\n");
 
-  if (!apiKey) {
+  if (config.mode === "log") {
     console.warn(
-      "[orbital:contact] RESEND_API_KEY is not set — enquiry logged instead of emailed",
+      "[orbital:contact] development log mode — enquiry was not emailed",
     );
     console.info(body);
     return;
@@ -125,12 +120,12 @@ async function deliver(enquiry: Enquiry): Promise<void> {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${config.apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from,
-      to: [to],
+      from: config.from,
+      to: [config.inbox],
       reply_to: enquiry.email,
       subject: `New enquiry — ${enquiry.helpType} — ${enquiry.name}`,
       text: body,
@@ -138,6 +133,9 @@ async function deliver(enquiry: Enquiry): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(`Email provider responded ${response.status}`);
+    const responseText = await response.text().catch(() => "");
+    throw new Error(
+      `Email provider responded ${response.status}${responseText ? `: ${responseText.slice(0, 300)}` : ""}`,
+    );
   }
 }
