@@ -82,7 +82,8 @@ export function AutomationDemos() {
                 },
                 {
                   label: "Route",
-                  detail: "Assigned to the right salesperson with full context.",
+                  detail:
+                    "Assigned to the right salesperson with full context.",
                   handoff: true,
                 },
               ]}
@@ -143,7 +144,10 @@ export function AutomationDemos() {
               startDelay={350}
               nodes={[
                 { label: "Receive", detail: "An invoice arrives by email." },
-                { label: "Read", detail: "Supplier, amount and reference extracted." },
+                {
+                  label: "Read",
+                  detail: "Supplier, amount and reference extracted.",
+                },
                 {
                   label: "Check",
                   detail: "Matched against the purchase order.",

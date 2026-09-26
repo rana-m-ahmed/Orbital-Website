@@ -137,7 +137,14 @@ function FeatureGraphic() {
         />
         {[8, 143, 278, 412].map((x) => (
           <g key={x}>
-            <circle cx={x} cy="32" r="5" fill="#ffffff" stroke="#c3cbd4" strokeWidth="1.5" />
+            <circle
+              cx={x}
+              cy="32"
+              r="5"
+              fill="#ffffff"
+              stroke="#c3cbd4"
+              strokeWidth="1.5"
+            />
             <circle
               cx={x}
               cy="32"

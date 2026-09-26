@@ -13,7 +13,7 @@ type Props = {
 } & Omit<ComponentProps<typeof Link>, "href" | "className" | "children">;
 function Action({
   children,
-  tone = "light",
+  tone = "dark",
   event,
   eventLabel,
   className = "",
@@ -28,7 +28,7 @@ function Action({
       data-track-label={eventLabel}
       className={`orbital-button ${variant} tone-${tone} ${className}`}
     >
-      <span>{children}</span>
+      <span className="button-label">{children}</span>
       {arrow && (
         <span className="button-arrow" aria-hidden="true">
           ↗

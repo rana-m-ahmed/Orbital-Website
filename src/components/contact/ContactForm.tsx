@@ -23,9 +23,13 @@ const EMPTY = {
  * Every state is designed: idle, submitting, success, validation error,
  * server error and network error. A failure never erases what was typed.
  */
-export function ContactForm() {
+export function ContactForm({
+  defaultHelpType = "Not sure yet",
+}: {
+  defaultHelpType?: string;
+}) {
   const hydrated = useHydrated();
-  const [values, setValues] = useState(EMPTY);
+  const [values, setValues] = useState({ ...EMPTY, helpType: defaultHelpType });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errorKind, setErrorKind] = useState<ErrorKind>(null);
@@ -119,6 +123,16 @@ export function ContactForm() {
       </noscript>
       <div className="space-y-6">
         <Field
+          id="contact-message"
+          label="What would you like to work better?"
+          textarea
+          value={values.message}
+          onChange={set("message")}
+          error={errors.message}
+          hint={HELPER_TEXT[values.helpType]}
+        />
+
+        <Field
           id="contact-name"
           label="Name"
           value={values.name}
@@ -199,16 +213,6 @@ export function ContactForm() {
           )}
         </div>
 
-        <Field
-          id="contact-message"
-          label="What would you like to work better?"
-          textarea
-          value={values.message}
-          onChange={set("message")}
-          error={errors.message}
-          hint={HELPER_TEXT[values.helpType]}
-        />
-
         {/* Honeypot — hidden from people, not from bots (§40). */}
         <div
           aria-hidden="true"
@@ -250,20 +254,23 @@ export function ContactForm() {
         disabled={!hydrated || status === "submitting"}
         className="orbital-button button-primary mt-8 disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : "Send your message"}
+        <span className="button-label">
+          {status === "submitting" ? "Sending…" : "Send your enquiry"}
+        </span>
         {status === "submitting" ? null : (
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 16 16"
-            className="size-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
-          </svg>
+          <span className="button-arrow" aria-hidden="true">
+            <svg
+              viewBox="0 0 16 16"
+              className="size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+            </svg>
+          </span>
         )}
       </button>
 

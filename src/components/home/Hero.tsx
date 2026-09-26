@@ -1,48 +1,49 @@
-﻿import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { PrimaryButton, TextLink } from "@/components/ui/Button";
 import { OrbitalExperience } from "./OrbitalExperience";
+
 export function Hero() {
   return (
-    <section className="signature-hero on-dark">
-      <div className="hero-coordinate" aria-hidden="true">
-        O / 01 — SYSTEMS IN MOTION
-      </div>
-      <div className="shell hero-layout">
-        <div className="hero-copy">
-          <p className="hero-eyebrow">
-            <span /> Automation · Software · Systems
+    <section className="architecture-hero on-dark">
+      <div className="shell architecture-hero-grid">
+        <div className="architecture-hero-copy">
+          <p className="section-kicker">
+            <span /> Automation for service businesses
           </p>
           <h1>
-            Less busywork.
+            Your business.
             <br />
-            <span>More room</span>
-            <br />
-            to grow<span className="blue-dot">.</span>
+            <em>Moving forward.</em>
           </h1>
-          <p className="hero-description">
-            We automate repetitive tasks, connect your business tools, and build
-            software around the way you work.
+          <p className="architecture-hero-lede">
+            Answer more enquiries, follow up consistently, and take repetitive
+            work off your team—with automation built around your business.
           </p>
-          <div className="hero-actions">
-            <PrimaryButton href="/contact" tone="dark" event="hero_cta">
-              Let’s talk
+          <div className="architecture-actions">
+            <PrimaryButton href="/contact" event="hero_cta">
+              Tell us your challenge
             </PrimaryButton>
-            <SecondaryButton
-              href="#in-action"
-              tone="dark"
-              event="hero_secondary"
-            >
-              See how it works
-            </SecondaryButton>
+            <TextLink href="#possibilities" event="hero_secondary">
+              Explore the possibilities
+            </TextLink>
           </div>
         </div>
-        <OrbitalExperience />
+        <div className="architecture-hero-art">
+          <OrbitalExperience />
+        </div>
       </div>
-      <div className="shell hero-bottom">
-        <span>Built for the way you do business.</span>
-        <a href="#services">
-          Explore what’s possible <span aria-hidden="true">↓</span>
-        </a>
-        <span className="hero-bottom-right">Less friction. More forward.</span>
+      <div
+        className="shell architecture-capability-line"
+        aria-label="Core capabilities"
+      >
+        <span>
+          <b>01</b> Calls answered
+        </span>
+        <span>
+          <b>02</b> Leads followed up
+        </span>
+        <span>
+          <b>03</b> Operations connected
+        </span>
       </div>
     </section>
   );

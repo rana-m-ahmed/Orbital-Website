@@ -8,8 +8,14 @@ import { useSequence } from "@/lib/use-sequence";
 const STEPS = [
   { label: "Call", detail: "An enquiry arrives after hours." },
   { label: "Answer", detail: "It is answered and understood." },
-  { label: "Book", detail: "An appointment is taken against real availability." },
-  { label: "Update", detail: "The record is created and the team is notified." },
+  {
+    label: "Book",
+    detail: "An appointment is taken against real availability.",
+  },
+  {
+    label: "Update",
+    detail: "The record is created and the team is notified.",
+  },
 ];
 
 /**
@@ -73,7 +79,9 @@ export function HeroMobileSequence() {
                 ) : null}
               </div>
 
-              <div className={`pb-6 transition-opacity duration-300 ${lit ? "opacity-100" : "opacity-45"}`}>
+              <div
+                className={`pb-6 transition-opacity duration-300 ${lit ? "opacity-100" : "opacity-45"}`}
+              >
                 <p className="text-[0.92rem] font-medium text-offwhite">
                   {step.label}
                 </p>
@@ -88,7 +96,9 @@ export function HeroMobileSequence() {
 
       <p
         className={`rounded-xl px-3 py-2.5 text-[0.85rem] font-medium transition-colors duration-300 ${
-          seq.complete ? "bg-blue/14 text-blue-soft" : "bg-[#0e141f] text-slate/60"
+          seq.complete
+            ? "bg-blue/14 text-blue-soft"
+            : "bg-[#0e141f] text-slate/60"
         }`}
       >
         Appointment booked ✓

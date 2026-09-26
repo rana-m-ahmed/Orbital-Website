@@ -139,7 +139,9 @@ export function MobileNav({ tone }: { tone: "light" | "dark" }) {
 
             <nav
               className="flex-1 px-6 pb-10 pt-4"
-              style={{ animation: "orbital-rise 200ms var(--ease-orbital) both" }}
+              style={{
+                animation: "orbital-rise 200ms var(--ease-orbital) both",
+              }}
             >
               <ul className="space-y-1">
                 {NAV.map((item) =>

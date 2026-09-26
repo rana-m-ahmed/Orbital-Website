@@ -17,8 +17,28 @@ const NEXT = [
   "We recommend the most useful next step.",
 ];
 
+const SERVICE_CONTEXT: Record<string, string> = {
+  calls: "AI receptionist",
+  leads: "Lead follow-up",
+  support: "Customer support",
+  admin: "Operations & admin",
+  automation: "Automation",
+  software: "Custom software",
+  websites: "Website or app",
+  integrations: "Integrations",
+  other: "Not sure yet",
+};
+
 /** §31 — Contact. No heavy animation; one signal settle on success. */
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>;
+}) {
+  const { service } = await searchParams;
+  const defaultHelpType = service
+    ? (SERVICE_CONTEXT[service] ?? "Not sure yet")
+    : "Not sure yet";
   return (
     <>
       <section className="contact-page bg-offwhite pb-[112px] pt-[140px] md:pt-[180px]">
@@ -70,7 +90,7 @@ export default function ContactPage() {
 
             <div className="lg:col-span-7">
               <Reveal large>
-                <ContactForm />
+                <ContactForm defaultHelpType={defaultHelpType} />
               </Reveal>
             </div>
           </div>

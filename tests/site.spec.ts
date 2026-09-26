@@ -43,13 +43,13 @@ test("desktop navigation supports keyboard and closes on Escape", async ({
   page,
 }) => {
   await page.goto("/");
-  const services = page.getByRole("button", { name: "Services" });
+  const services = page.getByRole("button", { name: "Solutions" });
   await services.focus();
   await page.keyboard.press("Enter");
-  await expect(page.locator("#service-menu")).toBeVisible();
-  await page.locator("#service-menu a").first().focus();
+  await expect(page.locator("#solutions-panel")).toBeVisible();
+  await page.locator("#solutions-panel a").first().focus();
   await page.keyboard.press("Escape");
-  await expect(page.locator("#service-menu")).toHaveCount(0);
+  await expect(page.locator("#solutions-panel")).toHaveCount(0);
   await expect(services).toBeFocused();
   await services.click();
   await page
@@ -63,30 +63,28 @@ test("mobile menu closes and restores focus", async ({ page }) => {
   const toggle = page.getByRole("button", { name: "Open navigation" });
   await toggle.click();
   await expect(
-    page.getByRole("navigation", { name: "Mobile", exact: true }),
+    page.getByRole("dialog", { name: "Navigation", exact: true }),
   ).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(toggle).toBeFocused();
   await toggle.click();
   await page
-    .locator("#mobile-navigation")
+    .getByRole("dialog", { name: "Navigation" })
     .getByRole("link", { name: "About" })
     .click();
   await expect(page).toHaveURL(/about/);
-  await expect(page.locator("#mobile-navigation")).toHaveCount(0);
+  await expect(page.getByRole("dialog", { name: "Navigation" })).toHaveCount(0);
 });
 test("demo tabs and project carousel are keyboard operable", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("tab", { name: "Enquiries", exact: true }).focus();
+  await page.getByRole("tab", { name: "Missed calls", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(
-    page.getByRole("tab", { name: "Customer support" }),
+    page.getByRole("tab", { name: "Slow follow-up" }),
   ).toHaveAttribute("aria-selected", "true");
-  await expect(
-    page.getByText("The right help. Without the wait."),
-  ).toBeVisible();
+  await expect(page.getByText("Every enquiry has an owner.")).toBeVisible();
   const rail = page.locator(".labs-rail");
   await rail.focus();
   await page.keyboard.press("ArrowRight");
@@ -105,7 +103,7 @@ test("contact preserves values on error and confirms provider acceptance", async
     "x-forwarded-for": `form-test-${Date.now()}-${Math.random()}`,
   });
   await page.goto("/contact");
-  await page.getByRole("button", { name: "Send your message" }).click();
+  await page.getByRole("button", { name: "Send your enquiry" }).click();
   await expect(
     page.getByText("Please enter your name.", { exact: true }),
   ).toBeVisible();
@@ -121,7 +119,7 @@ test("contact preserves values on error and confirms provider acceptance", async
       body: JSON.stringify({ ok: false, kind: "server" }),
     }),
   );
-  await page.getByRole("button", { name: "Send your message" }).click();
+  await page.getByRole("button", { name: "Send your enquiry" }).click();
   await expect(page.locator("form").getByRole("alert")).toContainText(
     "Something went wrong",
   );
@@ -135,7 +133,7 @@ test("contact preserves values on error and confirms provider acceptance", async
       body: JSON.stringify({ ok: true }),
     }),
   );
-  await page.getByRole("button", { name: "Send your message" }).click();
+  await page.getByRole("button", { name: "Send your enquiry" }).click();
   await expect(page.getByRole("heading", { name: "Got it." })).toBeVisible();
 });
 test("reduced motion and unavailable WebGL preserve the hero", async ({
@@ -146,7 +144,7 @@ test("reduced motion and unavailable WebGL preserve the hero", async ({
   await expect(page.locator(".sculpture-fallback")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(
-    page.getByRole("heading", { name: "Less busywork. More room to grow." }),
+    page.getByRole("heading", { name: "Your business. Moving forward." }),
   ).toBeVisible();
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => {
@@ -223,11 +221,11 @@ test("essential content survives without JavaScript", async ({ browser }) => {
   await page.goto((process.env.TEST_BASE_URL || "http://127.0.0.1:3100") + "/");
   await expect(page.locator("h1")).toBeVisible();
   await expect(page.locator(".sculpture-fallback")).toBeVisible();
-  await expect(page.locator(".service-row")).toHaveCount(3);
-  await expect(page.locator(".lab-slide")).toHaveCount(3);
+  await expect(page.locator(".capability-slab")).toHaveCount(4);
+  await expect(page.locator(".architecture-lab-slide")).toHaveCount(3);
   await page
-    .locator(".hero-actions")
-    .getByRole("link", { name: "Let’s talk" })
+    .locator(".architecture-actions")
+    .getByRole("link", { name: "Tell us your challenge" })
     .click();
   await expect(page).toHaveURL(/contact/);
   await context.close();
