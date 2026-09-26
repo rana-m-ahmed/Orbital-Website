@@ -51,7 +51,9 @@ export default function TermsPage() {
         },
         {
           heading: "Contact",
-          body: [`Questions about these terms go to ${SITE.email}.`],
+          body: [
+            `Send questions about these terms ${SITE.email ? `to ${SITE.email}` : "through the contact form"}.`,
+          ],
         },
       ]}
     />

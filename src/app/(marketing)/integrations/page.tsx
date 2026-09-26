@@ -42,9 +42,15 @@ const NO_CONNECTOR = [
 
 const RELIABILITY = [
   ["Retries", "A failed call is retried with backoff rather than dropped."],
-  ["Duplicate prevention", "The same event arriving twice does not create two records."],
+  [
+    "Duplicate prevention",
+    "The same event arriving twice does not create two records.",
+  ],
   ["Alerts", "When something stays broken, a person is told."],
-  ["Permissions", "Least-privilege credentials, scoped to what the integration needs."],
+  [
+    "Permissions",
+    "Least-privilege credentials, scoped to what the integration needs.",
+  ],
 ];
 
 const FAQS = [
@@ -75,7 +81,11 @@ export default function IntegrationsPage() {
         eyebrow="Integrations"
         title="Make your tools work together."
         body="Most businesses do not need more software. They need the software they already pay for to stop being separate islands."
-        primary={{ label: "Connect my stack", href: "/contact", event: "integrations-hero" }}
+        primary={{
+          label: "Connect my stack",
+          href: "/contact",
+          event: "integrations-hero",
+        }}
         secondary={{ label: "Build a recipe", href: "#recipe-composer" }}
       />
 
@@ -130,7 +140,10 @@ export default function IntegrationsPage() {
           body="Official logos are used only where we have licensed assets, so these are listed by name."
         />
 
-        <Reveal large className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <Reveal
+          large
+          className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-3"
+        >
           {INTEGRATION_CATEGORIES.map((category) => (
             <div key={category.title}>
               <h3 className="display-4">{category.title}</h3>
@@ -172,7 +185,10 @@ export default function IntegrationsPage() {
             />
           </div>
 
-          <Reveal large className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7">
+          <Reveal
+            large
+            className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7"
+          >
             {NO_CONNECTOR.map((item) => (
               <div key={item.title} className="bg-white p-6">
                 <h3 className="display-4">{item.title}</h3>
@@ -196,7 +212,10 @@ export default function IntegrationsPage() {
           <Reveal className="lg:col-span-8">
             <dl className="divide-y divide-[#e0e5ea] border-y border-[#e0e5ea]">
               {RELIABILITY.map(([title, detail]) => (
-                <div key={title} className="grid gap-2 py-6 sm:grid-cols-[200px_minmax(0,1fr)] sm:gap-8">
+                <div
+                  key={title}
+                  className="grid gap-2 py-6 sm:grid-cols-[200px_minmax(0,1fr)] sm:gap-8"
+                >
                   <dt className="display-4">{title}</dt>
                   <dd className="text-[0.95rem] leading-relaxed text-text-secondary-light">
                     {detail}
@@ -233,7 +252,7 @@ export default function IntegrationsPage() {
               detail: "When connecting is not enough on its own.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us which systems refuse to talk.",
             },

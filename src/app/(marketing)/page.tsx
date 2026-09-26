@@ -1,276 +1,295 @@
-import type { Metadata } from "next";
-import { AutomateConnectBuild } from "@/components/home/AutomateConnectBuild";
-import { AutomateWhat } from "@/components/home/AutomateWhat";
+﻿import type { Metadata } from "next";
+import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
-import { LessBusywork } from "@/components/home/LessBusywork";
-import { AutomationDemos } from "@/components/home/SeeAutomationAtWork";
-import { ProcessRoute } from "@/components/primitives/ProcessRoute";
-import { ProductShowcase } from "@/components/primitives/ProductShowcase";
+import { BusinessDemo } from "@/components/home/BusinessDemo";
+import { LabsCarousel } from "@/components/home/LabsCarousel";
+import { ProductFrame } from "@/components/primitives/ProductFrame";
 import { FinalCta } from "@/components/shell/FinalCta";
-import { FeatureCase, SecondaryCase } from "@/components/work/WorkCard";
-import { PrimaryButton, SecondaryButton, TextLink } from "@/components/ui/Button";
-import { Faq } from "@/components/ui/Faq";
-import { LogoGrid } from "@/components/ui/LogoGrid";
-import { Reveal } from "@/components/ui/Reveal";
-import { Section, SectionHeader } from "@/components/ui/Section";
-import { INTEGRATION_HIGHLIGHTS } from "@/content/integrations";
-import { WORK, hasClientWork } from "@/content/work";
-import { PROCESS_STAGES } from "@/content/process";
+import { TextLink } from "@/components/ui/Button";
+import { WORK } from "@/content/work";
 
 export const metadata: Metadata = {
-  title: "ORBITAL — Business Automation, Software & Systems",
+  title: "ORBITAL — Less busywork. More room to grow.",
   description:
-    "ORBITAL is an automation-first technology company. AI receptionists, lead follow-up, business workflows and custom software — built around the way your company works.",
+    "We automate repetitive tasks, connect your business tools, and build software around the way you work. Automation, software and systems by ORBITAL.",
   alternates: { canonical: "/" },
-  openGraph: {
-    title: "ORBITAL — Business Automation, Software & Systems",
-    description:
-      "Automate first. Connect what exists. Build what is missing. Automation, software and systems for real businesses.",
-    url: "/",
-  },
 };
-
-const FAQS = [
+const services = [
   {
-    q: "What does ORBITAL actually do?",
-    a: "We remove repetitive work from a business. That usually starts with automating something specific — calls, follow-up, scheduling, admin — then connecting the tools you already use, and building custom software only where nothing existing does the job.",
+    number: "01",
+    title: "Automate",
+    subtitle: "Give your time back.",
+    body: "From the first enquiry to the everyday admin. Let the repetitive work take care of itself, so your people can focus on what matters.",
+    tags: "Calls & enquiries / Follow-ups / Operations",
+    href: "/automation",
+    visual: "automate",
   },
   {
-    q: "Do I need to know what should be automated?",
-    a: "No. Most conversations start with a description of what is slowing the team down. Mapping that to the right mix of automation, integration or software is our job, not yours.",
+    number: "02",
+    title: "Connect",
+    subtitle: "Get everything working together.",
+    body: "Your CRM, inbox, calendar and business tools, finally on the same page. Information moves where it needs to, without the copy and paste.",
+    tags: "Integrations / Workflows / Business systems",
+    href: "/integrations",
+    visual: "connect",
   },
   {
-    q: "Will this replace people on my team?",
-    a: "The goal is to remove the routine handling, not the judgement. Automation answers, qualifies, files and routes; anything involving money, exceptions or an unhappy customer is handed to a person with the context attached.",
-  },
-  {
-    q: "Do you replace the software we already pay for?",
-    a: "Rarely. If your CRM, calendar and accounting tools work, we connect them. We build custom software when the workflow genuinely does not fit anything on the market.",
-  },
-  {
-    q: "How long does a first project take?",
-    a: "It depends on the scope, and we would rather scope honestly than quote a number here. A single well-defined automation is a short project; a custom operations system is not.",
-  },
-  {
-    q: "What happens after launch?",
-    a: "Important systems ship with logs, alerts and documentation, so you can see what ran and what failed. We stay involved to monitor and improve rather than handing over a black box.",
-  },
-];
-
-const WHY = [
-  {
-    title: "We start with the business problem.",
-    detail:
-      "Not with a tool, a platform or a technology we happen to like. If the answer is a simpler process, we say so.",
-  },
-  {
-    title: "We keep the tools that already work.",
-    detail:
-      "Your CRM, calendar and accounting stack stay where they are. Automation fits around them.",
-  },
-  {
-    title: "Automation and software live under one roof.",
-    detail:
-      "The same team that automates the workflow can build the interface it needs. No hand-off between vendors.",
-  },
-  {
-    title: "Delivery includes testing, visibility and documentation.",
-    detail:
-      "You get a system you can see into, not a set of hidden rules only we understand.",
+    number: "03",
+    title: "Build",
+    subtitle: "Make room for what’s next.",
+    body: "When the right tool doesn’t exist, we build it. Thoughtful software, websites and apps shaped around your business, not the other way around.",
+    tags: "Custom software / Websites / Apps",
+    href: "/software",
+    visual: "build",
   },
 ];
-
+const steps = [
+  [
+    "Understand",
+    "First, we listen.",
+    "We look at how work happens today and find the friction worth fixing.",
+  ],
+  [
+    "Design",
+    "A clear way forward.",
+    "You get a practical plan, a defined scope, and a shared picture of success.",
+  ],
+  [
+    "Build",
+    "See it come together.",
+    "Working versions, visible progress, and room for your feedback along the way.",
+  ],
+  [
+    "Support",
+    "Built to keep working.",
+    "Testing, documentation, and a clear handover. You know how it works and who to call.",
+  ],
+];
+const projectTitles = [
+  "From missed call to booked in.",
+  "Every enquiry. A next step.",
+  "One place to run the day.",
+];
 export default function HomePage() {
-  const [feature, ...rest] = WORK;
-
   return (
     <>
-      {/* CHAPTER I — Midnight */}
       <Hero />
-
-      {/* CHAPTER II — Off White */}
-      <AutomateWhat />
-
-      <Section id="see-automation-at-work" tone="light" space="m">
-        <SectionHeader
-          eyebrow="Demonstration"
-          title="See automation at work."
-          body="Pick a workflow. Each one plays once, in plain English, and stops where the work is finished."
-        />
-        <Reveal large className="mt-12">
-          <AutomationDemos />
-        </Reveal>
-      </Section>
-
-      <Section tone="light" space="l">
-        <SectionHeader
-          eyebrow={hasClientWork ? "Selected work" : "Reference systems"}
-          title={
-            hasClientWork
-              ? "Built for real business problems."
-              : "See what ORBITAL can build."
-          }
-          body={
-            hasClientWork
-              ? "Three projects, the problem behind each one, and what changed operationally."
-              : "These are reference systems built by ORBITAL to demonstrate how each problem is solved. They are not client deployments, and nothing here is presented as one."
-          }
-          after={<TextLink href="/work">See all work</TextLink>}
-        />
-
-        <Reveal large className="mt-14">
-          <FeatureCase item={feature} />
-        </Reveal>
-
-        <Reveal className="mt-3 grid gap-3 md:grid-cols-2">
-          {rest.map((item) => (
-            <SecondaryCase key={item.slug} item={item} />
-          ))}
-        </Reveal>
-      </Section>
-
-      <Section tone="light" space="l">
-        <SectionHeader
-          eyebrow="How the company fits together"
-          title="Automation first. Technology when you need more."
-          body="Automate what repeats. Connect what already exists. Build what is genuinely missing — in that order."
-        />
-        <AutomateConnectBuild />
-      </Section>
-
-      <Section tone="light" space="l">
-        <SectionHeader
-          eyebrow="Before and after"
-          title="Less busywork. More business."
-          body="Choose the shape of your business and see what changes."
-        />
-        <Reveal large className="mt-12">
-          <LessBusywork />
-        </Reveal>
-      </Section>
-
-      {/* CHAPTER III — Midnight */}
-      <Section tone="dark" space="xl">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-5">
-            <SectionHeader
-              tone="dark"
-              eyebrow="Software, websites & apps"
-              title="When automation is not enough, we build what is missing."
-              body="Internal tools, dashboards, customer portals, web applications, business websites and mobile apps — designed around how your company actually works."
-              after={
-                <div className="flex flex-wrap gap-3">
-                  <PrimaryButton
-                    href="/software"
-                    tone="dark"
-                    event="service_cta"
-                    eventLabel="home-software"
-                  >
-                    Explore custom software
-                  </PrimaryButton>
-                  <SecondaryButton href="/websites-apps" tone="dark">
-                    Websites & apps
-                  </SecondaryButton>
-                </div>
-              }
-            />
-          </div>
-
-          <div className="lg:col-span-7">
-            <Reveal large>
-              <ProductShowcase
-                demoName="home-software"
-                ariaLabel="Software surfaces"
-                tone="dark"
-                items={[
-                  {
-                    id: "dashboard",
-                    label: "Dashboard",
-                    caption:
-                      "An operations dashboard that answers the questions your team asks every morning.",
-                  },
-                  {
-                    id: "portal",
-                    label: "Portal",
-                    caption:
-                      "A customer portal where requests, visits, documents and invoices live in one place.",
-                  },
-                  {
-                    id: "website",
-                    label: "Website",
-                    caption:
-                      "A business website built to win the enquiry, not to win a design award.",
-                  },
-                  {
-                    id: "mobile",
-                    label: "App",
-                    caption:
-                      "A mobile app that puts the day's work in the hand of the person doing it.",
-                  },
-                ]}
-              />
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      {/* CHAPTER IV — Off White */}
-      <Section tone="light" space="l">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
-            <SectionHeader
-              eyebrow="Integrations"
-              title="Works with the tools you already use."
-              body="CRM, email, calendars, payments, databases, automation platforms and custom APIs. Where there is no native connector, we build one."
-              after={<TextLink href="/integrations">View integrations</TextLink>}
-            />
-            <div className="mt-10">
-              <LogoGrid items={INTEGRATION_HIGHLIGHTS} />
+      <section id="services" className="home-services section-pad">
+        <div className="shell">
+          <div className="editorial-heading">
+            <p className="eyebrow">
+              <span className="tiny-node" /> BUILT AROUND YOUR BUSINESS
+            </p>
+            <div>
+              <h2>
+                Good technology.
+                <br />
+                <span className="muted-heading">Less to think about.</span>
+              </h2>
+              <p>
+                You know where the friction is.
+                <br />
+                We help you move past it.
+              </p>
             </div>
           </div>
-
-          <div className="lg:col-span-5">
-            <Reveal>
-              <h2 className="display-3">One team from problem to production.</h2>
-              <ul className="mt-9 space-y-8">
-                {WHY.map((item) => (
-                  <li key={item.title} className="border-l-2 border-blue/45 pl-5">
-                    <h3 className="text-[1.02rem] font-medium">{item.title}</h3>
-                    <p className="mt-2 text-[0.95rem] leading-relaxed text-text-secondary-light">
-                      {item.detail}
+          <div className="service-rows">
+            {services.map((service) => (
+              <article className="service-row" key={service.number}>
+                <span className="service-number">/{service.number}</span>
+                <div className="service-title">
+                  <h3>
+                    {service.title}
+                    <span className="blue-dot">.</span>
+                  </h3>
+                  <p>{service.tags}</p>
+                </div>
+                <div className="service-copy">
+                  <h4>{service.subtitle}</h4>
+                  <p>{service.body}</p>
+                  <TextLink href={service.href}>
+                    Explore{" "}
+                    {service.visual === "automate"
+                      ? "automation"
+                      : service.visual === "connect"
+                        ? "integrations"
+                        : "software"}
+                  </TextLink>
+                </div>
+                <div
+                  className={`service-art art-${service.visual}`}
+                  aria-hidden="true"
+                >
+                  {service.visual === "automate" ? (
+                    <>
+                      <span className="art-track" />
+                      <i />
+                      <b>↗</b>
+                      <span className="art-track lower" />
+                    </>
+                  ) : service.visual === "connect" ? (
+                    <>
+                      <i>↗</i>
+                      <i>O</i>
+                      <i>✓</i>
+                      <span />
+                    </>
+                  ) : (
+                    <>
+                      <span className="mini-browser">
+                        <i />
+                        <i />
+                        <i />
+                        <b />
+                        <em />
+                        <em />
+                      </span>
+                      <span className="mini-mobile" />
+                    </>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="in-action" className="home-demo section-pad">
+        <div className="shell">
+          <div className="editorial-heading">
+            <p className="eyebrow">
+              <span className="tiny-node" /> FROM IDEA TO EVERYDAY
+            </p>
+            <div>
+              <h2>
+                A little automation.
+                <br />
+                <span className="muted-heading">A very different day.</span>
+              </h2>
+              <p>
+                See what happens when the right things
+                <br className="hidden md:block" /> start working together.
+              </p>
+            </div>
+          </div>
+          <BusinessDemo />
+        </div>
+      </section>
+      <section className="home-labs section-pad">
+        <div className="shell">
+          <div className="editorial-heading">
+            <p className="eyebrow">
+              <span className="tiny-node" /> ORBITAL LABS
+            </p>
+            <div>
+              <h2>
+                Possibility,
+                <br />
+                <span className="muted-heading">made tangible.</span>
+              </h2>
+              <div>
+                <p>
+                  A closer look at what we can build.
+                  <br />
+                  Concept systems. Real business problems.
+                </p>
+                <TextLink href="/work">Explore the lab</TextLink>
+              </div>
+            </div>
+          </div>
+          <LabsCarousel count={WORK.length}>
+            {WORK.map((item, i) => (
+              <article
+                className={`lab-slide lab-slide-${i}`}
+                key={item.slug}
+                aria-label={`${i + 1} of ${WORK.length}`}
+              >
+                <Link
+                  className="lab-visual"
+                  href={`/work/${item.slug}`}
+                  data-track="work_case_open"
+                  data-track-label={item.slug}
+                  aria-label={projectTitles[i]}
+                >
+                  <div className="lab-preview-label">
+                    <span>ORBITAL / LAB {String(i + 1).padStart(2, "0")}</span>
+                    <span>↗</span>
+                  </div>
+                  <div className="lab-product">
+                    <ProductFrame variant={item.frame} title={item.title} />
+                  </div>
+                  <span className="lab-watermark" aria-hidden="true">
+                    {["Answer.", "Connect.", "Simplify."][i]}
+                  </span>
+                </Link>
+                <div className="lab-caption">
+                  <div>
+                    <p className="eyebrow">
+                      {item.service.label} · Concept demonstration
                     </p>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+                    <h3>
+                      <Link href={`/work/${item.slug}`}>
+                        {projectTitles[i]}
+                      </Link>
+                    </h3>
+                  </div>
+                  <Link
+                    className="lab-arrow"
+                    href={`/work/${item.slug}`}
+                    aria-label={`Explore ${projectTitles[i]}`}
+                  >
+                    ↗
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </LabsCarousel>
+        </div>
+      </section>
+      <section id="process" className="home-process section-pad">
+        <div className="shell">
+          <div className="editorial-heading">
+            <p className="eyebrow">
+              <span className="tiny-node" /> SMALL TEAM. SHARED AMBITION.
+            </p>
+            <div>
+              <h2>
+                From “what if”
+                <br />
+                <span className="muted-heading">to working.</span>
+              </h2>
+              <div>
+                <p>
+                  One team, from the first conversation
+                  <br />
+                  to the system you use every day.
+                </p>
+                <TextLink href="/about">Meet ORBITAL</TextLink>
+              </div>
+            </div>
+          </div>
+          <div className="process-grid">
+            {steps.map(([title, lead, body], i) => (
+              <article key={title}>
+                <div className="process-marker">
+                  <span>0{i + 1}</span>
+                  <span aria-hidden="true">↗</span>
+                </div>
+                <h3>{title}</h3>
+                <h4>{lead}</h4>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
+          <div className="process-assurance">
+            <span>Clear scope.</span>
+            <span>Visible progress.</span>
+            <span>Thoughtful handover.</span>
           </div>
         </div>
-      </Section>
-
-      <Section tone="light" space="l">
-        <SectionHeader
-          eyebrow="How we work"
-          title="From problem to working system."
-          body="Four stages, and what stays true in each of them."
-        />
-        <ProcessRoute stages={PROCESS_STAGES} />
-      </Section>
-
-      <Section tone="light" space="m">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionHeader eyebrow="FAQ" title="Questions worth asking." />
-          </div>
-          <div className="lg:col-span-8">
-            <Faq items={FAQS} />
-          </div>
-        </div>
-      </Section>
-
-      {/* CHAPTER V — Midnight: final CTA merges into the footer (§18) */}
+      </section>
       <FinalCta
-        headline="What should your business stop doing manually?"
-        body="Tell us what is slowing your team down. We'll help you identify what should be automated, connected or built."
+        headline="What would you like your business to do better?"
+        body="Bring us the problem. We’ll work out the possibilities together."
         eventLabel="home-final"
       />
     </>

@@ -3,20 +3,23 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 
-/* Self-hosted variable fonts (§39): one file per family, no third-party request. */
-const sora = localFont({
-  src: "../fonts/sora-variable.woff2",
-  variable: "--font-sora",
-  weight: "400 700",
+/* Official self-hosted webfonts. Only the hero display face is preloaded. */
+const generalSans = localFont({
+  src: [{ path: "../fonts/general-sans-500.woff2", weight: "500" }],
+  variable: "--font-general",
   style: "normal",
   display: "swap",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-const inter = localFont({
-  src: "../fonts/inter-variable.woff2",
-  variable: "--font-inter",
-  weight: "100 900",
+const switzer = localFont({
+  src: [
+    { path: "../fonts/switzer-400.woff2", weight: "400" },
+    { path: "../fonts/switzer-500.woff2", weight: "500" },
+    { path: "../fonts/switzer-600.woff2", weight: "600" },
+  ],
+  variable: "--font-switzer",
+  preload: false,
   style: "normal",
   display: "swap",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090D14",
+  themeColor: "#07111D",
   colorScheme: "light",
 };
 
@@ -57,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
+    <html lang="en" className={`${generalSans.variable} ${switzer.variable}`}>
       <body>{children}</body>
     </html>
   );

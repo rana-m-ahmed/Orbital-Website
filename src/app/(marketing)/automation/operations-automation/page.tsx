@@ -63,13 +63,17 @@ const CONTROLS = [
   },
   {
     title: "Reversal",
-    detail: "A wrong decision can be undone, and the correction is recorded too.",
+    detail:
+      "A wrong decision can be undone, and the correction is recorded too.",
   },
 ];
 
 const RECURRING = [
   ["Daily", "Overnight imports, reconciliation checks, the morning summary."],
-  ["Weekly", "Reporting, invoice runs, schedule preparation, follow-up sweeps."],
+  [
+    "Weekly",
+    "Reporting, invoice runs, schedule preparation, follow-up sweeps.",
+  ],
   ["Monthly", "Close-off, renewals, recurring billing, compliance checks."],
   ["On event", "Anything triggered by a payment, a signature or a delivery."],
 ];
@@ -113,7 +117,7 @@ export default function OperationsAutomationPage() {
         title="Take repetitive admin off your team's plate."
         body="Documents read, checked, routed and recorded. Approvals where judgement is needed, and nowhere else."
         primary={{
-          label: "Start a project",
+          label: "Let’s talk",
           href: "/contact",
           event: "operations-hero",
         }}
@@ -143,7 +147,11 @@ export default function OperationsAutomationPage() {
             <div
               key={item.title}
               className={`rounded-2xl border border-[#e0e5ea] bg-white p-7 ${
-                index === 0 ? "md:col-span-3" : index === 1 ? "md:col-span-3" : "md:col-span-2"
+                index === 0
+                  ? "md:col-span-3"
+                  : index === 1
+                    ? "md:col-span-3"
+                    : "md:col-span-2"
               }`}
             >
               <h3 className="display-4">{item.title}</h3>
@@ -172,11 +180,28 @@ export default function OperationsAutomationPage() {
             startDelay={500}
             nodes={[
               { label: "Receive", detail: "Arrives as an email attachment." },
-              { label: "Read", detail: "Supplier, amount, dates and reference extracted." },
-              { label: "Check", detail: "Matched against the purchase order and previous invoices." },
-              { label: "Route", detail: "Sent to the approver for this cost centre.", handoff: true },
-              { label: "Approve", detail: "Approved, with the decision recorded." },
-              { label: "Record", detail: "Filed, posted and visible in reporting." },
+              {
+                label: "Read",
+                detail: "Supplier, amount, dates and reference extracted.",
+              },
+              {
+                label: "Check",
+                detail:
+                  "Matched against the purchase order and previous invoices.",
+              },
+              {
+                label: "Route",
+                detail: "Sent to the approver for this cost centre.",
+                handoff: true,
+              },
+              {
+                label: "Approve",
+                detail: "Approved, with the decision recorded.",
+              },
+              {
+                label: "Record",
+                detail: "Filed, posted and visible in reporting.",
+              },
             ]}
             footer="A duplicate, a mismatch or a missing purchase order stops here and is flagged, rather than being processed and corrected later."
           />
@@ -193,7 +218,10 @@ export default function OperationsAutomationPage() {
             />
           </div>
 
-          <Reveal large className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7">
+          <Reveal
+            large
+            className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7"
+          >
             {CONTROLS.map((item) => (
               <div key={item.title} className="bg-white p-6">
                 <h3 className="display-4">{item.title}</h3>
@@ -218,7 +246,10 @@ export default function OperationsAutomationPage() {
           <Reveal className="lg:col-span-8">
             <dl className="divide-y divide-[#e0e5ea] border-y border-[#e0e5ea]">
               {RECURRING.map(([when, what]) => (
-                <div key={when} className="grid gap-2 py-6 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-8">
+                <div
+                  key={when}
+                  className="grid gap-2 py-6 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-8"
+                >
                   <dt className="display-4">{when}</dt>
                   <dd className="text-[0.95rem] leading-relaxed text-text-secondary-light">
                     {what}
@@ -239,10 +270,10 @@ export default function OperationsAutomationPage() {
                   When the tools run out, the answer is software.
                 </h2>
                 <p className="mt-4 max-w-[560px] text-[0.98rem] leading-relaxed text-text-secondary-light">
-                  Some operations do not fit a spreadsheet, a CRM or an automation
-                  platform — usually because the business has a process nobody
-                  else has. That is the point at which building something is the
-                  cheaper answer, not the more ambitious one.
+                  Some operations do not fit a spreadsheet, a CRM or an
+                  automation platform — usually because the business has a
+                  process nobody else has. That is the point at which building
+                  something is the cheaper answer, not the more ambitious one.
                 </p>
               </div>
               <div className="md:col-span-4 md:justify-self-end">
@@ -297,7 +328,7 @@ export default function OperationsAutomationPage() {
               detail: "How documents and records move between systems.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us which admin task repeats most.",
             },
@@ -316,7 +347,10 @@ export default function OperationsAutomationPage() {
           breadcrumbSchema([
             { name: "Home", path: "/" },
             { name: "Automation", path: "/automation" },
-            { name: "Operations Automation", path: "/automation/operations-automation" },
+            {
+              name: "Operations Automation",
+              path: "/automation/operations-automation",
+            },
           ]),
           serviceSchema({
             name: "Operations automation",

@@ -20,15 +20,18 @@ export const metadata: Metadata = pageMeta({
 const AUTOMATE = [
   {
     title: "Status questions",
-    detail: "Where is my order, when is my appointment, has my payment gone through.",
+    detail:
+      "Where is my order, when is my appointment, has my payment gone through.",
   },
   {
     title: "Policy questions",
-    detail: "Returns, cancellations, coverage areas, opening hours, what is included.",
+    detail:
+      "Returns, cancellations, coverage areas, opening hours, what is included.",
   },
   {
     title: "Small changes",
-    detail: "Update an address, move an appointment, add a note to an existing job.",
+    detail:
+      "Update an address, move an appointment, add a note to an existing job.",
   },
   {
     title: "Document requests",
@@ -36,11 +39,13 @@ const AUTOMATE = [
   },
   {
     title: "Triage",
-    detail: "Work out what the customer actually needs before a person spends time on it.",
+    detail:
+      "Work out what the customer actually needs before a person spends time on it.",
   },
   {
     title: "First response",
-    detail: "Acknowledge properly, at any hour, with something useful rather than a ticket number.",
+    detail:
+      "Acknowledge properly, at any hour, with something useful rather than a ticket number.",
   },
 ];
 
@@ -95,11 +100,14 @@ export default function CustomerSupportPage() {
         title="Handle routine questions without making customers feel trapped."
         body="Resolve what has a known answer. Escalate everything else quickly, with the conversation already written down."
         primary={{
-          label: "Start a project",
+          label: "Let’s talk",
           href: "/contact",
           event: "customer-support-hero",
         }}
-        secondary={{ label: "See resolve vs hand off", href: "#resolve-or-hand-off" }}
+        secondary={{
+          label: "See resolve vs hand off",
+          href: "#resolve-or-hand-off",
+        }}
       />
 
       <ServiceNav
@@ -128,7 +136,10 @@ export default function CustomerSupportPage() {
               </p>
               <ul className="mt-4 space-y-3">
                 {NEVER.map((item) => (
-                  <li key={item} className="flex gap-3 text-[0.92rem] leading-snug">
+                  <li
+                    key={item}
+                    className="flex gap-3 text-[0.92rem] leading-snug"
+                  >
                     <span
                       aria-hidden="true"
                       className="mt-1.5 h-px w-3 shrink-0 bg-[#c3cbd4]"
@@ -140,7 +151,10 @@ export default function CustomerSupportPage() {
             </Reveal>
           </div>
 
-          <Reveal large className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7">
+          <Reveal
+            large
+            className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-7"
+          >
             {AUTOMATE.map((item) => (
               <div key={item.title} className="bg-white p-6">
                 <h3 className="display-4">{item.title}</h3>
@@ -178,13 +192,27 @@ export default function CustomerSupportPage() {
 
           <Reveal className="lg:col-span-7">
             <div className="rounded-2xl border border-midnight-line bg-[#0c121c] p-7">
-              <p className="mono-label text-slate">Summary handed to the agent</p>
+              <p className="mono-label text-slate">
+                Summary handed to the agent
+              </p>
               <dl className="mt-5 space-y-4 text-[0.93rem]">
                 {[
-                  ["Customer", "Existing account · 3 previous orders · no open complaints"],
-                  ["Asking for", "A refund for a duplicate charge on order #4182"],
-                  ["Already confirmed", "The duplicate charge exists and has not been reversed"],
-                  ["Already said", "That a person would look at it within the hour"],
+                  [
+                    "Customer",
+                    "Existing account · 3 previous orders · no open complaints",
+                  ],
+                  [
+                    "Asking for",
+                    "A refund for a duplicate charge on order #4182",
+                  ],
+                  [
+                    "Already confirmed",
+                    "The duplicate charge exists and has not been reversed",
+                  ],
+                  [
+                    "Already said",
+                    "That a person would look at it within the hour",
+                  ],
                   ["Tone", "Frustrated — third contact about the same issue"],
                 ].map(([term, value]) => (
                   <div
@@ -265,7 +293,7 @@ export default function CustomerSupportPage() {
               detail: "Where the order, account and billing data comes from.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us which questions fill your inbox.",
             },

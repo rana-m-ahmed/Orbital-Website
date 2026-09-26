@@ -39,7 +39,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`relative ${TONE[tone]} ${SPACE[space]} ${className}`}
+      className={`content-section relative ${TONE[tone]} ${SPACE[space]} ${className}`}
     >
       <div className={wide ? "shell-wide" : "shell"}>{children}</div>
     </section>

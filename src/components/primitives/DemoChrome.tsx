@@ -35,7 +35,7 @@ export function DemoChrome({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border ${
+      className={`demo-chrome overflow-hidden rounded-2xl border ${
         dark
           ? "border-midnight-line bg-[#0c121c]"
           : "border-[#e0e5ea] bg-white shadow-[0_20px_50px_-32px_rgba(9,13,20,0.35)]"
@@ -46,7 +46,9 @@ export function DemoChrome({
           dark ? "border-midnight-line" : "border-[#eceff3]"
         }`}
       >
-        <p className={`mono-label ${dark ? "text-slate" : "text-text-secondary-light"}`}>
+        <p
+          className={`mono-label ${dark ? "text-slate" : "text-text-secondary-light"}`}
+        >
           {label}
         </p>
 
@@ -88,7 +90,8 @@ export function DemoChrome({
       >
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-2">
           {states.map((state, stateIndex) => {
-            const done = stateIndex < index || (complete && stateIndex === index);
+            const done =
+              stateIndex < index || (complete && stateIndex === index);
             const current = stateIndex === index;
 
             return (

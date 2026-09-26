@@ -19,16 +19,18 @@ export function Faq({
   return (
     <>
       <Reveal className={`border-t ${border}`}>
-        <dl>
+        <div>
           {items.map((item) => (
             <div key={item.q} className={`border-b ${border}`}>
               <details className="group">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-6 marker:hidden [&::-webkit-details-marker]:hidden">
-                  <dt className="display-4 pr-2">{item.q}</dt>
+                  <span className="display-4 pr-2">{item.q}</span>
                   <span
                     aria-hidden="true"
                     className={`mt-1.5 shrink-0 transition-transform duration-200 ease-[var(--ease-orbital)] group-open:rotate-45 ${
-                      tone === "dark" ? "text-slate" : "text-text-secondary-light"
+                      tone === "dark"
+                        ? "text-slate"
+                        : "text-text-secondary-light"
                     }`}
                   >
                     <svg
@@ -42,13 +44,15 @@ export function Faq({
                     </svg>
                   </span>
                 </summary>
-                <dd className={`max-w-[620px] pb-7 pr-10 leading-relaxed ${answer}`}>
+                <p
+                  className={`max-w-[620px] pb-7 pr-10 leading-relaxed ${answer}`}
+                >
                   {item.a}
-                </dd>
+                </p>
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </Reveal>
 
       <script

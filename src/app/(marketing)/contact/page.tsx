@@ -5,7 +5,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = pageMeta({
-  title: "Start a Project",
+  title: "Let’s Talk",
   description:
     "Tell ORBITAL what is slowing your team down. You do not need to know the technical solution — describing the problem is enough to start.",
   path: "/contact",
@@ -21,17 +21,19 @@ const NEXT = [
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-offwhite pb-[112px] pt-[128px] md:pt-[168px]">
+      <section className="contact-page bg-offwhite pb-[112px] pt-[140px] md:pt-[180px]">
         <div className="shell">
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <Reveal>
-                <p className="eyebrow text-text-secondary-light">Start a project</p>
+                <p className="eyebrow text-text-secondary-light">
+                  A GOOD CONVERSATION IS A GOOD START
+                </p>
                 <h1 className="display-1 mt-6">What should work better?</h1>
                 <p className="lede mt-7 max-w-[460px] text-text-secondary-light">
-                  You do not need to know the technical solution. Describe what is
-                  happening today and we&apos;ll work out whether it should be
-                  automated, connected or built.
+                  You do not need to know the technical solution. Describe what
+                  is happening today and we&apos;ll work out whether it should
+                  be automated, connected or built.
                 </p>
 
                 <div className="mt-12 border-t border-[#e0e5ea] pt-8">
@@ -50,17 +52,19 @@ export default function ContactPage() {
                   </ol>
                 </div>
 
-                <div className="mt-10 border-t border-[#e0e5ea] pt-8">
-                  <h2 className="mono-label text-text-secondary-light">
-                    Prefer email?
-                  </h2>
-                  <a
-                    href={`mailto:${SITE.email}`}
-                    className="mt-3 inline-block text-[0.98rem] font-medium text-interactive-on-light"
-                  >
-                    {SITE.email}
-                  </a>
-                </div>
+                {SITE.email && (
+                  <div className="mt-10 border-t border-[#e0e5ea] pt-8">
+                    <h2 className="mono-label text-text-secondary-light">
+                      Prefer email?
+                    </h2>
+                    <a
+                      href={`mailto:${SITE.email}`}
+                      className="mt-3 inline-block text-[0.98rem] font-medium text-interactive-on-light"
+                    >
+                      {SITE.email}
+                    </a>
+                  </div>
+                )}
               </Reveal>
             </div>
 

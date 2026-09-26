@@ -21,7 +21,7 @@ export default function MarketingLayout({
     description: SITE.description,
     slogan: SITE.tagline,
     email: SITE.email,
-    sameAs: [SITE.linkedin],
+    sameAs: SITE.linkedin ? [SITE.linkedin] : undefined,
   };
 
   const websiteSchema = {

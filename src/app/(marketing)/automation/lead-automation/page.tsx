@@ -24,33 +24,39 @@ const GAP = [
   {
     time: "Minute 0",
     state: "The enquiry arrives",
-    detail: "Someone has just decided you are worth contacting. This is the most interested they will ever be.",
+    detail:
+      "Someone has just decided you are worth contacting. This is the most interested they will ever be.",
   },
   {
     time: "Hour 1",
     state: "They are comparing",
-    detail: "Most buyers contact more than one supplier. Whoever replies first sets the terms of the comparison.",
+    detail:
+      "Most buyers contact more than one supplier. Whoever replies first sets the terms of the comparison.",
   },
   {
     time: "Day 1",
     state: "The context is gone",
-    detail: "By the time someone gets to the inbox, the enquiry has to be reconstructed from two lines of text.",
+    detail:
+      "By the time someone gets to the inbox, the enquiry has to be reconstructed from two lines of text.",
   },
   {
     time: "Day 3",
     state: "It is a cold lead",
-    detail: "The same enquiry now needs a reason to reopen the conversation instead of simply continuing it.",
+    detail:
+      "The same enquiry now needs a reason to reopen the conversation instead of simply continuing it.",
   },
 ];
 
 const RULES = [
   {
     rule: "If the enquiry mentions a service you do not offer",
-    action: "Reply with a short, honest decline and do not create a pipeline record.",
+    action:
+      "Reply with a short, honest decline and do not create a pipeline record.",
   },
   {
     rule: "If the budget range is below your minimum",
-    action: "Send the self-serve option instead of booking a salesperson's hour.",
+    action:
+      "Send the self-serve option instead of booking a salesperson's hour.",
   },
   {
     rule: "If the enquiry is from an existing customer",
@@ -58,7 +64,8 @@ const RULES = [
   },
   {
     rule: "If the enquiry arrives outside working hours",
-    action: "Reply immediately, and schedule the human follow-up for the morning.",
+    action:
+      "Reply immediately, and schedule the human follow-up for the morning.",
   },
   {
     rule: "If nobody has responded within your own deadline",
@@ -109,7 +116,7 @@ export default function LeadAutomationPage() {
         title="Follow up while the lead is still interested."
         body="Every enquiry captured, qualified, answered and routed to a named owner — in the minutes that matter rather than the next working day."
         primary={{
-          label: "Start a project",
+          label: "Let’s talk",
           href: "/contact",
           event: "lead-automation-hero",
         }}
@@ -147,7 +154,9 @@ export default function LeadAutomationPage() {
                       index === 0 ? "bg-blue" : "bg-[#c3cbd4]"
                     }`}
                   />
-                  <p className="mono-label text-text-secondary-light">{item.time}</p>
+                  <p className="mono-label text-text-secondary-light">
+                    {item.time}
+                  </p>
                   <h3 className="display-4 mt-2">{item.state}</h3>
                   <p className="mt-2 max-w-[520px] text-[0.95rem] leading-relaxed text-text-secondary-light">
                     {item.detail}
@@ -175,17 +184,35 @@ export default function LeadAutomationPage() {
             hold={720}
             startDelay={500}
             nodes={[
-              { label: "Inquiry", detail: "A form, a call or an email arrives." },
-              { label: "Capture", detail: "Recorded once, in a single pipeline." },
-              { label: "Qualify", detail: "Checked against your rules, not a guess." },
-              { label: "Respond", detail: "A relevant first reply goes out now." },
+              {
+                label: "Inquiry",
+                detail: "A form, a call or an email arrives.",
+              },
+              {
+                label: "Capture",
+                detail: "Recorded once, in a single pipeline.",
+              },
+              {
+                label: "Qualify",
+                detail: "Checked against your rules, not a guess.",
+              },
+              {
+                label: "Respond",
+                detail: "A relevant first reply goes out now.",
+              },
               {
                 label: "Route",
                 detail: "Assigned to the right owner.",
                 handoff: true,
               },
-              { label: "CRM", detail: "Written to the system your team works in." },
-              { label: "Follow-up", detail: "Sequenced until it is answered or closed." },
+              {
+                label: "CRM",
+                detail: "Written to the system your team works in.",
+              },
+              {
+                label: "Follow-up",
+                detail: "Sequenced until it is answered or closed.",
+              },
             ]}
             footer="Every state is recorded against the lead, so the reason it was treated this way is visible later."
           />
@@ -205,7 +232,10 @@ export default function LeadAutomationPage() {
           <Reveal large className="lg:col-span-7">
             <dl className="divide-y divide-[#e0e5ea] overflow-hidden rounded-2xl border border-[#e0e5ea] bg-white">
               {RULES.map((item) => (
-                <div key={item.rule} className="grid gap-2 p-6 sm:grid-cols-2 sm:gap-8">
+                <div
+                  key={item.rule}
+                  className="grid gap-2 p-6 sm:grid-cols-2 sm:gap-8"
+                >
                   <dt className="text-[0.95rem] font-medium">{item.rule}</dt>
                   <dd className="text-[0.92rem] leading-relaxed text-text-secondary-light">
                     {item.action}
@@ -260,7 +290,9 @@ export default function LeadAutomationPage() {
             <SectionHeader
               eyebrow="Integrations"
               title="Your pipeline stays where it is."
-              after={<TextLink href="/integrations">View integrations</TextLink>}
+              after={
+                <TextLink href="/integrations">View integrations</TextLink>
+              }
             />
           </div>
           <div className="lg:col-span-7">
@@ -320,7 +352,7 @@ export default function LeadAutomationPage() {
               detail: "How leads reach your CRM, inbox and calendar.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us what happens to an enquiry today.",
             },

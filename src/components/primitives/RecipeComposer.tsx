@@ -44,7 +44,7 @@ export function RecipeComposer() {
   ];
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#e0e5ea] bg-white">
+    <div className="recipe-composer overflow-hidden rounded-2xl border border-[#e0e5ea] bg-white">
       <div className="grid gap-px bg-[#eceff3] sm:grid-cols-2 lg:grid-cols-4">
         {rows.map((row, index) => (
           <div key={row.label} className="bg-white p-5">
@@ -97,7 +97,10 @@ export function RecipeComposer() {
 
         <ol className="flex flex-col gap-0 md:flex-row md:items-stretch">
           {steps.map((step, index) => (
-            <li key={index} className="flex flex-1 flex-col md:flex-row md:items-center">
+            <li
+              key={index}
+              className="flex flex-1 flex-col md:flex-row md:items-center"
+            >
               <div
                 className="flex-1 rounded-xl border border-[#3158d8]/30 bg-white px-4 py-3.5 transition-[opacity,transform] duration-[420ms] ease-[var(--ease-orbital)]"
                 style={{

@@ -5,7 +5,6 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-  type ElementType,
   type ReactNode,
 } from "react";
 
@@ -16,7 +15,7 @@ type RevealProps = {
   /** Small offset in ms so a sibling pair can enter just after the header. */
   delay?: number;
   className?: string;
-  as?: ElementType;
+  as?: "div" | "section" | "article";
 };
 
 /**
@@ -34,7 +33,7 @@ export function Reveal({
   className = "",
   as: Tag = "div",
 }: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   const reduced = usePrefersReducedMotion();
 

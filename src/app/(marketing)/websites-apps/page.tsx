@@ -60,10 +60,19 @@ const OUTCOMES = [
 
 const CRAFT = [
   ["Typography", "A type system with a job for every size, not a font choice."],
-  ["Responsive states", "Designed at every width you actually get, not just two."],
-  ["Components", "One set of parts, so the tenth page costs less than the first."],
+  [
+    "Responsive states",
+    "Designed at every width you actually get, not just two.",
+  ],
+  [
+    "Components",
+    "One set of parts, so the tenth page costs less than the first.",
+  ],
   ["Motion", "Used where it explains something, and absent everywhere else."],
-  ["Accessibility", "Keyboard, contrast, focus and screen readers as requirements."],
+  [
+    "Accessibility",
+    "Keyboard, contrast, focus and screen readers as requirements.",
+  ],
   ["Performance", "Fast on a mid-range phone on a mediocre connection."],
 ];
 
@@ -87,10 +96,19 @@ const FAQS = [
 ];
 
 const STAGES = [
-  { title: "Frame", detail: "Agree what the experience has to achieve, in one sentence." },
-  { title: "Structure", detail: "Content, routes and hierarchy before any visual design." },
+  {
+    title: "Frame",
+    detail: "Agree what the experience has to achieve, in one sentence.",
+  },
+  {
+    title: "Structure",
+    detail: "Content, routes and hierarchy before any visual design.",
+  },
   { title: "Design", detail: "Real content, real widths, real states." },
-  { title: "Build & launch", detail: "Implemented, tested, measured and shipped." },
+  {
+    title: "Build & launch",
+    detail: "Implemented, tested, measured and shipped.",
+  },
 ];
 
 export default function WebsitesAppsPage() {
@@ -98,15 +116,22 @@ export default function WebsitesAppsPage() {
     <>
       <PageHero
         tone="dark"
-        layout="stacked"
+        layout="split"
         eyebrow="Websites & Apps"
         title="Digital experiences that do their job."
         body="A website that wins the enquiry. A portal that answers the question. An app that carries the work. Designed to be judged on outcomes, not on impressions."
-        primary={{ label: "Start a project", href: "/contact", event: "websites-hero" }}
+        primary={{
+          label: "Let’s talk",
+          href: "/contact",
+          event: "websites-hero",
+        }}
         secondary={{ label: "See the work", href: "/work" }}
         visual={
-          <Reveal large>
-            <ProductFrame variant="website" title="A business website built to win the enquiry" />
+          <Reveal large className="hero-product-visual">
+            <ProductFrame
+              variant="website"
+              title="A business website built to win the enquiry"
+            />
           </Reveal>
         }
       />
@@ -141,9 +166,18 @@ export default function WebsitesAppsPage() {
 
         <div className="shell mt-12 grid gap-8 md:grid-cols-3">
           {[
-            ["Understandable", "A visitor knows what you do and who you do it for before they scroll."],
-            ["Persuasive", "Proof, process and price posture in the order a buyer needs them."],
-            ["Measurable", "The enquiry path is instrumented, so improvement is not guesswork."],
+            [
+              "Understandable",
+              "A visitor knows what you do and who you do it for before they scroll.",
+            ],
+            [
+              "Persuasive",
+              "Proof, process and price posture in the order a buyer needs them.",
+            ],
+            [
+              "Measurable",
+              "The enquiry path is instrumented, so improvement is not guesswork.",
+            ],
           ].map(([title, detail]) => (
             <div key={title}>
               <h3 className="display-4">{title}</h3>
@@ -180,7 +214,8 @@ export default function WebsitesAppsPage() {
                   {
                     id: "workflow",
                     label: "Workflow",
-                    caption: "Each step, its owner, and where a person is required.",
+                    caption:
+                      "Each step, its owner, and where a person is required.",
                   },
                   {
                     id: "portal",
@@ -197,7 +232,10 @@ export default function WebsitesAppsPage() {
       <Section tone="light" space="l">
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
           <Reveal large className="order-2 lg:order-1 lg:col-span-5">
-            <ProductFrame variant="mobile" title="A mobile app carrying the day's work" />
+            <ProductFrame
+              variant="mobile"
+              title="A mobile app carrying the day's work"
+            />
           </Reveal>
 
           <div className="order-1 lg:order-2 lg:col-span-7">
@@ -208,8 +246,14 @@ export default function WebsitesAppsPage() {
             />
             <Reveal className="mt-10 grid gap-6 sm:grid-cols-2">
               {[
-                ["Offline first", "The job list works whether or not there is signal."],
-                ["Capture on site", "Photos, signatures, readings and notes where the work is."],
+                [
+                  "Offline first",
+                  "The job list works whether or not there is signal.",
+                ],
+                [
+                  "Capture on site",
+                  "Photos, signatures, readings and notes where the work is.",
+                ],
                 ["One-handed", "Large targets, short paths, nothing buried."],
                 ["Synced", "The office sees it without anyone reporting in."],
               ].map(([title, detail]) => (
@@ -230,7 +274,10 @@ export default function WebsitesAppsPage() {
           eyebrow="Design craft"
           title="The details that decide whether it feels expensive."
         />
-        <Reveal large className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal
+          large
+          className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:grid-cols-3"
+        >
           {CRAFT.map(([title, detail]) => (
             <div key={title} className="bg-white p-7">
               <h3 className="display-4">{title}</h3>
@@ -276,7 +323,7 @@ export default function WebsitesAppsPage() {
               detail: "When the product is the system, not the site.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us what the experience has to achieve.",
             },

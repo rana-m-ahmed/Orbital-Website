@@ -42,7 +42,7 @@ export default function PrivacyPage() {
         {
           heading: "How long we keep it",
           body: [
-            `Enquiries are kept for as long as they are commercially useful and then deleted. If you would like your enquiry removed sooner, email ${SITE.email} and we will delete it.`,
+            `Enquiries are kept for as long as they are commercially useful and then deleted. If you would like your enquiry removed sooner, contact us ${SITE.email ? `at ${SITE.email}` : "through the contact form"}.`,
           ],
         },
         {
@@ -54,12 +54,14 @@ export default function PrivacyPage() {
         {
           heading: "Your rights",
           body: [
-            `You can ask what we hold about you, ask for it to be corrected, or ask for it to be deleted. Email ${SITE.email} and we will respond.`,
+            `You can ask what we hold about you, ask for it to be corrected, or ask for it to be deleted. Contact us ${SITE.email ? `at ${SITE.email}` : "through the contact form"} and we will respond.`,
           ],
         },
         {
           heading: "Contact",
-          body: [`Questions about this policy go to ${SITE.email}.`],
+          body: [
+            `Send questions about this policy ${SITE.email ? `to ${SITE.email}` : "through the contact form"}.`,
+          ],
         },
       ]}
     />

@@ -122,5 +122,5 @@ export function workBySlug(slug: string): WorkItem | undefined {
 
 export const WORK_LABEL: Record<WorkItem["type"], string> = {
   client: "Client work",
-  reference: "Reference system",
+  reference: "Concept demonstration",
 };

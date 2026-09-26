@@ -1,127 +1,168 @@
-"use client";
-
+﻿"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { NAV, SITE, heroToneFor } from "@/lib/site";
-import { MegaMenu } from "./MegaMenu";
-import { MobileNav } from "./MobileNav";
+import { useEffect, useRef, useState } from "react";
 import { Wordmark } from "./Wordmark";
-
-/**
- * §5 — desktop header.
- * 76px at rest, 64px sticky. Transparent at the very top of a page, matching
- * the hero. Once sticky: one universal Midnight treatment site-wide — no
- * per-section theme switching, no contrast flicker.
- */
+const groups = [
+  {
+    title: "01 / Automate",
+    copy: "Less repetition. More possibility.",
+    links: [
+      ["Explore automation", "/automation"],
+      ["AI receptionist", "/automation/ai-receptionist"],
+      ["Lead follow-up", "/automation/lead-automation"],
+      ["Customer support", "/automation/customer-support"],
+      ["Operations & admin", "/automation/operations-automation"],
+    ],
+  },
+  {
+    title: "02 / Connect",
+    copy: "Make your tools work together.",
+    links: [["Integrations & systems", "/integrations"]],
+  },
+  {
+    title: "03 / Build",
+    copy: "The software your business needs.",
+    links: [
+      ["Custom software", "/software"],
+      ["Websites & apps", "/websites-apps"],
+    ],
+  },
+];
 export function Header() {
-  const pathname = usePathname() ?? "/";
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const [stuck, setStuck] = useState(false);
-  const heroTone = heroToneFor(pathname);
-
+  const root = useRef<HTMLElement>(null);
+  const services = useRef<HTMLButtonElement>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const close = () => {
+    setOpen(false);
+    setMobile(false);
+  };
   useEffect(() => {
-    const onScroll = () => setStuck(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const scroll = () => setStuck(window.scrollY > 30);
+    scroll();
+    window.addEventListener("scroll", scroll, { passive: true });
+    return () => window.removeEventListener("scroll", scroll);
   }, []);
-
-  const tone: "light" | "dark" = stuck ? "dark" : heroTone;
-
-  const linkTone =
-    tone === "dark"
-      ? "text-offwhite/72 hover:text-offwhite"
-      : "text-midnight/68 hover:text-midnight";
-
+  useEffect(() => {
+    if (!open && !mobile) return;
+    const click = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) {
+        setOpen(false);
+        setMobile(false);
+      }
+    };
+    const key = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setMobile(false);
+        (mobile ? toggle : services).current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", click);
+    document.addEventListener("keydown", key);
+    return () => {
+      document.removeEventListener("pointerdown", click);
+      document.removeEventListener("keydown", key);
+    };
+  }, [open, mobile]);
   return (
     <header
-      data-tone={tone}
-      className={`fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,height] duration-200 ease-[var(--ease-orbital)] ${
-        tone === "dark" ? "on-dark" : ""
-      } ${
-        stuck
-          ? "border-b border-white/8 bg-midnight/88 backdrop-blur-[16px]"
-          : "border-b border-transparent bg-transparent"
-      }`}
+      ref={root}
+      className={`floating-header ${stuck ? "is-scrolled" : ""}`}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) close();
+      }}
     >
-      <div
-        className={`shell flex items-center justify-between transition-[height] duration-200 ease-[var(--ease-orbital)] ${
-          stuck ? "h-16" : "h-[76px]"
-        }`}
-      >
-        <Wordmark
-          className={tone === "dark" ? "text-offwhite" : "text-midnight"}
-        />
-
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-9">
-            {NAV.map((item) => {
-              const active =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(item.href);
-
-              if (item.menu) {
-                return (
-                  <li key={item.href} className="relative">
-                    <MegaMenu tone={tone} />
-                    {active ? <ActiveMarker /> : null}
-                  </li>
-                );
-              }
-
-              return (
-                <li key={item.href} className="relative">
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`group relative inline-flex h-9 items-center text-[0.92rem] font-medium transition-colors duration-150 ${linkTone} ${
-                      active
-                        ? tone === "dark"
-                          ? "text-offwhite"
-                          : "text-midnight"
-                        : ""
-                    }`}
-                  >
-                    {item.label}
-                    <span
-                      aria-hidden="true"
-                      className="absolute -bottom-0.5 left-1/2 h-px w-[26px] -translate-x-1/2 bg-blue opacity-0 transition-opacity duration-[160ms] group-hover:opacity-100 group-focus-visible:opacity-100"
-                    />
-                  </Link>
-                  {active ? <ActiveMarker /> : null}
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Link
-            href="/contact"
-            data-track="service_cta"
-            data-track-label="header"
-            className={`hidden items-center gap-2 rounded-[13px] px-5 py-2.5 text-[0.9rem] font-medium transition-colors duration-150 lg:inline-flex ${
-              tone === "dark"
-                ? "bg-offwhite text-midnight hover:bg-white"
-                : "bg-midnight text-offwhite hover:bg-[#141b27]"
-            }`}
+      <div className="nav-bar">
+        <Wordmark />
+        <nav aria-label="Main" className="desktop-nav">
+          <button
+            ref={services}
+            type="button"
+            aria-expanded={open}
+            aria-controls="service-menu"
+            onClick={() => setOpen(!open)}
           >
-            {SITE.primaryCta}
+            Services{" "}
+            <span className={open ? "nav-plus open" : "nav-plus"}>+</span>
+          </button>
+          <Link
+            href="/work"
+            aria-current={pathname.startsWith("/work") ? "page" : undefined}
+            onClick={close}
+          >
+            Work
           </Link>
-          <MobileNav tone={tone} />
-        </div>
+          <Link
+            href="/about"
+            aria-current={pathname === "/about" ? "page" : undefined}
+            onClick={close}
+          >
+            About
+          </Link>
+        </nav>
+        <Link href="/contact" className="nav-cta" onClick={close}>
+          Let’s talk <span aria-hidden="true">↗</span>
+        </Link>
+        <button
+          ref={toggle}
+          type="button"
+          className="mobile-toggle"
+          aria-label={mobile ? "Close navigation" : "Open navigation"}
+          aria-expanded={mobile}
+          aria-controls="mobile-navigation"
+          onClick={() => setMobile(!mobile)}
+        >
+          {mobile ? "−" : "☰"}
+        </button>
       </div>
+      {open && (
+        <div id="service-menu" className="service-menu">
+          {groups.map((g) => (
+            <div key={g.title}>
+              <p className="eyebrow">{g.title}</p>
+              <p className="menu-description">{g.copy}</p>
+              {g.links.map(([label, href]) => (
+                <Link key={href} href={href} onClick={close}>
+                  {label}
+                  <span aria-hidden="true">↗</span>
+                </Link>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+      {mobile && (
+        <nav
+          id="mobile-navigation"
+          aria-label="Mobile"
+          className="mobile-sheet"
+        >
+          <Link href="/work" onClick={close}>
+            Work ↗
+          </Link>
+          <Link href="/about" onClick={close}>
+            About ↗
+          </Link>
+          {groups.map((g) => (
+            <div key={g.title}>
+              <p className="eyebrow">{g.title}</p>
+              {g.links.map(([label, href]) => (
+                <Link key={href} href={href} onClick={close}>
+                  {label}
+                </Link>
+              ))}
+            </div>
+          ))}
+          <Link href="/contact" onClick={close}>
+            Let’s talk ↗
+          </Link>
+        </nav>
+      )}
     </header>
-  );
-}
-
-/* §5 — a quiet 4px blue marker remains under the active route. */
-function ActiveMarker() {
-  return (
-    <span
-      aria-hidden="true"
-      className="absolute -bottom-[5px] left-1/2 size-1 -translate-x-1/2 rounded-full bg-blue"
-    />
   );
 }

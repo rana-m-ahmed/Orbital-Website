@@ -27,19 +27,23 @@ const CAPABILITIES = [
   },
   {
     title: "Qualify",
-    detail: "Asks the questions you would ask, in the order you would ask them.",
+    detail:
+      "Asks the questions you would ask, in the order you would ask them.",
   },
   {
     title: "Book & reschedule",
-    detail: "Offers real availability from your calendar and confirms in the call.",
+    detail:
+      "Offers real availability from your calendar and confirms in the call.",
   },
   {
     title: "Answer common questions",
-    detail: "Opening hours, service areas, pricing ranges, what to expect on a visit.",
+    detail:
+      "Opening hours, service areas, pricing ranges, what to expect on a visit.",
   },
   {
     title: "Collect details",
-    detail: "Name, address, job description, access notes — captured accurately.",
+    detail:
+      "Name, address, job description, access notes — captured accurately.",
   },
   {
     title: "Route & transfer",
@@ -51,7 +55,8 @@ const CAPABILITIES = [
   },
   {
     title: "Confirm",
-    detail: "Sends the caller a written confirmation so nothing depends on memory.",
+    detail:
+      "Sends the caller a written confirmation so nothing depends on memory.",
   },
 ];
 
@@ -107,11 +112,26 @@ const SCENARIOS = [
 ];
 
 const SETUP = [
-  { title: "Learn calls", detail: "We listen to how your calls actually go today." },
-  { title: "Define rules", detail: "What it handles, what it never handles, who it transfers to." },
-  { title: "Connect", detail: "Calendar, CRM and telephony joined to the workflow." },
-  { title: "Test", detail: "Real scenarios, including the awkward and the rude ones." },
-  { title: "Launch", detail: "Go live with logs, recordings and a clear off switch." },
+  {
+    title: "Learn calls",
+    detail: "We listen to how your calls actually go today.",
+  },
+  {
+    title: "Define rules",
+    detail: "What it handles, what it never handles, who it transfers to.",
+  },
+  {
+    title: "Connect",
+    detail: "Calendar, CRM and telephony joined to the workflow.",
+  },
+  {
+    title: "Test",
+    detail: "Real scenarios, including the awkward and the rude ones.",
+  },
+  {
+    title: "Launch",
+    detail: "Go live with logs, recordings and a clear off switch.",
+  },
 ];
 
 const FAQS = [
@@ -159,7 +179,10 @@ export default function AiReceptionistPage() {
           href: "/contact",
           event: "ai-receptionist-hero",
         }}
-        secondary={{ label: "Hear how it handles a call", href: "#how-it-works" }}
+        secondary={{
+          label: "Hear how it handles a call",
+          href: "#how-it-works",
+        }}
       />
 
       <ServiceNav
@@ -241,7 +264,10 @@ export default function AiReceptionistPage() {
             />
           </div>
 
-          <Reveal large className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-8">
+          <Reveal
+            large
+            className="grid gap-px overflow-hidden rounded-2xl border border-[#e0e5ea] bg-[#e0e5ea] sm:grid-cols-2 lg:col-span-8"
+          >
             {CAPABILITIES.map((item) => (
               <div key={item.title} className="bg-white p-6">
                 <h3 className="display-4">{item.title}</h3>
@@ -268,13 +294,27 @@ export default function AiReceptionistPage() {
           <Reveal className="lg:col-span-6">
             <ul className="space-y-px overflow-hidden rounded-2xl border border-midnight-line bg-midnight-line">
               {[
-                ["Money", "Refunds, disputes and anything that changes what a customer pays."],
-                ["Judgement", "Exceptions, unusual requests and situations with no defined rule."],
-                ["Emotion", "A customer who is upset reaches a person quickly, not eventually."],
-                ["Request", "If the caller asks for a human, they get one. No loop, no insistence."],
+                [
+                  "Money",
+                  "Refunds, disputes and anything that changes what a customer pays.",
+                ],
+                [
+                  "Judgement",
+                  "Exceptions, unusual requests and situations with no defined rule.",
+                ],
+                [
+                  "Emotion",
+                  "A customer who is upset reaches a person quickly, not eventually.",
+                ],
+                [
+                  "Request",
+                  "If the caller asks for a human, they get one. No loop, no insistence.",
+                ],
               ].map(([title, detail]) => (
                 <li key={title} className="bg-midnight p-6">
-                  <h3 className="text-[1rem] font-medium text-offwhite">{title}</h3>
+                  <h3 className="text-[1rem] font-medium text-offwhite">
+                    {title}
+                  </h3>
                   <p className="mt-2 text-[0.92rem] leading-relaxed text-slate">
                     {detail}
                   </p>
@@ -303,7 +343,9 @@ export default function AiReceptionistPage() {
               eyebrow="Integrations"
               title="Connected to what you already run."
               body="Calendar, CRM, telephony and messaging. Where there is no native connector, we build against the API."
-              after={<TextLink href="/integrations">View integrations</TextLink>}
+              after={
+                <TextLink href="/integrations">View integrations</TextLink>
+              }
             />
           </div>
           <div className="lg:col-span-7">
@@ -359,7 +401,7 @@ export default function AiReceptionistPage() {
               detail: "What happens to the enquiry after the call ends.",
             },
             {
-              label: "Start a project",
+              label: "Let’s talk",
               href: "/contact",
               detail: "Tell us how your calls are handled today.",
             },

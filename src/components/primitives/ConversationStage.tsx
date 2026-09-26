@@ -116,7 +116,9 @@ export function ConversationStage({
               }`}
             >
               <div className="flex items-center justify-between gap-3">
-                <dt className={dark ? "text-slate" : "text-text-secondary-light"}>
+                <dt
+                  className={dark ? "text-slate" : "text-text-secondary-light"}
+                >
                   Handled by
                 </dt>
                 <dd
@@ -132,7 +134,9 @@ export function ConversationStage({
                 </dd>
               </div>
               <div className="flex items-center justify-between gap-3">
-                <dt className={dark ? "text-slate" : "text-text-secondary-light"}>
+                <dt
+                  className={dark ? "text-slate" : "text-text-secondary-light"}
+                >
                   Outcome
                 </dt>
                 <dd
@@ -152,9 +156,7 @@ export function ConversationStage({
 
           {/* Transcript + action states */}
           <div className="min-h-[268px] space-y-2.5 p-5">
-            {turns.slice(0, seq.index + 1).map((turn, index) => {
-              const isLast = index === seq.index;
-
+            {turns.slice(0, seq.index + 1).map((turn) => {
               return (
                 /**
                  * CSS-driven rather than a hydrated animation component: the
@@ -166,7 +168,7 @@ export function ConversationStage({
                   key={turn.state}
                   className="flex gap-3 transition-opacity duration-300 ease-[var(--ease-orbital)]"
                   style={{
-                    opacity: isLast ? 1 : 0.58,
+                    opacity: 1,
                     animation: reduced
                       ? undefined
                       : "orbital-rise 280ms var(--ease-orbital) both",
@@ -246,7 +248,7 @@ function Speaker({ from, dark }: { from: Turn["from"]; dark: boolean }) {
           ? "text-blue"
           : dark
             ? "text-slate/70"
-            : "text-text-secondary-light/75"
+            : "text-text-secondary-light"
       }`}
     >
       {map[from]}

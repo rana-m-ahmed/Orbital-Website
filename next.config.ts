@@ -11,7 +11,7 @@ import type { NextConfig } from "next";
  */
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
@@ -20,7 +20,9 @@ const csp = [
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",
-  "upgrade-insecure-requests",
+  ...(process.env.ORBITAL_ENFORCE_HTTPS === "true"
+    ? ["upgrade-insecure-requests"]
+    : []),
 ].join("; ");
 
 const securityHeaders = [
@@ -40,6 +42,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
   poweredByHeader: false,
   reactStrictMode: true,
 

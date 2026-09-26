@@ -32,12 +32,16 @@ export function PageHero({
   const copy = (
     <>
       {breadcrumb}
-      <p className={`eyebrow ${dark ? "text-slate" : "text-text-secondary-light"}`}>
+      <p
+        className={`eyebrow ${dark ? "text-slate" : "text-text-secondary-light"}`}
+      >
         {eyebrow}
       </p>
       <h1
         className={
-          layout === "stacked" ? "display-1 mt-6 max-w-[16ch]" : "display-1 mt-6"
+          layout === "stacked"
+            ? "display-1 mt-6 max-w-[16ch]"
+            : "display-1 mt-6"
         }
       >
         {title}
@@ -72,7 +76,7 @@ export function PageHero({
 
   return (
     <section
-      className={`relative overflow-hidden pb-[84px] pt-[128px] md:pb-[108px] md:pt-[168px] ${
+      className={`interior-hero relative overflow-hidden pb-[84px] pt-[148px] md:pb-[108px] md:pt-[180px] ${
         dark ? "on-dark bg-midnight text-offwhite" : "bg-offwhite"
       }`}
     >
@@ -91,7 +95,9 @@ export function PageHero({
           </div>
         ) : (
           <>
-            <div className={layout === "stacked" ? "max-w-[760px]" : ""}>{copy}</div>
+            <div className={layout === "stacked" ? "max-w-[760px]" : ""}>
+              {copy}
+            </div>
             {visual ? <div className="mt-16">{visual}</div> : null}
           </>
         )}
@@ -100,14 +106,21 @@ export function PageHero({
   );
 }
 
-export function Breadcrumb({ items }: { items: { label: string; href?: string }[] }) {
+export function Breadcrumb({
+  items,
+}: {
+  items: { label: string; href?: string }[];
+}) {
   return (
     <nav aria-label="Breadcrumb" className="mb-7">
       <ol className="flex flex-wrap items-center gap-2 text-[0.8rem]">
         {items.map((item, index) => (
           <li key={item.label} className="flex items-center gap-2">
             {item.href ? (
-              <a href={item.href} className="text-slate transition-colors hover:text-current">
+              <a
+                href={item.href}
+                className="text-slate transition-colors hover:text-current"
+              >
                 {item.label}
               </a>
             ) : (

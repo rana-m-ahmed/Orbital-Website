@@ -2,11 +2,9 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { track } from "@/lib/analytics";
-import {
-  HELPER_TEXT,
-  HELP_TYPES,
-  type ContactResponse,
-} from "@/lib/contact-schema";
+import { HELPER_TEXT, HELP_TYPES } from "@/lib/contact-options";
+import type { ContactResponse } from "@/lib/contact-schema";
+import { useHydrated } from "@/lib/use-hydrated";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type ErrorKind = "validation" | "rate_limit" | "server" | "network" | null;
@@ -15,7 +13,7 @@ const EMPTY = {
   name: "",
   email: "",
   company: "",
-  helpType: HELP_TYPES[0] as string,
+  helpType: "Not sure yet" as string,
   message: "",
   website: "",
 };
@@ -26,6 +24,7 @@ const EMPTY = {
  * server error and network error. A failure never erases what was typed.
  */
 export function ContactForm() {
+  const hydrated = useHydrated();
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -56,8 +55,11 @@ export function ContactForm() {
     setErrors({});
 
     const honeypot =
-      (formRef.current?.elements.namedItem("company_website") as HTMLInputElement)
-        ?.value ?? "";
+      (
+        formRef.current?.elements.namedItem(
+          "company_website",
+        ) as HTMLInputElement
+      )?.value ?? "";
 
     try {
       const response = await fetch("/api/contact", {
@@ -71,12 +73,13 @@ export function ContactForm() {
         kind: "server" as const,
       }));
 
-      if (data.ok) {
+      if (data.ok && response.ok) {
         setStatus("success");
         track("contact_submit_success", { label: values.helpType });
         return;
       }
 
+      if (data.ok) throw new Error("Unexpected response status");
       setStatus("error");
 
       if (data.kind === "validation") {
@@ -103,10 +106,17 @@ export function ContactForm() {
   return (
     <form
       ref={formRef}
+      method="post"
+      action="/api/contact"
       noValidate
       onSubmit={onSubmit}
-      className="rounded-2xl border border-[#e0e5ea] bg-white p-7 md:p-9"
+      className="contact-form rounded-2xl border border-[#e0e5ea] bg-white p-7 md:p-9"
     >
+      <noscript>
+        <p className="mb-6 text-sm text-text-secondary-light">
+          Please enable JavaScript in your browser to send this enquiry form.
+        </p>
+      </noscript>
       <div className="space-y-6">
         <Field
           id="contact-name"
@@ -143,12 +153,19 @@ export function ContactForm() {
             htmlFor="contact-helpType"
             className="block text-[0.9rem] font-medium"
           >
-            What do you need help with?
+            What do you need help with?{" "}
+            <span className="font-normal text-text-secondary-light">
+              optional
+            </span>
           </label>
           <div className="relative mt-2.5">
             <select
               id="contact-helpType"
               name="helpType"
+              aria-invalid={errors.helpType ? true : undefined}
+              aria-describedby={
+                errors.helpType ? "contact-helpType-error" : undefined
+              }
               value={values.helpType}
               onChange={(event) => set("helpType")(event.target.value)}
               className="w-full appearance-none rounded-xl border border-[#dde3e9] bg-white px-4 py-3 pr-10 text-[0.95rem] transition-colors hover:border-[#c8d2de]"
@@ -172,11 +189,19 @@ export function ContactForm() {
               <path d="m1.5 2 4.5 4 4.5-4" />
             </svg>
           </div>
+          {errors.helpType && (
+            <p
+              id="contact-helpType-error"
+              className="mt-2 text-sm text-[#8a3b3b]"
+            >
+              {errors.helpType}
+            </p>
+          )}
         </div>
 
         <Field
           id="contact-message"
-          label="What is happening today?"
+          label="What would you like to work better?"
           textarea
           value={values.message}
           onChange={set("message")}
@@ -184,18 +209,11 @@ export function ContactForm() {
           hint={HELPER_TEXT[values.helpType]}
         />
 
-        <Field
-          id="contact-website"
-          label="Website"
-          optional
-          value={values.website}
-          onChange={set("website")}
-          error={errors.website}
-          autoComplete="url"
-        />
-
         {/* Honeypot — hidden from people, not from bots (§40). */}
-        <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden"
+        >
           <label htmlFor="contact-company_website">Company website</label>
           <input
             id="contact-company_website"
@@ -229,10 +247,10 @@ export function ContactForm() {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
-        className="mt-8 inline-flex w-full items-center justify-center gap-2.5 rounded-[13px] bg-midnight px-6 py-4 text-[0.95rem] font-medium text-offwhite transition-colors duration-150 hover:bg-[#141b27] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+        disabled={!hydrated || status === "submitting"}
+        className="orbital-button button-primary mt-8 disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : "Start a project"}
+        {status === "submitting" ? "Sending…" : "Send your message"}
         {status === "submitting" ? null : (
           <svg
             aria-hidden="true"
@@ -326,7 +344,10 @@ function Field({
       )}
 
       {hint ? (
-        <p id={`${id}-hint`} className="mt-2 text-[0.85rem] leading-snug text-text-secondary-light">
+        <p
+          id={`${id}-hint`}
+          className="mt-2 text-[0.85rem] leading-snug text-text-secondary-light"
+        >
           {hint}
         </p>
       ) : null}
@@ -360,9 +381,17 @@ function Success() {
           strokeWidth="1.6"
           strokeDasharray="92"
           strokeDashoffset="92"
-          style={{ animation: "orbital-dash 620ms var(--ease-orbital) forwards" }}
+          style={{
+            animation: "orbital-dash 620ms var(--ease-orbital) forwards",
+          }}
         />
-        <circle cx="104" cy="20" r="7" fill="var(--color-blue)" opacity="0.14" />
+        <circle
+          cx="104"
+          cy="20"
+          r="7"
+          fill="var(--color-blue)"
+          opacity="0.14"
+        />
         <path
           d="m100.5 20 2.6 2.6 5-5.6"
           stroke="var(--color-blue)"
@@ -374,8 +403,8 @@ function Success() {
 
       <h2 className="display-2 mt-7">Got it.</h2>
       <p className="lede mt-5 max-w-[460px] text-text-secondary-light">
-        We&apos;ll review what you shared and come back with the most useful next
-        step.
+        We&apos;ll review what you shared and come back with the most useful
+        next step.
       </p>
     </div>
   );

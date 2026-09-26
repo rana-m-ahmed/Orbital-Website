@@ -11,11 +11,13 @@ export function LegalPage({
   sections: { heading: string; body: string[] }[];
 }) {
   return (
-    <section className="bg-offwhite pb-[112px] pt-[128px] md:pt-[168px]">
+    <section className="legal-page bg-offwhite pb-[112px] pt-[140px] md:pt-[180px]">
       <div className="shell">
         <div className="max-w-[720px]">
           <h1 className="display-1">{title}</h1>
-          <p className="mt-6 text-[0.92rem] text-text-secondary-light">{updated}</p>
+          <p className="mt-6 text-[0.92rem] text-text-secondary-light">
+            {updated}
+          </p>
 
           <p className="mt-10 rounded-xl border border-[#dde3e9] bg-white px-5 py-4 text-[0.9rem] leading-relaxed text-text-secondary-light">
             This document is a plain-language starting point prepared with the

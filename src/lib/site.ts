@@ -5,9 +5,9 @@ export const SITE = {
   description:
     "ORBITAL is an automation-first technology company. We remove repetitive work, connect the tools you already use, and build custom software when existing tools are not enough.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://orbital.example.com",
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@orbital.systems",
-  linkedin: "https://www.linkedin.com/company/orbital",
-  primaryCta: "Start a project",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "",
+  primaryCta: "Let’s talk",
 } as const;
 
 export type NavChild = {

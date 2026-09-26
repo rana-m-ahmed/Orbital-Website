@@ -77,8 +77,15 @@ export default function AutomationPage() {
         eyebrow="Automation"
         title="Take the repeating work off your team."
         body="Automation is where ORBITAL starts. Calls, enquiries, support and admin are the four places most businesses lose time — and the four places it is most reliably recoverable."
-        primary={{ label: "Start a project", href: "/contact", event: "automation-hero" }}
-        secondary={{ label: "See the demonstrations", href: "#workflow-selector" }}
+        primary={{
+          label: "Let’s talk",
+          href: "/contact",
+          event: "automation-hero",
+        }}
+        secondary={{
+          label: "See the demonstrations",
+          href: "#workflow-selector",
+        }}
       />
 
       <Section tone="light" space="l">
@@ -99,7 +106,9 @@ export default function AutomationPage() {
             >
               <div>
                 <h2 className="display-3">{area.label}</h2>
-                <p className="mt-3 text-[1.05rem] font-medium">{area.statement}</p>
+                <p className="mt-3 text-[1.05rem] font-medium">
+                  {area.statement}
+                </p>
                 <p className="mt-4 max-w-[460px] text-[0.95rem] leading-relaxed text-text-secondary-light">
                   {area.detail}
                 </p>
@@ -184,7 +193,8 @@ export default function AutomationPage() {
             {
               label: "Integrations",
               href: "/integrations",
-              detail: "See what ORBITAL connects, and what happens when there is no connector.",
+              detail:
+                "See what ORBITAL connects, and what happens when there is no connector.",
             },
             {
               label: "Custom software",
@@ -194,7 +204,8 @@ export default function AutomationPage() {
             {
               label: "Work",
               href: "/work",
-              detail: "Reference systems showing each problem solved end to end.",
+              detail:
+                "Reference systems showing each problem solved end to end.",
             },
           ]}
         />

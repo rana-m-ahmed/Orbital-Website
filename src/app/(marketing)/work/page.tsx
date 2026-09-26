@@ -1,106 +1,80 @@
-import type { Metadata } from "next";
-import { FinalCta } from "@/components/shell/FinalCta";
-import { CrossLinks } from "@/components/ui/CrossLinks";
+﻿import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
-import { Reveal } from "@/components/ui/Reveal";
-import { Section, SectionHeader } from "@/components/ui/Section";
-import { FeatureCase, SecondaryCase } from "@/components/work/WorkCard";
-import { WORK, hasClientWork } from "@/content/work";
-import { JsonLd, breadcrumbSchema, pageMeta } from "@/lib/seo";
-
+import { FinalCta } from "@/components/shell/FinalCta";
+import { TextLink } from "@/components/ui/Button";
+import { ProductFrame } from "@/components/primitives/ProductFrame";
+import { WORK, WORK_LABEL } from "@/content/work";
+import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
-  title: "ORBITAL Work — Automation & Software Projects",
+  title: "ORBITAL Labs & Work",
   description:
-    "Automation and software projects built around real business problems, with the problem, the system and the operational change set out in full.",
+    "Explore concept systems for automation, connected workflows and custom software. Practical answers to familiar business problems.",
   path: "/work",
 });
-
 export default function WorkPage() {
-  const clientWork = WORK.filter((item) => item.type === "client");
-  const referenceWork = WORK.filter((item) => item.type === "reference");
-  const [featured, ...restReference] = referenceWork;
-
   return (
     <>
       <PageHero
         tone="dark"
-        layout="stacked"
-        eyebrow="Work"
-        title="Work built around real business problems."
-        body="Each project starts with something a business was losing time or money to. The system is the answer to that, not a showcase."
-        primary={{ label: "Start a similar project", href: "/contact", event: "work-hero" }}
+        layout="wide"
+        eyebrow="ORBITAL LABS & WORK"
+        title="Possibility, made tangible."
+        body="A closer look at how we turn everyday business friction into thoughtful, working systems."
+        primary={{ label: "Let’s talk", href: "/contact", event: "work-hero" }}
       />
-
-      {/* §28 / §45 — client work and reference systems are kept separate. */}
-      {hasClientWork ? (
-        <Section tone="light" space="l">
-          <SectionHeader
-            eyebrow="Client work"
-            title="Built and deployed."
-            body="Projects delivered for clients. Metrics and quotes appear only where they have been verified and approved."
-          />
-          <Reveal large className="mt-14 grid gap-3 md:grid-cols-2">
-            {clientWork.map((item) => (
-              <SecondaryCase key={item.slug} item={item} />
-            ))}
-          </Reveal>
-        </Section>
-      ) : null}
-
-      <Section tone="light" space="l">
-        <SectionHeader
-          eyebrow="Reference systems"
-          title="See what ORBITAL can build."
-          body="These are reference systems built by ORBITAL to demonstrate how a problem is solved end to end. They are not client deployments, they carry no client logos, testimonials or production metrics, and nothing here is presented as one."
-        />
-
-        {featured ? (
-          <Reveal large className="mt-14">
-            <FeatureCase item={featured} />
-          </Reveal>
-        ) : null}
-
-        <Reveal className="mt-3 grid gap-3 md:grid-cols-2">
-          {restReference.map((item) => (
-            <SecondaryCase key={item.slug} item={item} />
+      <section className="work-gallery section-pad">
+        <div className="shell">
+          <div className="work-intro">
+            <p className="eyebrow">THE LAB COLLECTION / 01—03</p>
+            <p>
+              Concept demonstrations exploring real business problems. These are
+              not client deployments.
+            </p>
+          </div>
+          {WORK.map((item, i) => (
+            <article
+              key={item.slug}
+              className={`work-editorial work-editorial-${i}`}
+            >
+              <div className="work-editorial-visual">
+                <span className="eyebrow">ORBITAL / LAB 0{i + 1}</span>
+                <ProductFrame variant={item.frame} title={item.title} />
+                <span className="work-visual-number" aria-hidden="true">
+                  0{i + 1}
+                </span>
+              </div>
+              <div className="work-editorial-copy">
+                <p className="eyebrow">
+                  {WORK_LABEL[item.type]} / {item.service.label}
+                </p>
+                <h2>{item.title}</h2>
+                <p>{item.summary}</p>
+                <div className="work-before-after">
+                  <p>
+                    <span>Before</span>
+                    {item.before}
+                  </p>
+                  <p>
+                    <span>After</span>
+                    {item.after}
+                  </p>
+                </div>
+                <TextLink
+                  href={`/work/${item.slug}`}
+                  event="work_case_open"
+                  eventLabel={item.slug}
+                >
+                  Explore the system
+                </TextLink>
+              </div>
+            </article>
           ))}
-        </Reveal>
-      </Section>
-
-      <Section tone="light" space="s">
-        <CrossLinks
-          title="Start from the problem instead"
-          links={[
-            {
-              label: "Automation",
-              href: "/automation",
-              detail: "Calls, leads, support and admin.",
-            },
-            {
-              label: "Custom software",
-              href: "/software",
-              detail: "When the process does not fit a tool.",
-            },
-            {
-              label: "Websites & apps",
-              href: "/websites-apps",
-              detail: "Sites, portals and mobile products.",
-            },
-          ]}
-        />
-      </Section>
-
+        </div>
+      </section>
       <FinalCta
-        headline="Have a similar problem?"
-        body="Describe what your business is losing time to. We'll tell you which of these shapes it most resembles."
+        headline="Your next chapter could start here."
+        body="Tell us what you want to work better. We’ll help you find the right approach."
         eventLabel="work-final"
-      />
-
-      <JsonLd
-        data={breadcrumbSchema([
-          { name: "Home", path: "/" },
-          { name: "Work", path: "/work" },
-        ])}
       />
     </>
   );
