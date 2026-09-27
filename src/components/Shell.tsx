@@ -119,6 +119,7 @@ export function Footer() {
             <Link href="/services/websites-apps">Websites &amp; apps</Link>
             <Link href="/services/custom-software">Custom software</Link>
             <Link href="/services/ai-receptionist">AI receptionist</Link>
+            <Link href="/services/ai-calling-agents">AI calling agents</Link>
             <Link href="/services/workflow-automation">Automation</Link>
           </nav>
 
