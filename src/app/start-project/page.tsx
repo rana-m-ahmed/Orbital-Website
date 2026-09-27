@@ -44,6 +44,42 @@ export default function Page() {
         </aside>
         <ProjectForm />
       </section>
+
+      <section className="section" aria-labelledby="project-prep-title">
+        <div className="section-heading">
+          <span className="category-label">Before we talk</span>
+          <h2 id="project-prep-title">You do not need a finished specification.</h2>
+          <p>
+            A useful first conversation starts with the business problem, the
+            people affected by it and what currently makes the work slower or
+            harder than it should be.
+          </p>
+        </div>
+        <div className="capability-grid">
+          <article>
+            <h3>Describe the current process</h3>
+            <p>
+              Tell us what happens today, which tools are involved and where
+              customers or staff lose time.
+            </p>
+          </article>
+          <article>
+            <h3>Share the outcome you need</h3>
+            <p>
+              A clearer booking journey, fewer manual handoffs, better internal
+              visibility or a new customer experience is enough to start.
+            </p>
+          </article>
+          <article>
+            <h3>We map the practical next step</h3>
+            <p>
+              We will review the workflow, identify important constraints and
+              discuss the smallest useful version before proposing a larger
+              build.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
   );
 }
