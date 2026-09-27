@@ -19,7 +19,7 @@ Preview: http://localhost:3000. Production: `npm run build` followed by `npm sta
 
 Copy `.env.example` to `.env.local` and configure your deployment environment separately.
 
-- Canonical domain: `https://reachorbital.tech`.
+- Canonical domain: `https://www.reachorbital.tech`.
 - Lead recipient: `operations@reachorbital.tech`.
 - `LEAD_STORAGE_DIR`: absolute private directory on a persistent volume. Required in production. This implementation is for a long-running Node host with durable storage; ephemeral serverless disk is unsuitable.
 - `RESEND_API_KEY` and `LEAD_EMAIL_FROM`: configure a Resend account and verify the sending domain. No credentials are included in the repository.
