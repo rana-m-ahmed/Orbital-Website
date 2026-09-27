@@ -12,17 +12,17 @@ export const metadata = pageMetadata(
 const practices = [
   [
     "01",
-    "Start with the day-to-day",
+    "Notice the friction",
     "We begin with the calls, tasks and customer moments that need to work better.",
   ],
   [
     "02",
-    "Make the important parts visible",
-    "You can see the screens and try the key journeys before anything goes live.",
+    "Make the system visible",
+    "You can see the screens, test the journeys and understand the moving parts before anything goes live.",
   ],
   [
     "03",
-    "Leave your team ready",
+    "Leave the team ready",
     "We test together, explain the handoffs and leave clear documentation behind.",
   ],
 ];
@@ -33,23 +33,25 @@ export default function Page() {
       <section className="about-intro" aria-labelledby="about-title">
         <div className="about-intro-inner">
           <div className="about-intro-copy">
-            <span className="about-kicker">About ORBITAL</span>
+            <span className="about-kicker">About ORBITAL / 01</span>
             <h1 id="about-title">
-              Your front door.
+              Built for the work
               <br />
-              Your team&apos;s <span>best tools.</span>
+              behind the <span>work.</span>
             </h1>
             <p>
-              ORBITAL builds the website customers meet and the systems your
-              team uses after they get in touch.
+              A practical digital studio for websites, software and automation.
             </p>
             <Link href="/start-project" className="about-intro-link">
-              Start a project <span aria-hidden="true">&#8599;</span>
+              Start a conversation <span aria-hidden="true">&#8599;</span>
             </Link>
           </div>
           <div className="about-mark" aria-hidden="true">
+            <span className="about-mark-axis about-mark-axis-horizontal" />
+            <span className="about-mark-axis about-mark-axis-vertical" />
             <span className="about-mark-orbit about-mark-orbit-one" />
             <span className="about-mark-orbit about-mark-orbit-two" />
+            <span className="about-mark-orbit about-mark-orbit-three" />
             <Image
               src="/brand/orbital-symbol.webp"
               width={500}
@@ -58,20 +60,23 @@ export default function Page() {
               priority
             />
             <span className="about-mark-label">ORBITAL</span>
+            <span className="about-mark-caption">
+              A practical digital studio
+            </span>
           </div>
         </div>
       </section>
 
       <section className="about-bridge section" aria-labelledby="bridge-title">
         <div className="about-bridge-heading">
-          <span className="category-label">Built around real work</span>
-          <h2 id="bridge-title">The experience outside. The work inside.</h2>
+          <span className="category-label">Built around real work / 02</span>
+          <h2 id="bridge-title">One connected experience.</h2>
           <p>
-            For service businesses, these two sides should feel like one
-            connected experience.
+            The best digital systems make the distance between a customer
+            request and a team response feel almost invisible.
           </p>
         </div>
-        <div className="about-sides">
+        <div className="about-sides about-sides-editorial">
           <article className="about-side about-side-customer">
             <span className="about-side-label">For your customers</span>
             <div className="about-customer-window" aria-hidden="true">
@@ -126,17 +131,24 @@ export default function Page() {
               <span aria-hidden="true">&#8599;</span>
             </Link>
           </article>
+          <div className="about-bridge-connector" aria-hidden="true">
+            <span>ORBITAL</span>
+            <i />
+            <i />
+            <i />
+            <span>CONNECTED</span>
+          </div>
         </div>
       </section>
 
       <section className="about-practice-band" aria-labelledby="practice-title">
         <div className="about-practice-inner section">
           <div className="about-practice-heading">
-            <span className="about-kicker">How we work</span>
-            <h2 id="practice-title">Clear from the first conversation.</h2>
+            <span className="about-kicker">How we work / 03</span>
+            <h2 id="practice-title">Clarity is part of the build.</h2>
             <p>
               You don&apos;t need a list of technical requirements. Start with
-              what needs to be easier.
+              what needs to be easier, and we will map the route from there.
             </p>
           </div>
           <ol className="about-practice-list">
@@ -153,6 +165,22 @@ export default function Page() {
           <Link href="/how-we-work" className="about-practice-link">
             See how we work <span aria-hidden="true">&#8599;</span>
           </Link>
+        </div>
+      </section>
+
+      <section
+        className="about-manifesto section"
+        aria-labelledby="manifesto-title"
+      >
+        <div className="about-manifesto-index">04 / A useful point of view</div>
+        <div className="about-manifesto-copy">
+          <h2 id="manifesto-title">
+            Clear work. Better <span>outcomes.</span>
+          </h2>
+          <p>
+            Not because the work was simple, but because the thinking was clear.
+            We make the important path easier to see, use and own.
+          </p>
         </div>
       </section>
 

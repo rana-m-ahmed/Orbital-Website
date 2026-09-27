@@ -201,7 +201,7 @@ export function WebsiteExperience({ detail = false }: { detail?: boolean }) {
       </div>
       <div className="website-theatre">
         <div className="preview-toolbar">
-          <span>Internal demo · Fictional design studio</span>
+          <span>Illustrative example · Fictional design studio</span>
           <div
             className="device-switch"
             role="group"
@@ -293,7 +293,7 @@ export function WebsiteExperience({ detail = false }: { detail?: boolean }) {
       </div>
       <div className="experience-footer">
         <p>Try the device switch. The layout changes, not just the size.</p>
-        <span>Design · Development · Responsive layouts</span>
+        <span>Strategy · Design · Responsive layouts</span>
       </div>
       {detail && (
         <div className="digital-deliverables">
@@ -358,7 +358,7 @@ export function SoftwareExperience({ detail = false }: { detail?: boolean }) {
             <div className="workspace-main">
               <div className="workspace-top">
                 <span>Projects / Website launch</span>
-                <span className="internal-pill">Internal demo</span>
+                <span className="internal-pill">Interactive example</span>
               </div>
               <div className="workspace-title">
                 <div>
@@ -421,7 +421,7 @@ export function SoftwareExperience({ detail = false }: { detail?: boolean }) {
                   disabled={!ready}
                   onClick={() => setApproved(!approved)}
                 >
-                  {approved ? "Reset demo" : "Approve homepage"}
+                  {approved ? "Reset example" : "Approve homepage"}
                   <span aria-hidden="true">{approved ? "↺" : "↗"}</span>
                 </button>
               </div>
@@ -466,8 +466,8 @@ export function SoftwareExperience({ detail = false }: { detail?: boolean }) {
         <div className="software-foot">
           <p role="status" aria-live="polite">
             {approved
-              ? "Demo updated: homepage approved. Progress is now 3 of 4 milestones."
-              : "Interactive internal demo. Changes stay in this page."}
+              ? "Example updated: homepage approved. Progress is now 3 of 4 milestones."
+              : "Interactive example. Changes stay on this page."}
           </p>
           <span>One project. A view for everyone.</span>
         </div>

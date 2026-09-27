@@ -138,7 +138,7 @@ export function StudioVisual({
     <div
       className={`studio-visual visual-${kind}${large ? " visual-large" : ""}`}
     >
-      <span className="demo-label">Internal demo</span>
+      <span className="demo-label">Interactive example</span>
       <div className="art-orbit" aria-hidden="true" />
       {kind === "call" && (
         <div className="call-composition">
@@ -410,7 +410,7 @@ export function BookingStory() {
           </li>
         </ol>
         <p className="story-disclaimer">
-          Internal demo · Fictional customer and appointment.
+          Illustrative example · Fictional customer and appointment.
         </p>
       </div>
     </section>

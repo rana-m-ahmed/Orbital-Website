@@ -219,7 +219,9 @@ export default function RelayPoster() {
         <strong>Tuesday · 2:30 PM</strong>
         <small>Customer team notified</small>
       </div>
-      <p className="hero-demo-label">Internal demo · fictional customer</p>
+      <p className="hero-demo-label">
+        Illustrative example · fictional customer
+      </p>
     </div>
   );
 }

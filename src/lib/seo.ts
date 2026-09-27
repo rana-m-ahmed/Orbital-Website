@@ -17,6 +17,7 @@ export function pageMetadata(
   return {
     title,
     description,
+    robots: { index: isIndexable, follow: true },
     alternates: { canonical: path },
     openGraph: {
       type: "website",

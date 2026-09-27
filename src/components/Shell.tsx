@@ -93,18 +93,57 @@ export function Header() {
 }
 export function Footer() {
   return (
-    <footer>
-      <div className="footer-brand">
-        ORBITAL
-        <span className="node" />
+    <footer className="global-footer">
+      <div className="footer-editorial">
+        <div className="footer-intro">
+          <span className="footer-mark">
+            ORBITAL <i aria-hidden="true" />
+          </span>
+          <p>Digital systems for service businesses.</p>
+        </div>
+
+        <div className="footer-directory">
+          <nav className="footer-col" aria-label="Explore ORBITAL">
+            <strong>Explore</strong>
+            <Link href="/services">Services</Link>
+            <Link href="/work">Work</Link>
+            <Link href="/how-we-work">How we work</Link>
+            <Link href="/about">About</Link>
+          </nav>
+
+          <nav className="footer-col" aria-label="ORBITAL services">
+            <strong>Services</strong>
+            <Link href="/services/websites-apps">Websites &amp; apps</Link>
+            <Link href="/services/custom-software">Custom software</Link>
+            <Link href="/services/ai-receptionist">AI receptionist</Link>
+            <Link href="/services/workflow-automation">Automation</Link>
+          </nav>
+
+          <div className="footer-col footer-contact">
+            <strong>Contact</strong>
+            <a href="mailto:operations@reachorbital.tech">
+              operations@reachorbital.tech
+            </a>
+            <Link href="/start-project">Start a project</Link>
+            <div className="footer-social" aria-label="Social channels">
+              <span>LinkedIn — coming soon</span>
+              <span>Instagram — coming soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer-signature" aria-hidden="true">
+        <div className="footer-signature-rule">
+          <i />
+        </div>
+        <span>ORBITAL</span>
       </div>
       <div className="footer-bottom">
         <span>&copy; {new Date().getFullYear()} ORBITAL</span>
-        <a href="mailto:operations@reachorbital.tech">
-          operations@reachorbital.tech
-        </a>
-        <div>
+        <div className="footer-bottom-right">
           <Link href="/privacy">Privacy</Link>
+          <span className="separator" aria-hidden="true" />
           <Link href="/terms">Terms</Link>
         </div>
       </div>
@@ -112,50 +151,38 @@ export function Footer() {
   );
 }
 export function Cta({ centered = false }: { centered?: boolean }) {
-  if (centered)
-    return (
-      <section className="home-project-cta" aria-labelledby="project-cta-title">
-        <div className="project-cta-panel">
-          <div className="project-cta-orbit" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="project-cta-content">
-            <h2 id="project-cta-title">
-              What would you like to <span>make easier?</span>
-            </h2>
-            <p>
-              A new website, a useful app, or less admin. Tell us what you need.
-            </p>
-            <Link href="/start-project" className="button project-cta-button">
-              Start a project <span aria-hidden="true">&#8599;</span>
-            </Link>
-            <a
-              className="project-cta-email"
-              href="mailto:operations@reachorbital.tech"
-            >
-              operations@reachorbital.tech
-            </a>
-          </div>
-        </div>
-      </section>
-    );
+  void centered;
   return (
-    <section className="cta section">
-      <div>
-        <h2>
-          What would you
-          <br />
-          like to make easier?
-        </h2>
-        <a href="mailto:operations@reachorbital.tech">
-          operations@reachorbital.tech
-        </a>
+    <section className="home-project-cta" aria-labelledby="project-cta-title">
+      <div className="project-cta-panel">
+        <div className="project-cta-orbit" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
+        <div className="project-cta-content">
+          <span className="project-cta-eyebrow">
+            Build what moves your business forward
+          </span>
+          <h2 id="project-cta-title">
+            Ready for a better <span>way to work?</span>
+          </h2>
+          <p>
+            From conversion-focused websites to custom software and AI
+            automation, we build the systems that remove friction for your
+            customers and team.
+          </p>
+          <Link href="/start-project" className="button project-cta-button">
+            Start your project <span aria-hidden="true">&#8599;</span>
+          </Link>
+          <a
+            className="project-cta-email"
+            href="mailto:operations@reachorbital.tech"
+          >
+            operations@reachorbital.tech
+          </a>
+        </div>
       </div>
-      <Link href="/start-project" className="button">
-        Start a project <span aria-hidden="true">&#8599;</span>
-      </Link>
     </section>
   );
 }

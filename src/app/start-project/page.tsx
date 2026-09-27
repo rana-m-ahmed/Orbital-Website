@@ -11,14 +11,11 @@ export default function Page() {
       <section className="page-intro contact-intro">
         <span className="category-label">Start a project</span>
         <h1>
-          What would you like
+          Let&apos;s build what
           <br />
-          to make easier?
+          moves you <span>forward.</span>
         </h1>
-        <p>
-          Tell us a little about your business and what takes too much time. No
-          technical brief needed.
-        </p>
+        <p>Websites, software or automation. Start with the problem.</p>
       </section>
       <section className="section form-layout">
         <aside className="form-aside">

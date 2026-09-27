@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
 }
 .journey-heading {
   max-width: 600px;
@@ -19,13 +20,13 @@
   color: var(--white);
 }
 .journey-heading h2 span {
-  color: #a8c1ff;
+  color: #dce8ff;
 }
 .journey-heading p {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
 }
 .journey-heading .about-kicker {
-  color: #a8c1ff;
+  color: #dce8ff;
 }
 
 .journey-tabs {
@@ -47,7 +48,7 @@
   background: none;
   border: none;
   padding: 12px 20px 16px 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
   position: relative;
   min-width: max-content;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -71,7 +72,7 @@
   font-size: 14px;
   letter-spacing: 0.05em;
   font-weight: 600;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 .journey-tabs button strong {
   font-family: var(--font-display), sans-serif;
@@ -83,7 +84,7 @@
   color: var(--white);
 }
 .journey-tabs button.is-selected span {
-  color: #a8c1ff;
+  color: #dce8ff;
   opacity: 1;
 }
 .journey-tabs button.is-selected::after {
@@ -102,8 +103,14 @@
   animation: fadeIn 0.4s ease forwards;
 }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .journey-panel[hidden] {
   display: none;
@@ -116,7 +123,11 @@
 .journey-number {
   font-family: var(--font-display), sans-serif;
   font-size: 64px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1;
@@ -133,7 +144,7 @@
   line-height: 1.5;
   margin-bottom: 24px;
   max-width: 480px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
 }
 .journey-deliverable {
   display: inline-block;
@@ -143,29 +154,38 @@
   color: var(--white);
   font-weight: 600;
   font-size: 15px;
-  border-left: 4px solid #a8c1ff;
+  border-left: 4px solid #dce8ff;
 }
 
 .journey-board {
   background: #ffffff;
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 40px 80px -20px rgba(16, 29, 48, 0.08), 0 0 0 1px rgba(16, 29, 48, 0.05);
+  box-shadow:
+    0 40px 80px -20px rgba(16, 29, 48, 0.08),
+    0 0 0 1px rgba(16, 29, 48, 0.05);
   position: relative;
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
   color: var(--ink);
 }
 .journey-board::before {
   content: "";
   position: absolute;
-  top: 0; left: 0; right: 0; height: 100px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
   background: linear-gradient(180deg, #f5f8ff 0%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
 }
 .journey-board:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 30px 60px -20px rgba(40, 87, 232, 0.15), 0 0 0 1px rgba(40, 87, 232, 0.1);
+  box-shadow:
+    0 30px 60px -20px rgba(40, 87, 232, 0.15),
+    0 0 0 1px rgba(40, 87, 232, 0.1);
 }
 .journey-board-top {
   display: flex;
@@ -218,7 +238,10 @@
   box-shadow: 0 4px 12px rgba(16, 29, 48, 0.04);
   border: 1px solid rgba(16, 29, 48, 0.04);
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 .journey-board li:hover {
   transform: translateY(-4px);
@@ -264,7 +287,7 @@
   margin-top: 24px;
   font-size: 14px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media (max-width: 1100px) {
@@ -358,7 +381,9 @@
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease;
   border: 1px solid var(--line);
   box-shadow: 0 10px 30px rgba(16, 29, 48, 0.03);
   z-index: 1;
@@ -508,9 +533,15 @@
   background: #f0f4f8;
   border-radius: 4px;
 }
-.handoff-lines span:nth-child(1) { width: 100%; }
-.handoff-lines span:nth-child(2) { width: 85%; }
-.handoff-lines span:nth-child(3) { width: 60%; }
+.handoff-lines span:nth-child(1) {
+  width: 100%;
+}
+.handoff-lines span:nth-child(2) {
+  width: 85%;
+}
+.handoff-lines span:nth-child(3) {
+  width: 60%;
+}
 
 .handoff-badge {
   display: inline-block;
@@ -520,4 +551,11 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .handoff-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
 }

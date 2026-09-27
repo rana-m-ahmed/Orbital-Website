@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 export const metadata = pageMetadata(
   "Website Terms",
-  "Read the terms for using the ORBITAL website, including internal demonstrations, project enquiries and website content.",
+  "Read the terms for using the ORBITAL website, including interactive examples, project enquiries and website content.",
   "/terms",
 );
 export default function Page() {

@@ -44,7 +44,7 @@ export default async function Page({
     <main id="main">
       <section className="page-intro">
         <Link href="/work" className="category-label">
-          Examples / Internal demo
+          Examples / Interactive example
         </Link>
         <h1>{p.title}</h1>
         <p>{p.copy}</p>
@@ -102,8 +102,9 @@ export default async function Page({
               : "The enquiry has an owner and a next step. Missing details can be flagged for review."}
           </p>
           <p className="service-note">
-            This is an internal demo with fictional information. It does not
-            place calls, create real bookings or connect to customer records.
+            This is an interactive example with fictional information. It does
+            not place calls, create real bookings or connect to customer
+            records.
           </p>
           <Link href="/work" className="text-link">
             All examples <Arrow />

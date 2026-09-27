@@ -1,4 +1,4 @@
-﻿import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readdir, readFile } from "node:fs/promises";
 
@@ -153,7 +153,7 @@ test("navigation, gallery links, natural scroll and resized layouts", async ({
 }) => {
   await page.setViewportSize({ width: 1440, height: 720 });
   await page.goto("/");
-  await page.locator(".cta").scrollIntoViewIfNeeded();
+  await page.locator(".home-project-cta").scrollIntoViewIfNeeded();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await page.screenshot({
     path: "test-results/redesign/short-laptop.png",
@@ -238,6 +238,7 @@ test("website preview and software app respond to keyboard and reset", async ({
   await page.goto("/");
   const website = page.locator("#websites");
   const mobile = website.getByRole("button", { name: "Mobile", exact: true });
+  await expect(mobile).toBeEnabled();
   await mobile.focus();
   await page.keyboard.press("Enter");
   await expect(mobile).toHaveAttribute("aria-pressed", "true");
@@ -258,7 +259,7 @@ test("website preview and software app respond to keyboard and reset", async ({
     "Design approved.",
   );
   await expect(software.getByRole("status")).toContainText("3 of 4");
-  await software.getByRole("button", { name: "Reset demo" }).click();
+  await software.getByRole("button", { name: "Reset example" }).click();
   await expect(software.locator(".phone-update strong")).toHaveText(
     "Ready for a look.",
   );

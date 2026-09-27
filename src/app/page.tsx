@@ -19,15 +19,12 @@ export default function Home() {
       <section className="hero">
         <div className="hero-copy">
           <h1>
-            Systems that
+            Digital systems.
             <br />
-            keep your
-            <br />
-            business <span>moving.</span>
+            Built to <span>move.</span>
           </h1>
           <p>
-            Websites that bring people in. Apps and software that make life
-            easier. Automation that takes care of the repeat work.
+            Websites, custom software and AI automation for service businesses.
           </p>
           <div className="hero-actions">
             <Link className="button" href="/start-project">

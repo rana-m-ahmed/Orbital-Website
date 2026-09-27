@@ -82,14 +82,14 @@ export const examples = [
   {
     slug: "request-relay",
     name: "The request relay",
-    type: "INTERACTIVE WEBSITE DEMO",
+    type: "INTERACTIVE SYSTEM EXAMPLE",
     description: "A customer request moves from first contact to team handoff.",
     anchor: "workflow",
   },
   {
     slug: "workflow-explorer",
     name: "A route for the repeat work",
-    type: "INTERACTIVE WEBSITE DEMO",
+    type: "INTERACTIVE SYSTEM EXAMPLE",
     description:
       "Six operational problems, translated into understandable example workflows.",
     anchor: "playground",

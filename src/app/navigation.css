@@ -10,11 +10,11 @@
   margin: 16px auto 0;
   padding: 11px 18px;
   border: 1px solid #e1e5eb;
-  background: #ffffffed;
+  background: #fffffffa;
   border-radius: 7px;
   box-shadow: 0 4px 20px #0b172704;
   gap: 35px;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
 }
 .brand {
   display: flex;
@@ -96,5 +96,10 @@ summary::-webkit-details-marker {
 @media (max-width: 1100px) {
   .header {
     position: sticky;
+  }
+}
+@media (max-width: 900px) {
+  .header > .button {
+    display: none;
   }
 }

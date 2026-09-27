@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-export const alt = "ORBITAL - Websites, software and automation";
+export const alt = "ORBITAL - Websites, software and AI automation";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default function Image() {
@@ -44,8 +44,8 @@ export default function Image() {
           letterSpacing: -3,
         }}
       >
-        <span>Systems that keep</span>
-        <span>your business moving.</span>
+        <span>Websites, software and</span>
+        <span>AI automation for business.</span>
       </div>
       <div
         style={{
@@ -55,7 +55,7 @@ export default function Image() {
           color: "#c5d1e2",
         }}
       >
-        <span>Websites. Software. Automation.</span>
+        <span>Websites. Software. AI Automation.</span>
         <span>reachorbital.tech</span>
       </div>
     </div>,
