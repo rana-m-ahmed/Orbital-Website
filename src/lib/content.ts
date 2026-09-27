@@ -78,6 +78,7 @@ export const services = [
       "When existing tools leave a gap, we build a focused interface around your data and process. Permissions, maintainability and day-to-day operation are part of the design.",
   },
 ] as const;
+
 export const examples = [
   {
     slug: "request-relay",
@@ -95,7 +96,11 @@ export const examples = [
     anchor: "playground",
   },
 ];
+
 export const baseUrl = processEnvUrl();
+
 function processEnvUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "https://reachorbital.tech";
+  const configured =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.reachorbital.tech";
+  return configured.replace(/\/$/, "");
 }
