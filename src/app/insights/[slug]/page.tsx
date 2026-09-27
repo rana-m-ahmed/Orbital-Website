@@ -18,7 +18,7 @@ export async function generateMetadata({
   if (!insight) {
     return pageMetadata("Guide Not Found", "Guide not found.", "/insights/" + slug);
   }
-  return pageMetadata(insight.title, insight.description, "/insights/" + slug);
+  return pageMetadata(insight.seoTitle, insight.description, "/insights/" + slug);
 }
 
 export default async function InsightPage({
@@ -39,6 +39,7 @@ export default async function InsightPage({
         "@id": url + "#article",
         headline: insight.title,
         description: insight.description,
+        image: [absoluteUrl("/opengraph-image")],
         datePublished: insight.publishedAt,
         dateModified: insight.publishedAt,
         mainEntityOfPage: url,
