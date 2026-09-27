@@ -33,7 +33,7 @@ const seoBySlug: Record<
   "custom-software": {
     title: "Custom Software for Service Businesses",
     description:
-      "Custom software for service businesses, from internal dashboards to operational tools that bring bookings, tasks and customer information into one focused system.",
+      "Custom software for service businesses, from internal dashboards to operational tools that bring bookings, tasks and customer data into one focused system.",
     serviceType: "Custom business software development",
   },
 };
