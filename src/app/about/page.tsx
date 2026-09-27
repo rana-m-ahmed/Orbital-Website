@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Cta } from "@/components/Shell";
 
 export const metadata = pageMetadata(
-  "About ORBITAL",
+  "About ORBITAL | Digital Systems Studio",
   "ORBITAL helps service businesses with websites, apps, custom software and automation. Learn about our practical approach to planning, testing and handover.",
   "/about",
 );
