@@ -7,6 +7,7 @@ export type InsightSection = {
 export type Insight = {
   slug: string;
   title: string;
+  seoTitle: string;
   description: string;
   eyebrow: string;
   intro: string;
@@ -20,6 +21,7 @@ export const insights: Insight[] = [
   {
     slug: "ai-receptionist-for-service-businesses",
     title: "AI Receptionist for Service Businesses: What to Automate First",
+    seoTitle: "AI Receptionist Guide for Service Businesses",
     description:
       "A practical guide to scoping an AI receptionist for service businesses, including safe call boundaries, booking flows, escalation, testing and rollout.",
     eyebrow: "AI receptionist guide",
@@ -82,6 +84,7 @@ export const insights: Insight[] = [
   {
     slug: "workflow-automation-for-service-businesses",
     title: "Workflow Automation for Service Businesses: What to Automate First",
+    seoTitle: "Workflow Automation Guide for Service Businesses",
     description:
       "A practical framework for choosing the first workflow to automate, mapping exceptions, connecting business tools and designing recoverable automation.",
     eyebrow: "Workflow automation guide",
@@ -139,6 +142,7 @@ export const insights: Insight[] = [
   {
     slug: "custom-software-vs-saas",
     title: "Custom Software vs SaaS: A Practical Decision Framework",
+    seoTitle: "Custom Software vs SaaS: Decision Guide",
     description:
       "A practical decision framework for choosing between custom software and an off-the-shelf SaaS product based on workflow fit, ownership, integration and operational value.",
     eyebrow: "Custom software guide",
