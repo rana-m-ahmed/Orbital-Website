@@ -131,6 +131,27 @@ export default async function InsightPage({
               </Link>
             </div>
           </section>
+
+          <section className="section" aria-labelledby="more-guides">
+            <div className="section-heading">
+              <span className="category-label">Continue researching</span>
+              <h2 id="more-guides">Related ORBITAL guides.</h2>
+            </div>
+            <div className="capability-grid">
+              {insights
+                .filter((candidate) => candidate.slug !== insight.slug)
+                .map((candidate) => (
+                  <article key={candidate.slug}>
+                    <h3>
+                      <Link href={"/insights/" + candidate.slug}>
+                        {candidate.title}
+                      </Link>
+                    </h3>
+                    <p>{candidate.description}</p>
+                  </article>
+                ))}
+            </div>
+          </section>
         </article>
 
         <Cta centered />
