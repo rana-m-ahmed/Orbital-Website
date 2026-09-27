@@ -8,11 +8,13 @@ import {
 } from "@/components/DigitalExperiences";
 import AutomationFeature from "@/components/AutomationFeature";
 import { Cta } from "@/components/Shell";
+
 export const metadata = pageMetadata(
-  "Websites, Software & Business Automation",
-  "Websites, customer apps, custom software and AI automation for service businesses. Answer calls, book appointments and simplify everyday admin with ORBITAL.",
+  "AI Automation, Custom Software & Websites",
+  "ORBITAL builds AI automation, custom software, websites and customer apps for service businesses, including AI receptionists, workflows and booking experiences.",
   "/",
 );
+
 export default function Home() {
   return (
     <main id="main" className="landing-page">
