@@ -144,7 +144,7 @@ export const insights: Insight[] = [
     title: "Custom Software vs SaaS: A Practical Decision Framework",
     seoTitle: "Custom Software vs SaaS: Decision Guide",
     description:
-      "A practical decision framework for choosing between custom software and an off-the-shelf SaaS product based on workflow fit, ownership, integration and operational value.",
+      "A practical framework for choosing custom software or SaaS based on workflow fit, ownership, integrations, maintenance and operational value.",
     eyebrow: "Custom software guide",
     intro:
       "Custom software is not automatically better than buying an existing product. In many cases, a mature SaaS tool is faster, cheaper and safer. Custom development becomes interesting when an important workflow remains awkward despite reasonable configuration and integration options.",
