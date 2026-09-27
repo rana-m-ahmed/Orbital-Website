@@ -196,6 +196,119 @@ export const insights: Insight[] = [
       },
     ],
   },
+  {
+    slug: "ai-receptionist-vs-answering-service",
+    title: "AI Receptionist vs Answering Service: Which Fits Your Business?",
+    seoTitle: "AI Receptionist vs Answering Service",
+    description:
+      "Compare AI receptionists and human answering services across availability, call handling, booking, escalation, consistency and operational fit.",
+    eyebrow: "AI receptionist comparison",
+    intro:
+      "An AI receptionist and a human answering service can both reduce missed calls, but they solve the problem differently. The useful choice depends on how repeatable your call flow is, how much judgment callers need and what should happen after the conversation ends.",
+    publishedAt: "2026-09-27",
+    serviceHref: "/services/ai-receptionist",
+    serviceLabel: "Explore AI receptionist systems",
+    sections: [
+      {
+        heading: "The main difference is how the call is handled",
+        paragraphs: [
+          "A human answering service relies on trained people following instructions and making conversational judgments. An AI receptionist follows a defined operating boundary, approved knowledge and connected workflow rules.",
+          "Neither model is automatically better. Human services can be stronger when conversations are highly variable or relationship-heavy. AI can be effective when the business has repeatable front-desk tasks that benefit from consistent handling and direct system updates.",
+        ],
+      },
+      {
+        heading: "Compare the work after the call, not only the call itself",
+        paragraphs: [
+          "The value of reception is often determined by what happens next. A useful system should leave the team with structured information, a booking, a callback task or a clear escalation.",
+          "If staff still need to reconstruct the conversation from a note or voicemail, the front-desk solution may have reduced missed calls without reducing much operational work.",
+        ],
+        bullets: [
+          "Can the caller book or reschedule without another handoff?",
+          "Does the outcome update the customer record?",
+          "Can uncertain requests move to a person with context?",
+          "Can opt-outs, urgent cases and unsupported questions be handled deliberately?",
+        ],
+      },
+      {
+        heading: "AI is strongest when the operating boundary is clear",
+        paragraphs: [
+          "Routine questions, appointment requests, basic qualification and structured routing are easier to define and test than open-ended customer support.",
+          "When requests frequently require judgment, negotiation, empathy or policy exceptions, human involvement should remain easy and explicit.",
+        ],
+      },
+      {
+        heading: "Human answering services have a different operational profile",
+        paragraphs: [
+          "A human service can adapt naturally to unexpected wording and complex conversations, but quality depends on training, staffing, instructions and how well information is transferred back to the business.",
+          "For some businesses, a hybrid model is the better fit: automation handles repeatable interactions and a person handles exceptions or higher-value conversations.",
+        ],
+      },
+      {
+        heading: "Choose based on the workflow you need to improve",
+        paragraphs: [
+          "Start by listing the call types your team receives, the actions each call should create and the cases that require judgment. That makes the comparison practical instead of treating AI and human answering as interchangeable products.",
+          "The right design may be AI-first, human-first or hybrid. The important part is that callers have a reliable next step and the team receives useful information without hidden recovery work.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "workflow-automation-examples",
+    title: "Workflow Automation Examples for Service Businesses",
+    seoTitle: "Workflow Automation Examples for Service Businesses",
+    description:
+      "Practical workflow automation examples for service businesses, from enquiry routing and appointment follow-up to onboarding, task assignment and exception handling.",
+    eyebrow: "Workflow automation examples",
+    intro:
+      "Workflow automation becomes easier to evaluate when you can point to a specific trigger, action and owner. These examples show the kinds of repeatable service-business processes that can often be improved without trying to automate every decision.",
+    publishedAt: "2026-09-27",
+    serviceHref: "/services/workflow-automation",
+    serviceLabel: "Explore workflow automation",
+    sections: [
+      {
+        heading: "Website enquiry to assigned follow-up",
+        paragraphs: [
+          "A customer submits an enquiry. The workflow validates the details, creates or updates the customer record, assigns the request to the right person and confirms that the enquiry was received.",
+          "If required information is missing or the assignment rule cannot resolve an owner, the workflow creates a visible exception instead of silently failing.",
+        ],
+      },
+      {
+        heading: "Appointment booking to team preparation",
+        paragraphs: [
+          "A confirmed booking can trigger the tasks that happen before the visit: update the customer record, notify the assigned team member, request missing information and schedule an approved reminder.",
+          "The useful automation is not the confirmation message alone. It is keeping the booking, customer details and team preparation connected.",
+        ],
+      },
+      {
+        heading: "Requested callback to completed task",
+        paragraphs: [
+          "When a customer asks for a callback, the workflow can record the preferred time, create a task, assign ownership and keep the outcome with the customer record.",
+          "This removes the common gap where a callback request exists in an inbox or note but has no clear owner or status.",
+        ],
+      },
+      {
+        heading: "Customer onboarding with exception handling",
+        paragraphs: [
+          "A new customer can move through a repeatable sequence of information collection, internal setup, document requests and task assignment.",
+          "Automation should handle the stable steps while exposing incomplete information, rejected actions or unusual requests for human review.",
+        ],
+      },
+      {
+        heading: "Operational status changes and notifications",
+        paragraphs: [
+          "When a job changes state, a workflow can update connected records, notify the right people and create the next task. This is especially useful when teams currently copy the same update across multiple tools.",
+          "The design should include retries and failure visibility so an unavailable integration does not create silent inconsistencies.",
+        ],
+      },
+      {
+        heading: "A good first automation has measurable friction",
+        paragraphs: [
+          "Choose a workflow that happens often, follows stable rules and currently consumes visible staff time. Document how many handoffs, copy-paste steps and recovery actions happen before changing it.",
+          "That gives the team a practical baseline for deciding whether the automation improved the operation rather than simply adding another tool.",
+        ],
+      },
+    ],
+  },
 ];
 
 export function getInsight(slug: string) {
