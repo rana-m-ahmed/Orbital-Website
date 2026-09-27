@@ -39,7 +39,7 @@ test("all routes have one heading, correct canonical and working status", async 
     ).toHaveAttribute("content", /reachorbital.tech\/opengraph-image/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      "https://www.reachorbital.tech" + (route === "/" ? "" : route),
+      "https://www.reachorbital.tech" + (route === "/" ? "/" : route),
     );
   }
   expect((await page.goto("/services/unknown"))?.status()).toBe(404);
