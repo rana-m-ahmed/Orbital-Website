@@ -1,20 +1,20 @@
 import type { MetadataRoute } from "next";
-import { services, examples, baseUrl } from "@/lib/content";
+import { services, examples } from "@/lib/content";
+import { absoluteUrl } from "@/lib/seo";
+
+const publicRoutes = [
+  "/",
+  "/services",
+  "/work",
+  "/how-we-work",
+  "/about",
+  "/start-project",
+  ...services.map((service) => `/services/${service.slug}`),
+  ...examples.map((example) => `/work/${example.slug}`),
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    "",
-    "/services",
-    "/work",
-    "/how-we-work",
-    "/about",
-    "/start-project",
-    "/privacy",
-    "/terms",
-    ...services.map((s) => "/services/" + s.slug),
-    ...examples.map((p) => "/work/" + p.slug),
-  ].map((route) => ({
-    url: baseUrl + route,
-    changeFrequency: "monthly",
-    priority: route === "" ? 1 : 0.7,
+  return publicRoutes.map((route) => ({
+    url: absoluteUrl(route),
   }));
 }
