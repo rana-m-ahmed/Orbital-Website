@@ -1,6 +1,17 @@
 import type { NextConfig } from "next";
+
 const config: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "reachorbital.tech" }],
+        destination: "https://www.reachorbital.tech/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -25,4 +36,5 @@ const config: NextConfig = {
     ];
   },
 };
+
 export default config;

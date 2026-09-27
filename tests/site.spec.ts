@@ -39,7 +39,7 @@ test("all routes have one heading, correct canonical and working status", async 
     ).toHaveAttribute("content", /reachorbital.tech\/opengraph-image/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      "https://reachorbital.tech" + (route === "/" ? "" : route),
+      "https://www.reachorbital.tech" + (route === "/" ? "/" : route),
     );
   }
   expect((await page.goto("/services/unknown"))?.status()).toBe(404);
@@ -58,7 +58,17 @@ test("SEO assets and restored automation are complete", async ({ page }) => {
   }
   expect(titles.size).toBe(routes.length);
   expect(descriptions.size).toBe(routes.length);
-  expect((await page.request.get("/sitemap.xml")).status()).toBe(200);
+  const sitemap = await page.request.get("/sitemap.xml");
+  expect(sitemap.status()).toBe(200);
+  const sitemapBody = await sitemap.text();
+  expect(sitemapBody).toContain("https://www.reachorbital.tech/services/ai-receptionist");
+  expect(sitemapBody).not.toContain("https://reachorbital.tech/");
+  expect(sitemapBody).not.toContain("/api/");
+  const robots = await page.request.get("/robots.txt");
+  expect(robots.status()).toBe(200);
+  const robotsBody = await robots.text();
+  expect(robotsBody).toContain("Sitemap: https://www.reachorbital.tech/sitemap.xml");
+  expect(robotsBody).toContain("Host: https://www.reachorbital.tech");
   const social = await page.request.get("/opengraph-image");
   expect(social.status()).toBe(200);
   expect(social.headers()["content-type"]).toContain("image/png");
@@ -269,4 +279,15 @@ test("website preview and software app respond to keyboard and reset", async ({
     "transform",
     "none",
   );
+});
+
+
+test("service pages expose Service and Breadcrumb structured data", async ({ page }) => {
+  await page.goto("/services/ai-receptionist");
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const combined = schemas.join("\n");
+  expect(combined).toContain('"@type":"Service"');
+  expect(combined).toContain('"@type":"BreadcrumbList"');
+  expect(combined).toContain("AI receptionist and customer call handling");
+  expect(combined).toContain("https://www.reachorbital.tech/services/ai-receptionist");
 });

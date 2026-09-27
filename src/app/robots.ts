@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { baseUrl } from "@/lib/content";
 import { isIndexable } from "@/lib/seo";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -9,5 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: isIndexable ? "/api/" : "/",
     },
     sitemap: baseUrl + "/sitemap.xml",
+    host: baseUrl,
   };
 }

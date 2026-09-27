@@ -4,7 +4,7 @@ import ProjectJourney from "@/components/ProjectJourney";
 import Link from "next/link";
 
 export const metadata = pageMetadata(
-  "How We Work - ORBITAL",
+  "How We Build Websites, Software & Automation",
   "We design and build practical digital tools. Learn how we structure projects to understand your work and launch with confidence.",
   "/how-we-work",
 );
