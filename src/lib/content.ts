@@ -97,10 +97,6 @@ export const examples = [
   },
 ];
 
-export const baseUrl = processEnvUrl();
-
-function processEnvUrl() {
-  const configured =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.reachorbital.tech";
-  return configured.replace(/\/$/, "");
-}
+// Canonical production origin. Keep this independent from hosting environment
+// variables so preview/legacy configuration cannot change search canonicals.
+export const baseUrl = "https://www.reachorbital.tech";
