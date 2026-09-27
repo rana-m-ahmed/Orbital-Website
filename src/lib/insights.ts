@@ -255,9 +255,9 @@ export const insights: Insight[] = [
   {
     slug: "workflow-automation-examples",
     title: "Workflow Automation Examples for Service Businesses",
-    seoTitle: "Workflow Automation Examples for Service Businesses",
+    seoTitle: "Workflow Automation Examples",
     description:
-      "Practical workflow automation examples for service businesses, from enquiry routing and appointment follow-up to onboarding, task assignment and exception handling.",
+      "Practical workflow automation examples for service businesses, including enquiry routing, appointments, onboarding, task assignment and exception handling.",
     eyebrow: "Workflow automation examples",
     intro:
       "Workflow automation becomes easier to evaluate when you can point to a specific trigger, action and owner. These examples show the kinds of repeatable service-business processes that can often be improved without trying to automate every decision.",
