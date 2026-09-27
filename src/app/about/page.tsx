@@ -56,7 +56,7 @@ export default function Page() {
               src="/brand/orbital-symbol.webp"
               width={500}
               height={500}
-              alt=""
+              alt="ORBITAL brand symbol"
               priority
             />
             <span className="about-mark-label">ORBITAL</span>
