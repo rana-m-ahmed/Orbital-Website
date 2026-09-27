@@ -5,6 +5,8 @@ import {
 } from "@/components/DigitalExperiences";
 import AutomationFeature from "@/components/AutomationFeature";
 import { Cta } from "@/components/Shell";
+import Link from "next/link";
+import { services } from "@/lib/content";
 export const metadata = pageMetadata(
   "Websites, Software & Automation Services",
   "Explore ORBITAL services: business websites, customer apps, custom software, AI receptionists, calling agents and workflow automation.",
@@ -46,6 +48,32 @@ export default function Page() {
           </div>
         </div>
       </section>
+      <section className="section" aria-labelledby="service-directory-title">
+        <div className="section-heading">
+          <span className="category-label">Service directory / 02</span>
+          <h2 id="service-directory-title">Choose the problem you need to solve.</h2>
+          <p>
+            Each service page explains the use cases, implementation path,
+            operating limits and related systems in more detail.
+          </p>
+        </div>
+        <div className="capability-grid">
+          {services.map((service) => (
+            <article key={service.slug}>
+              <span className="category-label">{service.family}</span>
+              <h3>
+                <Link href={"/services/" + service.slug}>{service.name}</Link>
+              </h3>
+              <p>{service.description}</p>
+              <Link className="text-link" href={"/services/" + service.slug}>
+                Explore {service.name.toLowerCase()}{" "}
+                <span aria-hidden="true">↗</span>
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <div id="service-preview">
         <WebsiteExperience />
         <SoftwareExperience />

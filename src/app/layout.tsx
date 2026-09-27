@@ -61,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               "@context": "https://schema.org",
               "@graph": [
                 {
-                  "@type": ["Organization", "ProfessionalService"],
+                  "@type": "Organization",
                   "@id": `${baseUrl}/#organization`,
                   name: "ORBITAL",
                   url: baseUrl,
@@ -69,6 +69,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   logo: baseUrl + "/brand/orbital-symbol.png",
                   description: siteDescription,
                   areaServed: "Worldwide",
+                  contactPoint: {
+                    "@type": "ContactPoint",
+                    contactType: "sales",
+                    email: "operations@reachorbital.tech",
+                    availableLanguage: "English",
+                    areaServed: "Worldwide",
+                  },
+                  knowsAbout: [
+                    "AI automation",
+                    "AI receptionists",
+                    "workflow automation",
+                    "custom software",
+                    "business websites",
+                    "customer web applications",
+                  ],
                   hasOfferCatalog: {
                     "@type": "OfferCatalog",
                     name: "ORBITAL digital services",

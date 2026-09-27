@@ -11,6 +11,10 @@ const routes = [
   "/services/custom-software",
   "/services/websites-apps",
   "/work",
+  "/insights",
+  "/insights/ai-receptionist-for-service-businesses",
+  "/insights/workflow-automation-for-service-businesses",
+  "/insights/custom-software-vs-saas",
   "/work/request-relay",
   "/work/workflow-explorer",
   "/how-we-work",
@@ -62,6 +66,7 @@ test("SEO assets and restored automation are complete", async ({ page }) => {
   expect(sitemap.status()).toBe(200);
   const sitemapBody = await sitemap.text();
   expect(sitemapBody).toContain("https://www.reachorbital.tech/services/ai-receptionist");
+  expect(sitemapBody).toContain("https://www.reachorbital.tech/insights/ai-receptionist-for-service-businesses");
   expect(sitemapBody).not.toContain("https://reachorbital.tech/");
   expect(sitemapBody).not.toContain("/api/");
   const robots = await page.request.get("/robots.txt");
@@ -290,4 +295,30 @@ test("service pages expose Service and Breadcrumb structured data", async ({ pag
   expect(combined).toContain('"@type":"BreadcrumbList"');
   expect(combined).toContain("AI receptionist and customer call handling");
   expect(combined).toContain("https://www.reachorbital.tech/services/ai-receptionist");
+});
+
+
+test("cornerstone guides expose Article schema and service links", async ({ page }) => {
+  await page.goto("/insights/ai-receptionist-for-service-businesses");
+  await expect(page.locator("h1")).toContainText("AI Receptionist");
+  await expect(page.getByRole("link", { name: /Explore AI receptionist systems/ })).toHaveAttribute(
+    "href",
+    "/services/ai-receptionist",
+  );
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const combined = schemas.join("\n");
+  expect(combined).toContain('"@type":"Article"');
+  expect(combined).toContain('"@type":"BreadcrumbList"');
+  expect(combined).toContain("https://www.reachorbital.tech/insights/ai-receptionist-for-service-businesses");
+});
+
+test("commercial service pages contain expanded buyer guidance", async ({ page }) => {
+  await page.goto("/services/workflow-automation");
+  await expect(page.getByRole("heading", { name: "Common use cases." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /How we turn the idea into a working system/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Questions businesses usually ask first/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Read practical implementation guides/ })).toHaveAttribute(
+    "href",
+    "/insights",
+  );
 });

@@ -51,6 +51,7 @@ export function Header() {
         </details>
         {[
           ["/work", "Work"],
+          ["/insights", "Insights"],
           ["/how-we-work", "How we work"],
           ["/about", "About"],
         ].map(([href, label]) => (
@@ -72,6 +73,7 @@ export function Header() {
           {[
             ["/services", "Services"],
             ["/work", "Work"],
+            ["/insights", "Insights"],
             ["/how-we-work", "How we work"],
             ["/about", "About"],
             ["/start-project", "Start a project"],
@@ -107,6 +109,7 @@ export function Footer() {
             <strong>Explore</strong>
             <Link href="/services">Services</Link>
             <Link href="/work">Work</Link>
+            <Link href="/insights">Insights</Link>
             <Link href="/how-we-work">How we work</Link>
             <Link href="/about">About</Link>
           </nav>
@@ -116,6 +119,7 @@ export function Footer() {
             <Link href="/services/websites-apps">Websites &amp; apps</Link>
             <Link href="/services/custom-software">Custom software</Link>
             <Link href="/services/ai-receptionist">AI receptionist</Link>
+            <Link href="/services/ai-calling-agents">AI calling agents</Link>
             <Link href="/services/workflow-automation">Automation</Link>
           </nav>
 
