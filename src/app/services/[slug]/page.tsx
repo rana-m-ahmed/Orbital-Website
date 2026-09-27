@@ -15,7 +15,7 @@ const seoBySlug: Record<
   "ai-receptionist": {
     title: "AI Receptionist for Service Businesses",
     description:
-      "AI receptionist systems for service businesses that answer approved questions, capture caller details, arrange appointments and hand off when a person is needed.",
+      "AI receptionist systems for service businesses that answer approved questions, capture caller details, arrange appointments and hand off to your team.",
     serviceType: "AI receptionist and customer call handling",
   },
   "ai-calling-agents": {
