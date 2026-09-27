@@ -15,6 +15,8 @@ const routes = [
   "/insights/ai-receptionist-for-service-businesses",
   "/insights/workflow-automation-for-service-businesses",
   "/insights/custom-software-vs-saas",
+  "/insights/ai-receptionist-vs-answering-service",
+  "/insights/workflow-automation-examples",
   "/work/request-relay",
   "/work/workflow-explorer",
   "/how-we-work",
@@ -67,6 +69,8 @@ test("SEO assets and restored automation are complete", async ({ page }) => {
   const sitemapBody = await sitemap.text();
   expect(sitemapBody).toContain("https://www.reachorbital.tech/services/ai-receptionist");
   expect(sitemapBody).toContain("https://www.reachorbital.tech/insights/ai-receptionist-for-service-businesses");
+  expect(sitemapBody).toContain("https://www.reachorbital.tech/insights/ai-receptionist-vs-answering-service");
+  expect(sitemapBody).toContain("https://www.reachorbital.tech/insights/workflow-automation-examples");
   expect(sitemapBody).not.toContain("https://reachorbital.tech/");
   expect(sitemapBody).not.toContain("/api/");
   const robots = await page.request.get("/robots.txt");
@@ -322,5 +326,22 @@ test("commercial service pages contain expanded buyer guidance", async ({ page }
   await expect(page.getByRole("link", { name: /Read practical implementation guides/ })).toHaveAttribute(
     "href",
     "/insights",
+  );
+});
+
+
+test("SERP-intent guides are published and connected to services", async ({ page }) => {
+  await page.goto("/insights/ai-receptionist-vs-answering-service");
+  await expect(page).toHaveTitle("AI Receptionist vs Answering Service | ORBITAL");
+  await expect(page.getByRole("link", { name: /Explore AI receptionist systems/ })).toHaveAttribute(
+    "href",
+    "/services/ai-receptionist",
+  );
+
+  await page.goto("/insights/workflow-automation-examples");
+  await expect(page).toHaveTitle("Workflow Automation Examples for Service Businesses | ORBITAL");
+  await expect(page.getByRole("link", { name: /Explore workflow automation/ })).toHaveAttribute(
+    "href",
+    "/services/workflow-automation",
   );
 });
