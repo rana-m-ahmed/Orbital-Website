@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 import { Cta } from "@/components/Shell";
 
 export const metadata = pageMetadata(
-  "Guides to AI Automation, Software & Business Systems",
+  "AI Automation & Software Guides",
   "Practical ORBITAL guides for service businesses evaluating AI receptionists, workflow automation, custom software and better digital operations.",
   "/insights",
 );
