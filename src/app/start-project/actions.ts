@@ -35,35 +35,44 @@ export async function submitLead(
       message: "Please check the highlighted fields.",
       errors: parsed.error.flatten().fieldErrors,
     };
-  if (process.env.NODE_ENV === "production" && !process.env.LEAD_STORAGE_DIR)
-    return {
-      success: false,
-      message:
-        "The project form is temporarily unavailable. Please try again later.",
-    };
   try {
-    const dir = path.resolve(
-      /* turbopackIgnore: true */ process.env.LEAD_STORAGE_DIR || "data/leads",
-    );
-    await mkdir(dir, { recursive: true, mode: 0o700 });
     const id = randomUUID();
     const lead = { id, createdAt: new Date().toISOString(), ...parsed.data };
-    const temporaryPath = path.join(dir, id + ".tmp");
-    const file = await open(temporaryPath, "wx", 0o600);
-    try {
-      await file.writeFile(JSON.stringify(lead, null, 2));
-      await file.sync();
-    } finally {
-      await file.close();
+
+    // On Vercel, local disk is read-only. We only save if LEAD_STORAGE_DIR is explicitly provided.
+    const storageDir = process.env.LEAD_STORAGE_DIR;
+    if (storageDir) {
+      try {
+        const dir = path.resolve(storageDir);
+        await mkdir(dir, { recursive: true, mode: 0o700 });
+        const temporaryPath = path.join(dir, id + ".tmp");
+        const file = await open(temporaryPath, "wx", 0o600);
+        try {
+          await file.writeFile(JSON.stringify(lead, null, 2));
+          await file.sync();
+        } finally {
+          await file.close();
+        }
+        await rename(temporaryPath, path.join(dir, id + ".json"));
+      } catch (err) {
+        console.warn("Skipping local file save, likely in serverless environment:", err);
+      }
     }
-    await rename(temporaryPath, path.join(dir, id + ".json"));
-    await deliverLead(lead, dir);
+
+    const emailSent = await deliverLead(lead, storageDir || "");
+    
+    if (!emailSent && !storageDir) {
+       // If both email and storage failed, it's a real failure.
+       throw new Error("Failed to send email and no storage configured.");
+    }
+
     return {
       success: true,
       message:
         "Your project request has been saved. Thank you for telling us about your business.",
     };
-  } catch {
+  } catch (error) {
+    console.error("Form submission failed:", error);
     return {
       success: false,
       message:

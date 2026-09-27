@@ -13,13 +13,15 @@ export type SavedLead = z.infer<typeof leadSchema> & {
 export async function deliverLead(lead: SavedLead, dir: string) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) return false;
 
-  const marker = path.join(dir, lead.id + ".sent");
+  const marker = dir ? path.join(dir, lead.id + ".sent") : "";
 
-  try {
-    await access(marker);
-    return true;
-  } catch {
-    /* Not delivered yet. */
+  if (marker) {
+    try {
+      await access(marker);
+      return true;
+    } catch {
+      /* Not delivered yet. */
+    }
   }
 
   try {
@@ -41,12 +43,18 @@ export async function deliverLead(lead: SavedLead, dir: string) {
       text: `Project request ${lead.id}\nReceived: ${lead.createdAt}\nName: ${lead.name}\nEmail: ${lead.email}\nCompany: ${lead.company}\nService: ${lead.service}\n\n${lead.message}`,
     });
 
-    const file = await open(marker, "wx", 0o600);
-    try {
-      await file.writeFile(new Date().toISOString());
-      await file.sync();
-    } finally {
-      await file.close();
+    if (marker) {
+      try {
+        const file = await open(marker, "wx", 0o600);
+        try {
+          await file.writeFile(new Date().toISOString());
+          await file.sync();
+        } finally {
+          await file.close();
+        }
+      } catch (err) {
+        console.warn("Failed to write sent marker:", err);
+      }
     }
 
     return true;
