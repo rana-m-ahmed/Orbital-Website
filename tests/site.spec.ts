@@ -1,259 +1,271 @@
 ﻿import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { readdir, readFile } from "node:fs/promises";
+
 const routes = [
   "/",
-  "/automation",
-  "/automation/ai-receptionist",
-  "/automation/lead-automation",
-  "/automation/customer-support",
-  "/automation/operations-automation",
-  "/software",
-  "/websites-apps",
-  "/integrations",
+  "/services",
+  "/services/ai-receptionist",
+  "/services/ai-calling-agents",
+  "/services/workflow-automation",
+  "/services/custom-software",
+  "/services/websites-apps",
   "/work",
-  "/work/missed-call-recovery",
-  "/work/lead-response-system",
-  "/work/operations-console",
+  "/work/request-relay",
+  "/work/workflow-explorer",
+  "/how-we-work",
   "/about",
-  "/contact",
+  "/start-project",
   "/privacy",
   "/terms",
 ];
-test("all routes render, expose one heading and fit mobile", async ({
+
+test("all routes have one heading, correct canonical and working status", async ({
   page,
 }) => {
-  test.setTimeout(180000);
-  const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
   for (const route of routes) {
-    await page.setViewportSize({ width: 390, height: 844 });
-    const response = await page.goto(route, { waitUntil: "networkidle" });
-    expect(response?.status(), route).toBe(200);
+    expect((await page.goto(route))?.status(), route).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth + 1,
-      ),
-      route,
-    ).toBe(true);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      /\S.{40,}/,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      /ORBITAL/,
+    );
+    await expect(
+      page.locator('meta[property="og:image"]').first(),
+    ).toHaveAttribute("content", /reachorbital.tech\/opengraph-image/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      "https://reachorbital.tech" + (route === "/" ? "" : route),
+    );
   }
-  expect(errors).toEqual([]);
-});
-test("desktop navigation supports keyboard and closes on Escape", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const services = page.getByRole("button", { name: "Solutions" });
-  await services.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator("#solutions-panel")).toBeVisible();
-  await page.locator("#solutions-panel a").first().focus();
-  await page.keyboard.press("Escape");
-  await expect(page.locator("#solutions-panel")).toHaveCount(0);
-  await expect(services).toBeFocused();
-  await services.click();
-  await page
-    .getByRole("link", { name: "AI receptionist", exact: true })
-    .click();
-  await expect(page).toHaveURL(/ai-receptionist/);
-});
-test("mobile menu closes and restores focus", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  const toggle = page.getByRole("button", { name: "Open navigation" });
-  await toggle.click();
-  await expect(
-    page.getByRole("dialog", { name: "Navigation", exact: true }),
-  ).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(toggle).toBeFocused();
-  await toggle.click();
-  await page
-    .getByRole("dialog", { name: "Navigation" })
-    .getByRole("link", { name: "About" })
-    .click();
-  await expect(page).toHaveURL(/about/);
-  await expect(page.getByRole("dialog", { name: "Navigation" })).toHaveCount(0);
-});
-test("demo tabs and project carousel are keyboard operable", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await page.getByRole("tab", { name: "Missed calls", exact: true }).focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(
-    page.getByRole("tab", { name: "Slow follow-up" }),
-  ).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByText("Every enquiry has an owner.")).toBeVisible();
-  const rail = page.locator(".labs-rail");
-  await rail.focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(page.locator(".carousel-controls > span")).toContainText("02");
-  await page.getByRole("button", { name: "Next project" }).click();
-  await expect(
-    page.getByRole("button", { name: "Next project" }),
-  ).toBeDisabled();
-  await page.getByRole("button", { name: "Previous project" }).click();
-  await expect(page.locator(".carousel-controls > span")).toContainText("02");
-});
-test("contact preserves values on error and confirms provider acceptance", async ({
-  page,
-}) => {
-  await page.setExtraHTTPHeaders({
-    "x-forwarded-for": `form-test-${Date.now()}-${Math.random()}`,
-  });
-  await page.goto("/contact");
-  await page.getByRole("button", { name: "Send your enquiry" }).click();
-  await expect(
-    page.getByText("Please enter your name.", { exact: true }),
-  ).toBeVisible();
-  await page.getByLabel("Name", { exact: true }).fill("A Business Owner");
-  await page.getByLabel("Email", { exact: true }).fill("owner@example.com");
-  await page
-    .getByLabel("What would you like to work better?")
-    .fill("We need help connecting our sales enquiries.");
-  await page.route("**/api/contact", (route) =>
-    route.fulfill({
-      status: 502,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: false, kind: "server" }),
-    }),
-  );
-  await page.getByRole("button", { name: "Send your enquiry" }).click();
-  await expect(page.locator("form").getByRole("alert")).toContainText(
-    "Something went wrong",
-  );
-  await expect(page.getByLabel("Name", { exact: true })).toHaveValue(
-    "A Business Owner",
-  );
-  await page.route("**/api/contact", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: true }),
-    }),
-  );
-  await page.getByRole("button", { name: "Send your enquiry" }).click();
-  await expect(page.getByRole("heading", { name: "Got it." })).toBeVisible();
-});
-test("reduced motion and unavailable WebGL preserve the hero", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  await expect(page.locator(".sculpture-fallback")).toBeVisible();
-  await expect(page.locator("canvas")).toHaveCount(0);
-  await expect(
-    page.getByRole("heading", { name: "Your business. Moving forward." }),
-  ).toBeVisible();
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.addInitScript(() => {
-    HTMLCanvasElement.prototype.getContext = (() =>
-      null) as typeof HTMLCanvasElement.prototype.getContext;
-  });
-  await page.reload();
-  await page.waitForTimeout(1800);
-  await expect(page.locator(".sculpture-fallback")).toBeVisible();
-});
-test("core routes pass WCAG accessibility checks", async ({ page }) => {
-  test.setTimeout(180000);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const route of [
-    "/",
-    "/automation",
-    "/software",
-    "/websites-apps",
-    "/integrations",
-    "/work",
-    "/about",
-    "/contact",
-  ]) {
-    await page.goto(route);
-    const result = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-      .analyze();
-    expect(
-      result.violations.map((v) => ({
-        id: v.id,
-        nodes: v.nodes.map((n) => ({
-          target: n.target,
-          summary: n.failureSummary,
-        })),
-      })),
-      route,
-    ).toEqual([]);
-  }
-});
-test("404 stays branded and offers a route home", async ({ page }) => {
-  await page.goto("/this-page-does-not-exist");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await page.getByRole("link", { name: "Back to the homepage" }).click();
-  await expect(page).toHaveURL("/");
-});
-test("API rejects invalid and undeliverable enquiries and rate limits bursts", async ({
-  request,
-}) => {
-  const headers = { "x-forwarded-for": `test-${Date.now()}-${Math.random()}` };
-  const invalid = await request.post("/api/contact", { headers, data: {} });
-  expect(invalid.status()).toBe(400);
-  const payload = {
-    name: "Test Owner",
-    email: "test@example.com",
-    message: "This is a local automated delivery check.",
-    helpType: "Not sure yet",
-  };
-  const missing = await request.post("/api/contact", {
-    headers,
-    data: payload,
-  });
-  expect(missing.status()).toBe(502);
-  expect(await missing.json()).toEqual({ ok: false, kind: "server" });
-  for (let i = 0; i < 3; i++)
-    await request.post("/api/contact", { headers, data: {} });
-  const limited = await request.post("/api/contact", { headers, data: {} });
-  expect(limited.status()).toBe(429);
-  expect(limited.headers()["retry-after"]).toBeTruthy();
+  expect((await page.goto("/services/unknown"))?.status()).toBe(404);
+  expect((await page.request.post("/api/leads/retry")).status()).toBe(401);
 });
 
-test("essential content survives without JavaScript", async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+test("SEO assets and restored automation are complete", async ({ page }) => {
+  const titles = new Set<string>();
+  const descriptions = new Set<string>();
+  for (const route of routes) {
+    await page.goto(route);
+    titles.add(await page.title());
+    descriptions.add(
+      (await page.locator('meta[name="description"]').getAttribute("content"))!,
+    );
+  }
+  expect(titles.size).toBe(routes.length);
+  expect(descriptions.size).toBe(routes.length);
+  expect((await page.request.get("/sitemap.xml")).status()).toBe(200);
+  const social = await page.request.get("/opengraph-image");
+  expect(social.status()).toBe(200);
+  expect(social.headers()["content-type"]).toContain("image/png");
+  await page.goto("/");
+  await expect(page.locator("#automation .studio-visual")).toHaveCount(3);
+  await expect(page.locator(".booking-story li")).toHaveCount(3);
+  await expect(
+    page.getByRole("heading", { name: "A better first impression." }),
+  ).toBeVisible();
+  await page.locator(".service-menu summary").click();
+  await expect(page.locator(".nav-chevron")).toBeVisible();
+});
+
+for (const width of [1440, 1280, 1024, 768, 430, 390, 360])
+  test(`all pages fit at ${width}px and retain full-page evidence`, async ({
+    page,
+  }) => {
+    test.setTimeout(120000);
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    for (const route of routes) {
+      await page.goto(route);
+      await page.evaluate(() => document.fonts.ready);
+      if (route === "/")
+        await expect(page.locator(".relay-canvas")).toHaveCount(0);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+        route,
+      ).toBe(true);
+      await page.screenshot({
+        path: `test-results/redesign/${width}/${route === "/" ? "home" : route.slice(1).replaceAll("/", "-")}.png`,
+        fullPage: true,
+      });
+    }
+    expect(errors).toEqual([]);
+  });
+
+for (const width of [1440, 390])
+  test(`all public pages pass accessibility at ${width}px`, async ({
+    page,
+  }) => {
+    test.setTimeout(180000);
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    for (const route of routes) {
+      await page.goto(route);
+      const results = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+        .analyze();
+      expect(
+        results.violations.map((v) => ({
+          id: v.id,
+          nodes: v.nodes.map((n) => n.target),
+        })),
+        route,
+      ).toEqual([]);
+    }
+  });
+
+test("homepage stays understandable without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 390, height: 900 },
+  });
   const page = await context.newPage();
-  await page.goto((process.env.TEST_BASE_URL || "http://127.0.0.1:3100") + "/");
-  await expect(page.locator("h1")).toBeVisible();
-  await expect(page.locator(".sculpture-fallback")).toBeVisible();
-  await expect(page.locator(".capability-slab")).toHaveCount(4);
-  await expect(page.locator(".architecture-lab-slide")).toHaveCount(3);
-  await page
-    .locator(".architecture-actions")
-    .getByRole("link", { name: "Tell us your challenge" })
-    .click();
-  await expect(page).toHaveURL(/contact/);
+  await page.goto("/");
+  await expect(page.locator("main>section")).toHaveCount(7);
+  await expect(page.locator(".browser-preview")).toBeVisible();
+  await expect(page.locator(".workspace-app")).toBeVisible();
+  await expect(page.locator(".phone-app")).toBeVisible();
+  for (const button of await page.locator("main button").all())
+    await expect(button).toBeDisabled();
+  for (const link of await page
+    .locator(".digital-heading a,.automation-links a")
+    .all())
+    await expect(link).toBeVisible();
+  await page.screenshot({
+    path: "test-results/redesign/no-js-home.png",
+    fullPage: true,
+  });
   await context.close();
 });
 
-test("3D enhancement recovers from context loss", async ({
+test("navigation, gallery links, natural scroll and resized layouts", async ({
   page,
-  browserName,
 }) => {
-  test.skip(
-    browserName !== "chromium",
-    "WebGL lifecycle is exercised in Chromium; all engines test the fallback.",
-  );
+  await page.setViewportSize({ width: 1440, height: 720 });
   await page.goto("/");
-  await expect(page.locator(".orbital-canvas canvas")).toBeVisible({
-    timeout: 15000,
+  await page.locator(".cta").scrollIntoViewIfNeeded();
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await page.screenshot({
+    path: "test-results/redesign/short-laptop.png",
+    fullPage: true,
   });
+  const link = page.getByRole("link", { name: "See booking example" });
+  await link.focus();
+  await expect(link).toBeInViewport();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/work\/request-relay/);
+  await page.setViewportSize({ width: 390, height: 900 });
+  await page.getByLabel("Open navigation").click();
   await page
-    .locator(".orbital-canvas canvas")
-    .evaluate((canvas) => canvas.dispatchEvent(new Event("webglcontextlost")));
-  await expect(page.locator(".orbital-canvas")).toHaveCount(0);
-  await expect(page.locator(".sculpture-fallback")).toBeVisible();
+    .getByRole("navigation", { name: "Mobile navigation" })
+    .getByRole("link", { name: /Services/ })
+    .click();
+  await expect(page).toHaveURL(/services$/);
+  await expect(page.locator(".mobile-nav")).not.toHaveAttribute("open", "");
+  await page
+    .getByRole("link", { name: "Answer calls. Arrange visits." })
+    .click();
+  await expect(page).toHaveURL(/services\/ai-receptionist/);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });
 
-test("integration recipe updates its readable route", async ({ page }) => {
-  await page.goto("/integrations");
-  const trigger = page.getByLabel("When this happens", { exact: true });
-  await trigger.selectOption({ index: 1 });
-  const selected = await trigger.locator("option:checked").textContent();
-  await expect(page.locator(".recipe-composer ol")).toContainText(selected!);
+test("form keeps required validation", async ({ page }) => {
+  await page.goto("/start-project");
+  await page.getByRole("button", { name: "Send project request" }).click();
+  await expect(page.getByLabel("Your name")).toBeFocused();
+  await expect(page.locator(".form-success")).toHaveCount(0);
+});
+
+test("project form works without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/start-project");
+  await page.getByLabel("Your name").fill("Static QA");
+  await page.getByLabel("Email address").fill("static-qa@example.com");
+  await page.getByLabel("Company", { exact: false }).fill("ORBITAL QA");
+  await page
+    .getByLabel("What slows your business down?")
+    .fill("A test of native form submission without JavaScript enabled.");
+  await page.getByRole("checkbox").focus();
+  await page.getByRole("checkbox").press("Space");
+  await page.getByRole("button", { name: "Send project request" }).focus();
+  await page
+    .getByRole("button", { name: "Send project request" })
+    .press("Enter");
+  await expect(
+    page.getByRole("heading", { name: "Request received." }),
+  ).toBeVisible();
+  await context.close();
+});
+test("project form persists a lead and displays confirmation", async ({
+  page,
+}) => {
+  await page.goto("/start-project");
+  await page.getByLabel("Your name").fill("QA Test");
+  await page.getByLabel("Email address").fill("qa@example.com");
+  await page.getByLabel("Company", { exact: false }).fill("ORBITAL QA");
+  await page
+    .getByLabel("What slows your business down?")
+    .fill("QA test request: disconnected tools and repeated manual entry.");
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "Send project request" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Request received." }),
+  ).toBeVisible();
+  const files = await readdir("data/leads");
+  const leads = await Promise.all(
+    files
+      .filter((f) => f.endsWith(".json"))
+      .map(async (f) => JSON.parse(await readFile("data/leads/" + f, "utf8"))),
+  );
+  expect(leads.some((l) => l.email === "qa@example.com")).toBe(true);
+});
+
+test("website preview and software app respond to keyboard and reset", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const website = page.locator("#websites");
+  const mobile = website.getByRole("button", { name: "Mobile", exact: true });
+  await mobile.focus();
+  await page.keyboard.press("Enter");
+  await expect(mobile).toHaveAttribute("aria-pressed", "true");
+  await expect(website.locator(".browser-preview")).toHaveClass(
+    /device-mobile/,
+  );
+  await website
+    .getByRole("button", { name: "View the studio concept" })
+    .click();
+  await expect(website.locator(".sample-title")).toContainText("new ideas");
+  await website.getByRole("button", { name: "Desktop", exact: true }).click();
+  await expect(website.locator(".browser-preview")).not.toHaveClass(
+    /device-mobile/,
+  );
+  const software = page.locator("#software");
+  await software.getByRole("button", { name: "Approve homepage" }).click();
+  await expect(software.locator(".phone-update strong")).toHaveText(
+    "Design approved.",
+  );
+  await expect(software.getByRole("status")).toContainText("3 of 4");
+  await software.getByRole("button", { name: "Reset demo" }).click();
+  await expect(software.locator(".phone-update strong")).toHaveText(
+    "Ready for a look.",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await website.scrollIntoViewIfNeeded();
+  await expect(website.locator(".browser-plane")).toHaveCSS(
+    "transform",
+    "none",
+  );
 });

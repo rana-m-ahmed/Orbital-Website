@@ -1,74 +1,54 @@
-# ORBITAL revamp validation
+# ORBITAL redesign QA - 27 September 2026
 
-Recorded 26 September 2026 on branch `revamp/orbital-premium-v1`.
-
-## Result
-
-The redesign is implemented and available as a local production preview. Functional, build and automated accessibility checks pass. The mobile LCP target is not yet met in the documented local Lighthouse test. Production launch remains pending verified configuration and a real delivery test.
-
-## Checks performed
+Validated against the local production build in Chromium. This report supersedes the previous homepage-interaction audit.
 
 | Check | Result |
 | --- | --- |
-| Locked dependency installation | `npm ci` passed |
-| TypeScript and ESLint | Passed |
-| Production build | Passed; all existing routes and three work slugs retained |
-| Contact delivery unit tests | 5 passed |
-| Chromium, Firefox and WebKit browser suite | 34 passed, 2 intentionally skipped |
-| Final targeted Chromium regression checks | 3 passed: reduced motion/WebGL unavailable, no JavaScript, WebGL context loss |
-| Automated accessibility | Core eight routes passed axe WCAG checks in all three browsers |
-| Responsive screenshot matrix | 19 route/viewport combinations; no horizontal overflow |
-| Social artwork | HTTP 200, visually reviewed at 1200 × 630 |
-| Git whitespace check | Passed |
-
-The two skips are the explicit WebGL context-loss test in Firefox and WebKit; Chromium covers that lifecycle. Static fallback is tested across all browsers. Automated accessibility checks do not establish complete WCAG conformance.
-
-The browser suite covers every marketing route at mobile width, desktop and mobile navigation, Escape/focus behavior, tabs, keyboard carousel controls, integration selections, form error recovery and success, API validation, missing delivery configuration, burst rate limiting, branded 404, reduced motion and essential content without JavaScript. Provider success/failure behavior is tested with injected transport responses; no test sends actual email.
+| ESLint | Pass |
+| TypeScript | Pass |
+| Production build | Pass |
+| Playwright | 18 tests passed on the final integrated production build |
+| Routes and metadata | All 15 public pages return 200, one H1 each, correct canonical URLs; invalid service route returns 404 |
+| Responsive layouts | All 15 pages checked at 1440, 1280, 1024, 768, 430, 390 and 360px; no horizontal document overflow |
+| Short laptop | Homepage at 1440 x 720; normal document flow, accessible CTA and no pin spacers |
+| Accessibility | No automated WCAG A/AA violations from Axe on all 15 routes at 1440 and 390px |
+| Navigation | Keyboard activation of example links, mobile menu, service navigation and resize pass |
+| New interactions | Keyboard Desktop/Mobile switching, distinct website concepts, software approval and reset pass |
+| Hero motion | Immediate next-frame mount (no 1.7-second timer); pointer image changes, native scrolling and GPU recovery pass |
+| SEO | 15 unique titles/descriptions; canonicals, Open Graph images, PNG social asset and sitemap pass. Production robots: index, follow; robots.txt allows public pages and excludes API |
+| Services control | Text label retained; Unicode glyph replaced by accessible SVG chevron |
+| Homepage content | Seven sections; automation showcase and booking story restored alongside website and software previews; content available without controls |
+| Reduced motion | No WebGL canvas; static SVG and complete content remain |
+| WebGL failure | Forced GPU context loss removes canvas and restores SVG |
+| JavaScript disabled | Website, workspace and client-app previews remain visible; optional controls disabled; project form submits successfully |
+| Project form | Required validation, success state and private lead persistence pass |
+| API security regression | Unauthenticated lead retry request rejected |
 
 ## Visual review
 
-Homepage reviewed at 320, 390, 768, 1440 and 1920 px. Work, About, Contact, Software, Websites & Apps, Integrations and Automation captured at 390 and 1440 px. Reviewed the original-symbol static artwork, enhanced desktop 3D scene, navigation, typography, service compositions, interface previews, carousel, contact and footer. Screenshots and the overflow report are in ignored `artifacts/`.
+Full-page screenshots were captured for all 15 public routes at all seven widths. Visual review included the complete homepage at desktop and 360px, website and software detail pages, the expanded automation showcase at desktop/mobile, the restored booking story, the tablet software composition, both website concepts and the approved software state. Essential information remains outside decorative overlaps; on mobile the companion app follows the workspace in normal flow.
 
-Reproduce against a running production preview:
+Full-page evidence is retained in `test-results/redesign/<width>/`: 15 routes at each of seven widths (105 screenshots). Additional evidence includes `short-laptop.png`, `no-js-home.png`, `hero-pointer.png`, `hero-scroll.png`, `automation-desktop.png`, `automation-mobile.png`, `booking-desktop.png` and `navigation.png`. Earlier website/software detail, concept and approval-state closeups are retained in the archived evidence. Isolated detail captures hide the sticky header for unobstructed inspection; full-page captures preserve it.
 
-```powershell
-$env:CAPTURE_BASE_URL='http://localhost:3001'
-node scripts/capture.mjs
-$env:TEST_BASE_URL='http://localhost:3001'
-npm.cmd run test:e2e
-```
+The preceding redesign evidence is archived in `data/qa/pre-final-integration/redesign/` and `data/qa/pre-digital-expansion/`. These local review folders are ignored by Git. Re-running Playwright clears test-results, so archive evidence first when comparing revisions.
 
-## Mobile performance measurement
+## Performance and SEO
 
-Lighthouse 13.5.0, Chromium 153 on Windows, local `next start` production server over HTTP. Mobile emulation: 412 × 823, DPR 1.75, simulated 150 ms RTT / 1,638.4 Kbps throughput / 4× CPU slowdown. Browser cache reset by Lighthouse. No parallel browser suite ran during this measurement. This is a lab measurement, not field data or a guarantee for a deployed origin.
+Measured separately after all browser tests completed, against the final production server at localhost:3008. Lighthouse 13.5.0, simulated mobile throttling, mobile 412 x 823 at DPR 1.75.
 
-| Metric | Final measured result | Target |
-| --- | --- | --- |
-| LCP | 3.5 s | ≤ 2.5 s — not met |
-| CLS | 0 | ≤ 0.1 — met |
-| First contentful paint | 2.1 s | Recorded |
-| Total blocking time | 580 ms | Recorded |
-| Performance score | 72 / 100 | Recorded |
-| Accessibility / best practices / SEO | 100 / 100 each | Automated audit only |
+| Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- |
+| 90 | 100 | 100 | 100 | 2.8 s | 160 ms | 0 |
 
-Measured transferred resources: 347 KB total, including 161 KB JavaScript, 82 KB fonts, 41 KB images and 18 KB CSS (rounded, includes transfer overhead). Mobile does not request the desktop Three.js enhancement. The original PNGs remain intact; the display mask uses a 29 KB WebP. Local fonts avoid third-party requests. The contact client no longer imports the Zod validator.
+This is one current lab run, not a median or a field performance claim. Raw JSON and HTML reports are `test-results/redesign/mobile-lighthouse.report.*`. The audit completed with no runtimeError and wrote both reports; afterward the CLI exited with Windows EPERM when deleting its temporary Chrome profile. Saved results remain valid.
 
-The LCP element is the hero headline. Remaining investigation should focus on font/render scheduling and main-thread hydration on the actual hosting environment. Earlier local runs varied in CPU blocking, so no stronger performance claim is made. Re-run on the final HTTPS origin and assess field data when available.
+The prior noindex preview measurements are archived under `data/qa/pre-final-integration/redesign/`. Production indexing is now enabled by default, with an explicit SITE_INDEXABLE=false override for previews. Unique metadata and social previews follow Google Search Central guidance: https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics . An automated SEO score is not a ranking guarantee.
 
-```powershell
-$env:TEST_BASE_URL='http://localhost:3001'
-node scripts/audit-performance.mjs
-```
+## Existing launch requirements, unchanged by the redesign
 
-The complete final machine-readable report is `artifacts/lighthouse-mobile.json` (ignored).
+- Configure and verify actual email delivery to operations@reachorbital.tech. This task verifies local persistence, not delivery through unconfigured production credentials.
+- Confirm the production host's private persistent lead storage and scheduled retry configuration.
+- Complete the existing legal-entity, jurisdiction, hosting and retention facts before launch.
+- Test real Safari, Firefox, iOS, Android and assistive technology; monitor field performance after deployment.
 
-## Before public launch
-
-- Configure the verified production URL and email sender/inbox; rebuild public metadata.
-- Complete a real enquiry delivery test with the verified provider configuration.
-- Review the draft legal content for the actual business.
-- Confirm trusted proxy IP handling and use shared rate-limit storage if deploying multiple instances.
-- Enable HTTPS enforcement on the real HTTPS origin.
-- Resolve/re-measure the LCP shortfall before claiming the performance target is satisfied.
-
-No production deployment or merge was performed.
+No client work, testimonials, production integrations or performance improvements were fabricated. Example records and figures are fictional and labelled as internal demos.

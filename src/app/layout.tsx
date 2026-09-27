@@ -1,67 +1,68 @@
-import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import type { Metadata } from "next";
+import { Instrument_Sans, Geist, Geist_Mono } from "next/font/google";
+import { Header, Footer } from "@/components/Shell";
+import { isIndexable, siteDescription } from "@/lib/seo";
+import { baseUrl } from "@/lib/content";
 import "./globals.css";
-import { SITE } from "@/lib/site";
-
-/* Official self-hosted webfonts. Only the hero display face is preloaded. */
-const generalSans = localFont({
-  src: [{ path: "../fonts/general-sans-500.woff2", weight: "500" }],
-  variable: "--font-general",
-  style: "normal",
+import "./digital.css";
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
-
-const switzer = localFont({
-  src: [
-    { path: "../fonts/switzer-400.woff2", weight: "400" },
-    { path: "../fonts/switzer-500.woff2", weight: "500" },
-    { path: "../fonts/switzer-600.woff2", weight: "600" },
-  ],
-  variable: "--font-switzer",
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+const mono = Geist_Mono({
   preload: false,
-  style: "normal",
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
-
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE.url),
+  metadataBase: new URL(baseUrl),
   title: {
-    default: `${SITE.name} — Business Automation, Software & Systems`,
-    template: `%s — ${SITE.name}`,
+    default: "ORBITAL — Systems that keep your business moving",
+    template: "%s | ORBITAL",
   },
-  description: SITE.description,
-  applicationName: SITE.name,
+  description: siteDescription,
+  robots: { index: isIndexable, follow: true },
   openGraph: {
     type: "website",
-    siteName: SITE.name,
-    locale: "en",
-    url: SITE.url,
-    title: `${SITE.name} — Business Automation, Software & Systems`,
-    description: SITE.description,
+    siteName: "ORBITAL",
+    title: "ORBITAL — Systems that keep your business moving",
+    description: siteDescription,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE.name} — Business Automation, Software & Systems`,
-    description: SITE.description,
-  },
-  robots: { index: true, follow: true },
+  icons: { icon: "/brand/orbital-icon.png" },
 };
-
-export const viewport: Viewport = {
-  themeColor: "#07111D",
-  colorScheme: "light",
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${generalSans.variable} ${switzer.variable}`}>
-      <body>{children}</body>
+    <html lang="en">
+      <body
+        className={`${instrument.variable} ${geist.variable} ${mono.variable}`}
+      >
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Header />
+        {children}
+        <Footer />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "ORBITAL",
+              url: baseUrl,
+              email: "operations@reachorbital.tech",
+              logo: baseUrl + "/brand/orbital-symbol.png",
+            }).replace(/</g, "\\u003c"),
+          }}
+        />
+      </body>
     </html>
   );
 }
