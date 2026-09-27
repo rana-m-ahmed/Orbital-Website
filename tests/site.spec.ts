@@ -301,6 +301,7 @@ test("service pages expose Service and Breadcrumb structured data", async ({ pag
 test("cornerstone guides expose Article schema and service links", async ({ page }) => {
   await page.goto("/insights/ai-receptionist-for-service-businesses");
   await expect(page.locator("h1")).toContainText("AI Receptionist");
+  await expect(page).toHaveTitle("AI Receptionist Guide for Service Businesses | ORBITAL");
   await expect(page.getByRole("link", { name: /Explore AI receptionist systems/ })).toHaveAttribute(
     "href",
     "/services/ai-receptionist",
@@ -308,6 +309,7 @@ test("cornerstone guides expose Article schema and service links", async ({ page
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
   const combined = schemas.join("\n");
   expect(combined).toContain('"@type":"Article"');
+  expect(combined).toContain('"image":["https://www.reachorbital.tech/opengraph-image"]');
   expect(combined).toContain('"@type":"BreadcrumbList"');
   expect(combined).toContain("https://www.reachorbital.tech/insights/ai-receptionist-for-service-businesses");
 });
