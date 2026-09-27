@@ -1,64 +1,101 @@
-import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import type { Metadata } from "next";
+import { Instrument_Sans, Geist, Geist_Mono } from "next/font/google";
+import { Header, Footer } from "@/components/Shell";
+import { isIndexable, siteDescription } from "@/lib/seo";
+import { baseUrl, services } from "@/lib/content";
 import "./globals.css";
-import { SITE } from "@/lib/site";
-
-/* Self-hosted variable fonts (§39): one file per family, no third-party request. */
-const sora = localFont({
-  src: "../fonts/sora-variable.woff2",
-  variable: "--font-sora",
-  weight: "400 700",
-  style: "normal",
+import "./digital.css";
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
-
-const inter = localFont({
-  src: "../fonts/inter-variable.woff2",
-  variable: "--font-inter",
-  weight: "100 900",
-  style: "normal",
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-body",
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
-
+const mono = Geist_Mono({
+  preload: false,
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE.url),
+  metadataBase: new URL(baseUrl),
   title: {
-    default: `${SITE.name} — Business Automation, Software & Systems`,
-    template: `%s — ${SITE.name}`,
+    default:
+      "Websites, Software & AI Automation for Service Businesses | ORBITAL",
+    template: "%s | ORBITAL",
   },
-  description: SITE.description,
-  applicationName: SITE.name,
+  description: siteDescription,
+  robots: {
+    index: isIndexable,
+    follow: true,
+    googleBot: { index: isIndexable, follow: true },
+  },
   openGraph: {
     type: "website",
-    siteName: SITE.name,
-    locale: "en",
-    url: SITE.url,
-    title: `${SITE.name} — Business Automation, Software & Systems`,
-    description: SITE.description,
+    siteName: "ORBITAL",
+    title: "ORBITAL — Websites, Software & AI Automation",
+    description: siteDescription,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE.name} — Business Automation, Software & Systems`,
-    description: SITE.description,
-  },
-  robots: { index: true, follow: true },
+  icons: { icon: "/brand/orbital-icon.png" },
 };
-
-export const viewport: Viewport = {
-  themeColor: "#090D14",
-  colorScheme: "light",
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
-      <body>{children}</body>
+    <html lang="en">
+      <body
+        className={`${instrument.variable} ${geist.variable} ${mono.variable}`}
+      >
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Header />
+        {children}
+        <Footer />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": ["Organization", "ProfessionalService"],
+                  "@id": `${baseUrl}/#organization`,
+                  name: "ORBITAL",
+                  url: baseUrl,
+                  email: "operations@reachorbital.tech",
+                  logo: baseUrl + "/brand/orbital-symbol.png",
+                  description: siteDescription,
+                  areaServed: "Worldwide",
+                  hasOfferCatalog: {
+                    "@type": "OfferCatalog",
+                    name: "ORBITAL digital services",
+                    itemListElement: services.map((service) => ({
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: service.name,
+                        description: service.description,
+                        url: `${baseUrl}/services/${service.slug}`,
+                      },
+                    })),
+                  },
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": `${baseUrl}/#website`,
+                  name: "ORBITAL",
+                  url: baseUrl,
+                  publisher: { "@id": `${baseUrl}/#organization` },
+                  inLanguage: "en",
+                },
+              ],
+            }).replace(/</g, "\\u003c"),
+          }}
+        />
+      </body>
     </html>
   );
 }
