@@ -2,7 +2,7 @@ import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 export const metadata = pageMetadata(
   "Privacy Notice",
-  "Read how ORBITAL handles project enquiries and personal information, including storage, contact details and your privacy choices.",
+  "Read how ORBITAL handles project enquiries and personal information, including email delivery, contact details and your privacy choices.",
   "/privacy",
 );
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
       </section>
       <article className="section prose">
         <p>
-          Last updated: 26 September 2026. This notice describes the data
+          Last updated: 29 September 2026. This notice describes the data
           handling implemented in this website.
         </p>
         <h2>Project enquiries</h2>
@@ -23,12 +23,12 @@ export default function Page() {
           respond to your request. Do not submit passwords, confidential
           customer records or other sensitive information.
         </p>
-        <h2>Storage and access</h2>
+        <h2>Delivery and access</h2>
         <p>
-          Submissions are saved on the website server and, when email delivery
-          is configured, forwarded through Resend to
-          operations@reachorbital.tech. Access should be limited to the people
-          responsible for enquiries. The production hosting location,
+          Submissions are sent through Resend to operations@reachorbital.tech
+          and are not saved to the website server. Resend and the receiving
+          mailbox may retain the message under their applicable policies. Access
+          should be limited to the people responsible for enquiries. The
           responsible legal entity and retention period must be confirmed before
           public launch.
         </p>
