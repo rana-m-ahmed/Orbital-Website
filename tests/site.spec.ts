@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { readdir, readFile } from "node:fs/promises";
 
 const routes = [
   "/",
@@ -43,7 +42,7 @@ test("all routes have one heading, correct canonical and working status", async 
     );
   }
   expect((await page.goto("/services/unknown"))?.status()).toBe(404);
-  expect((await page.request.post("/api/leads/retry")).status()).toBe(401);
+  expect((await page.request.post("/api/leads/retry")).status()).toBe(404);
 });
 
 test("SEO assets and restored automation are complete", async ({ page }) => {
@@ -187,49 +186,20 @@ test("form keeps required validation", async ({ page }) => {
   await expect(page.locator(".form-success")).toHaveCount(0);
 });
 
-test("project form works without JavaScript", async ({ browser }) => {
+test("project form keeps native validation without JavaScript", async ({
+  browser,
+}) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("/start-project");
-  await page.getByLabel("Your name").fill("Static QA");
-  await page.getByLabel("Email address").fill("static-qa@example.com");
-  await page.getByLabel("Company", { exact: false }).fill("ORBITAL QA");
-  await page
-    .getByLabel("What slows your business down?")
-    .fill("A test of native form submission without JavaScript enabled.");
-  await page.getByRole("checkbox").focus();
-  await page.getByRole("checkbox").press("Space");
-  await page.getByRole("button", { name: "Send project request" }).focus();
-  await page
-    .getByRole("button", { name: "Send project request" })
-    .press("Enter");
-  await expect(
-    page.getByRole("heading", { name: "Request received." }),
-  ).toBeVisible();
-  await context.close();
-});
-test("project form persists a lead and displays confirmation", async ({
-  page,
-}) => {
-  await page.goto("/start-project");
-  await page.getByLabel("Your name").fill("QA Test");
-  await page.getByLabel("Email address").fill("qa@example.com");
-  await page.getByLabel("Company", { exact: false }).fill("ORBITAL QA");
-  await page
-    .getByLabel("What slows your business down?")
-    .fill("QA test request: disconnected tools and repeated manual entry.");
-  await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Send project request" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Request received." }),
-  ).toBeVisible();
-  const files = await readdir("data/leads");
-  const leads = await Promise.all(
-    files
-      .filter((f) => f.endsWith(".json"))
-      .map(async (f) => JSON.parse(await readFile("data/leads/" + f, "utf8"))),
+  await expect(page.locator("form.project-form")).toHaveAttribute(
+    "method",
+    "POST",
   );
-  expect(leads.some((l) => l.email === "qa@example.com")).toBe(true);
+  await page.getByRole("button", { name: "Send project request" }).click();
+  await expect(page.getByLabel("Your name")).toBeFocused();
+  await expect(page.locator(".form-success")).toHaveCount(0);
+  await context.close();
 });
 
 test("website preview and software app respond to keyboard and reset", async ({

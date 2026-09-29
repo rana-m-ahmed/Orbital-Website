@@ -20,13 +20,10 @@ Preview: http://localhost:3000. Production: `npm run build` followed by `npm sta
 Copy `.env.example` to `.env.local` and configure your deployment environment separately.
 
 - Canonical domain: `https://reachorbital.tech`.
-- Lead recipient: `operations@reachorbital.tech`.
-- `LEAD_STORAGE_DIR`: absolute private directory on a persistent volume. Required in production. This implementation is for a long-running Node host with durable storage; ephemeral serverless disk is unsuitable.
-- `RESEND_API_KEY` and `LEAD_EMAIL_FROM`: configure a Resend account and verify the sending domain. No credentials are included in the repository.
-- `CRON_SECRET`: random server-only secret. Schedule an authenticated POST to `/api/leads/retry` to retry saved, undelivered requests. Never expose this endpoint's secret to client code.
+- `RESEND_API_KEY`, `LEAD_EMAIL_FROM` and `LEAD_EMAIL_TO` are all required for project enquiries. Configure Resend, verify the sending domain and use `operations@reachorbital.tech` as the recipient. No credentials are included in the repository.
 - `SITE_INDEXABLE`: production builds are indexable by default; set false for previews and staging. Development defaults to noindex. Metadata and robots are generated at build time.
 
-The form validates on both client and server, applies a honeypot and process-local rate limiting, saves each lead in a private file with a filesystem sync, and only then attempts email delivery. Provider errors do not destroy saved leads. The retry endpoint processes up to 25 pending requests with provider idempotency keys. Rate limiting at the trusted hosting proxy is also required for public deployment, especially with multiple replicas. Restrict and back up the lead volume; agree a retention policy and purge expired records.
+The form validates on both client and server, applies a honeypot and process-local rate limiting, and awaits Resend's HTTPS API before reporting success. Delivery uses a per-request idempotency key and an eight-second timeout. Missing configuration, provider rejection, malformed responses, network failures and timeouts all fail closed. Enquiries are not persisted by the application; Resend and the receiving mailbox may retain them under their applicable policies. Rate limiting at the trusted hosting proxy is also required for public deployment, especially with multiple replicas.
 
 ## Creative decisions
 
@@ -41,10 +38,10 @@ The form validates on both client and server, applies a honeypot and process-loc
 
 ## Launch inputs still needed
 
-Email provider credentials and verified sender; production host and persistent lead storage; legal entity and jurisdiction; data retention policy; approved legal copy; any actual client work or team material; optional booking/analytics decisions. The privacy and terms pages state the current implementation honestly and must receive those factual updates before launch.
+Email provider credentials and verified sender; legal entity and jurisdiction; data retention policy; approved legal copy; any actual client work or team material; optional booking/analytics decisions. The privacy and terms pages state the current implementation honestly and must receive those factual updates before launch.
 
 ## Verification
 
 `npm run lint`, `npm run typecheck`, `npm run build`, and `npm test`.
 
-Playwright starts or reuses a local development server. It checks canonical routes, invalid routes, seven viewport widths, interaction state, runtime errors, natural scrolling, reduced motion, static HTML, no-JavaScript submission, automated accessibility and durable lead capture. Screenshots are written to the ignored `test-results` directory. Automated checks do not replace real Safari, Android, screen-reader and post-launch field performance testing.
+The unit suite mocks Resend and covers request construction plus every delivery outcome without sending real email. Playwright starts or reuses a local development server and checks canonical routes, invalid routes, seven viewport widths, interaction state, runtime errors, natural scrolling, reduced motion, static HTML, native form validation and automated accessibility. Screenshots are written to the ignored `test-results` directory. Automated checks do not replace a labelled production delivery test, real Safari, Android, screen-reader and post-launch field performance testing.

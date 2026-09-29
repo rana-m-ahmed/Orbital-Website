@@ -1,10 +1,9 @@
 "use server";
 import { headers } from "next/headers";
-import { mkdir, open, rename } from "node:fs/promises";
-import path from "node:path";
 import { createHash, randomUUID } from "node:crypto";
 import { leadSchema, type LeadState } from "@/lib/lead-schema";
 import { deliverLead } from "@/lib/deliver-lead";
+import { finalizeLeadSubmission } from "@/lib/lead-submission";
 const attempts = new Map<string, { count: number; reset: number }>();
 export async function submitLead(
   _previous: LeadState,
@@ -35,39 +34,20 @@ export async function submitLead(
       message: "Please check the highlighted fields.",
       errors: parsed.error.flatten().fieldErrors,
     };
-  if (process.env.NODE_ENV === "production" && !process.env.LEAD_STORAGE_DIR)
-    return {
-      success: false,
-      message:
-        "The project form is temporarily unavailable. Please try again later.",
-    };
+  const id = randomUUID();
+  const lead = { id, createdAt: new Date().toISOString(), ...parsed.data };
   try {
-    const dir = path.resolve(
-      /* turbopackIgnore: true */ process.env.LEAD_STORAGE_DIR || "data/leads",
-    );
-    await mkdir(dir, { recursive: true, mode: 0o700 });
-    const id = randomUUID();
-    const lead = { id, createdAt: new Date().toISOString(), ...parsed.data };
-    const temporaryPath = path.join(dir, id + ".tmp");
-    const file = await open(temporaryPath, "wx", 0o600);
-    try {
-      await file.writeFile(JSON.stringify(lead, null, 2));
-      await file.sync();
-    } finally {
-      await file.close();
-    }
-    await rename(temporaryPath, path.join(dir, id + ".json"));
-    await deliverLead(lead, dir);
-    return {
-      success: true,
-      message:
-        "Your project request has been saved. Thank you for telling us about your business.",
-    };
+    return await finalizeLeadSubmission(lead, deliverLead);
   } catch {
+    console.error("Project request delivery failed", {
+      leadId: id,
+      provider: "resend",
+      reason: "unexpected_error",
+    });
     return {
       success: false,
       message:
-        "Your request could not be saved. Please try again. No success has been recorded.",
+        "Your request could not be sent. Please try again or email operations@reachorbital.tech.",
     };
   }
 }

@@ -1,28 +1,29 @@
-# ORBITAL redesign QA - 27 September 2026
+# ORBITAL redesign QA - 29 September 2026
 
 Validated against the local production build in Chromium. This report supersedes the previous homepage-interaction audit.
 
-| Check | Result |
-| --- | --- |
-| ESLint | Pass |
-| TypeScript | Pass |
-| Production build | Pass |
-| Playwright | 18 tests passed on the final integrated production build |
-| Routes and metadata | All 15 public pages return 200, one H1 each, correct canonical URLs; invalid service route returns 404 |
-| Responsive layouts | All 15 pages checked at 1440, 1280, 1024, 768, 430, 390 and 360px; no horizontal document overflow |
-| Short laptop | Homepage at 1440 x 720; normal document flow, accessible CTA and no pin spacers |
-| Accessibility | No automated WCAG A/AA violations from Axe on all 15 routes at 1440 and 390px |
-| Navigation | Keyboard activation of example links, mobile menu, service navigation and resize pass |
-| New interactions | Keyboard Desktop/Mobile switching, distinct website concepts, software approval and reset pass |
-| Hero motion | Immediate next-frame mount (no 1.7-second timer); pointer image changes, native scrolling and GPU recovery pass |
-| SEO | 15 unique titles/descriptions; canonicals, Open Graph images, PNG social asset and sitemap pass. Production robots: index, follow; robots.txt allows public pages and excludes API |
-| Services control | Text label retained; Unicode glyph replaced by accessible SVG chevron |
-| Homepage content | Seven sections; automation showcase and booking story restored alongside website and software previews; content available without controls |
-| Reduced motion | No WebGL canvas; static SVG and complete content remain |
-| WebGL failure | Forced GPU context loss removes canvas and restores SVG |
-| JavaScript disabled | Website, workspace and client-app previews remain visible; optional controls disabled; project form submits successfully |
-| Project form | Required validation, success state and private lead persistence pass |
-| API security regression | Unauthenticated lead retry request rejected |
+| Check               | Result                                                                                                                                                                             |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ESLint              | Pass                                                                                                                                                                               |
+| TypeScript          | Pass                                                                                                                                                                               |
+| Production build    | Pass                                                                                                                                                                               |
+| Delivery unit tests | 13 tests passed with mocked Resend responses; no real email sent                                                                                                                   |
+| Playwright          | 17 tests passed on the final integrated production build                                                                                                                           |
+| Routes and metadata | All 15 public pages return 200, one H1 each, correct canonical URLs; invalid service route returns 404                                                                             |
+| Responsive layouts  | All 15 pages checked at 1440, 1280, 1024, 768, 430, 390 and 360px; no horizontal document overflow                                                                                 |
+| Short laptop        | Homepage at 1440 x 720; normal document flow, accessible CTA and no pin spacers                                                                                                    |
+| Accessibility       | No automated WCAG A/AA violations from Axe on all 15 routes at 1440 and 390px                                                                                                      |
+| Navigation          | Keyboard activation of example links, mobile menu, service navigation and resize pass                                                                                              |
+| New interactions    | Keyboard Desktop/Mobile switching, distinct website concepts, software approval and reset pass                                                                                     |
+| Hero motion         | Immediate next-frame mount (no 1.7-second timer); pointer image changes, native scrolling and GPU recovery pass                                                                    |
+| SEO                 | 15 unique titles/descriptions; canonicals, Open Graph images, PNG social asset and sitemap pass. Production robots: index, follow; robots.txt allows public pages and excludes API |
+| Services control    | Text label retained; Unicode glyph replaced by accessible SVG chevron                                                                                                              |
+| Homepage content    | Seven sections; automation showcase and booking story restored alongside website and software previews; content available without controls                                         |
+| Reduced motion      | No WebGL canvas; static SVG and complete content remain                                                                                                                            |
+| WebGL failure       | Forced GPU context loss removes canvas and restores SVG                                                                                                                            |
+| JavaScript disabled | Website, workspace and client-app previews remain visible; optional controls disabled; project form retains native validation                                                      |
+| Project form        | Required validation passes; mocked unit coverage verifies Resend success and failure handling without sending real email                                                           |
+| Lead retry API      | Removed with the serverless-incompatible filesystem queue                                                                                                                          |
 
 ## Visual review
 
@@ -36,9 +37,9 @@ The preceding redesign evidence is archived in `data/qa/pre-final-integration/re
 
 Measured separately after all browser tests completed, against the final production server at localhost:3008. Lighthouse 13.5.0, simulated mobile throttling, mobile 412 x 823 at DPR 1.75.
 
-| Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
-| --- | --- | --- | --- | --- | --- | --- |
-| 90 | 100 | 100 | 100 | 2.8 s | 160 ms | 0 |
+| Performance | Accessibility | Best practices | SEO | LCP   | TBT    | CLS |
+| ----------- | ------------- | -------------- | --- | ----- | ------ | --- |
+| 90          | 100           | 100            | 100 | 2.8 s | 160 ms | 0   |
 
 This is one current lab run, not a median or a field performance claim. Raw JSON and HTML reports are `test-results/redesign/mobile-lighthouse.report.*`. The audit completed with no runtimeError and wrote both reports; afterward the CLI exited with Windows EPERM when deleting its temporary Chrome profile. Saved results remain valid.
 
@@ -46,8 +47,7 @@ The prior noindex preview measurements are archived under `data/qa/pre-final-int
 
 ## Existing launch requirements, unchanged by the redesign
 
-- Configure and verify actual email delivery to operations@reachorbital.tech. This task verifies local persistence, not delivery through unconfigured production credentials.
-- Confirm the production host's private persistent lead storage and scheduled retry configuration.
+- Configure and verify actual Resend delivery to operations@reachorbital.tech with a labelled production test.
 - Complete the existing legal-entity, jurisdiction, hosting and retention facts before launch.
 - Test real Safari, Firefox, iOS, Android and assistive technology; monitor field performance after deployment.
 
